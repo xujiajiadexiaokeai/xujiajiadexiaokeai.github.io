@@ -1,4 +1,4 @@
 baseURL = 'https://xujiajiadexiaokeai.github.io/'
-theme = 'cleanwhite'
+theme = 'hugo-theme-cleanwhite'
 languageCode = 'zh-cn'
 title = 'Blog'
