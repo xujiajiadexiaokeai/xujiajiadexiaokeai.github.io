@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Data Structure on xujiajiadexiaokeai</title><link>https://xujiajiadexiaokeai.github.io/tags/data-structure/</link><description>Recent content in Data Structure on xujiajiadexiaokeai</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>© 2021-2022 xujiajiadexiaokeai</copyright><lastBuildDate>Fri, 25 Mar 2022 22:06:30 +0800</lastBuildDate><atom:link href="https://xujiajiadexiaokeai.github.io/tags/data-structure/index.xml" rel="self" type="application/rss+xml"/><item><title>Red Black Tree</title><link>https://xujiajiadexiaokeai.github.io/2022-03-25/red-black-tree/</link><pubDate>Fri, 25 Mar 2022 22:06:30 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2022-03-25/red-black-tree/</guid><description>23333</description></item><item><title>AVLTree</title><link>https://xujiajiadexiaokeai.github.io/2022-03-25/avl-tree/</link><pubDate>Fri, 25 Mar 2022 20:32:48 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2022-03-25/avl-tree/</guid><description>特征 · 左右子树的高度差小于等于1
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Data Structure on xujiajiadexiaokeai</title><link>https://xujiajiadexiaokeai.github.io/tags/data-structure/</link><description>Recent content in Data Structure on xujiajiadexiaokeai</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>© 2021-2022 xujiajiadexiaokeai</copyright><lastBuildDate>Fri, 25 Mar 2022 22:06:30 +0800</lastBuildDate><atom:link href="https://xujiajiadexiaokeai.github.io/tags/data-structure/index.xml" rel="self" type="application/rss+xml"/><item><title>Red Black Tree</title><link>https://xujiajiadexiaokeai.github.io/2022-03-25/red-black-tree/</link><pubDate>Fri, 25 Mar 2022 22:06:30 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2022-03-25/red-black-tree/</guid><description>23333</description><content>&lt;p>23333&lt;/p></content></item><item><title>AVLTree</title><link>https://xujiajiadexiaokeai.github.io/2022-03-25/avl-tree/</link><pubDate>Fri, 25 Mar 2022 20:32:48 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2022-03-25/avl-tree/</guid><description>特征 · 左右子树的高度差小于等于1
 · 每一个子树均为平衡二叉树
 原理 监督机制 监督指标: 平衡因子(Balance Factor): 某个节点的左子树高度-右子树高度的差值
 所以AVL树是一种所有节点的平衡因子的绝对值都不超过1的二叉树
@@ -7,4 +7,69 @@ func (n *Node) TreeHeight() int { if n == nil { return 0 } else { return max(tre
 在插入节点时, 沿插入的路径更新节点的高度值
 在删除节点时, 沿删除的路径更新节点的高度值
 计算平衡因子
-func (n *Node) treeBalanceFactor() { if n == nil { return 0 } else { return x.</description></item></channel></rss>
+func (n *Node) treeBalanceFactor() { if n == nil { return 0 } else { return x.</description><content>&lt;h1 id="特征">特征&lt;/h1>
+&lt;p>· 左右子树的高度差小于等于1&lt;/p>
+&lt;p>· 每一个子树均为平衡二叉树&lt;/p>
+&lt;h1 id="原理">原理&lt;/h1>
+&lt;h2 id="监督机制">监督机制&lt;/h2>
+&lt;h3 id="监督指标">监督指标:&lt;/h3>
+&lt;p>&lt;strong>平衡因子&lt;/strong>(Balance Factor): 某个节点的左子树高度-右子树高度的差值&lt;/p>
+&lt;p>所以AVL树是一种所有节点的平衡因子的绝对值都不超过1的二叉树&lt;/p>
+&lt;h3 id="高度">高度&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">Node&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span> {
+&lt;span style="color:#a6e22e">Data&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>
+&lt;span style="color:#a6e22e">Height&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>
+&lt;span style="color:#a6e22e">left&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Node&lt;/span>
+&lt;span style="color:#a6e22e">right&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Node&lt;/span>
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>计算节点高度&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">n&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Node&lt;/span>) &lt;span style="color:#a6e22e">TreeHeight&lt;/span>() &lt;span style="color:#66d9ef">int&lt;/span> {
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">n&lt;/span> &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">nil&lt;/span> {
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>
+} &lt;span style="color:#66d9ef">else&lt;/span> {
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">max&lt;/span>(&lt;span style="color:#a6e22e">treeHeight&lt;/span>(&lt;span style="color:#a6e22e">n&lt;/span>.&lt;span style="color:#a6e22e">left&lt;/span>), &lt;span style="color:#a6e22e">treeHeight&lt;/span>(&lt;span style="color:#a6e22e">n&lt;/span>.&lt;span style="color:#a6e22e">right&lt;/span>)) &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>
+}
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>在进行如下操作时,需要更新受影响的所有节点的高度&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>在插入节点时, 沿插入的路径更新节点的高度值&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>在删除节点时, 沿删除的路径更新节点的高度值&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>计算平衡因子&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">n&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Node&lt;/span>) &lt;span style="color:#a6e22e">treeBalanceFactor&lt;/span>() {
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">n&lt;/span> &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">nil&lt;/span> {
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>
+} &lt;span style="color:#66d9ef">else&lt;/span> {
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">x&lt;/span>.&lt;span style="color:#a6e22e">left&lt;/span>.&lt;span style="color:#a6e22e">height&lt;/span> &lt;span style="color:#f92672">-&lt;/span> &lt;span style="color:#a6e22e">x&lt;/span>.&lt;span style="color:#a6e22e">right&lt;/span>.&lt;span style="color:#a6e22e">height&lt;/span>
+}
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="再平衡">再平衡&lt;/h2>
+&lt;p>左旋和右旋&lt;/p>
+&lt;p>在整个平衡化过程可能进行一次或多次,从失去平衡的最小子树根节点开始&lt;/p>
+&lt;p>右旋:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">n&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Node&lt;/span>) &lt;span style="color:#a6e22e">treeRotateRight&lt;/span>() {
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>左旋&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">n&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Node&lt;/span>) &lt;span style="color:#a6e22e">treeRotateLeft&lt;/span>() {
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="需要平衡的四种情况">需要平衡的四种情况&lt;/h3>
+&lt;ol>
+&lt;li>LL&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img src="https://tcs.teambition.net/storage/312g482677e05394fcde6d8d0ff8553342f9?Signature=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBcHBJRCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9hcHBJZCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9vcmdhbml6YXRpb25JZCI6IiIsImV4cCI6MTY0ODgxNTcxMSwiaWF0IjoxNjQ4MjEwOTExLCJyZXNvdXJjZSI6Ii9zdG9yYWdlLzMxMmc0ODI2NzdlMDUzOTRmY2RlNmQ4ZDBmZjg1NTMzNDJmOSJ9.KVRPdEsaV4Vj5BLRVmHR3h0wpKwsW_zMh-s8HUdt3aU&amp;amp;download=image.png" alt="" title="">&lt;/p>
+&lt;ol start="2">
+&lt;li>
+&lt;p>RR&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>LR&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img src="https://tcs.teambition.net/storage/312g335de979fb780cfd8a48c2348c1cc61f?Signature=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBcHBJRCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9hcHBJZCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9vcmdhbml6YXRpb25JZCI6IiIsImV4cCI6MTY0ODgxNTcxMSwiaWF0IjoxNjQ4MjEwOTExLCJyZXNvdXJjZSI6Ii9zdG9yYWdlLzMxMmczMzVkZTk3OWZiNzgwY2ZkOGE0OGMyMzQ4YzFjYzYxZiJ9.88VeeegnYTUu9r94DBtMln21URc3Dus40r0lOQyvM6U&amp;amp;download=image.png" alt="" title="">&lt;/p>
+&lt;ol start="4">
+&lt;li>RL&lt;/li>
+&lt;/ol></content></item></channel></rss>
