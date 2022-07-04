@@ -72,7 +72,72 @@ func (n *Node) treeBalanceFactor() { if n == nil { return 0 } else { return x.</
 &lt;p>&lt;img src="https://tcs.teambition.net/storage/312g335de979fb780cfd8a48c2348c1cc61f?Signature=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBcHBJRCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9hcHBJZCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9vcmdhbml6YXRpb25JZCI6IiIsImV4cCI6MTY0ODgxNTcxMSwiaWF0IjoxNjQ4MjEwOTExLCJyZXNvdXJjZSI6Ii9zdG9yYWdlLzMxMmczMzVkZTk3OWZiNzgwY2ZkOGE0OGMyMzQ4YzFjYzYxZiJ9.88VeeegnYTUu9r94DBtMln21URc3Dus40r0lOQyvM6U&amp;amp;download=image.png" alt="" title="">&lt;/p>
 &lt;ol start="4">
 &lt;li>RL&lt;/li>
-&lt;/ol></content></item><item><title>My First Post</title><link>https://xujiajiadexiaokeai.github.io/posts/my-first-post/</link><pubDate>Sat, 12 Feb 2022 13:17:00 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/posts/my-first-post/</guid><description>111</description><content>&lt;p>111&lt;/p></content></item><item><title>Posts Archive</title><link>https://xujiajiadexiaokeai.github.io/top/archive/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://xujiajiadexiaokeai.github.io/top/archive/</guid><description/><content/></item><item><title>姜文浩</title><link>https://xujiajiadexiaokeai.github.io/top/about/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://xujiajiadexiaokeai.github.io/top/about/</guid><description>感兴趣的领域 基于eBPF增强系统可观测性 基于Kubernetes的容器调度策略 基于Kubernetes的Aplication Runtime实现 基于risc-v架构的操作系统内核实现</description><content>&lt;h2 id="感兴趣的领域">感兴趣的领域&lt;/h2>
+&lt;/ol></content></item><item><title>My First Post</title><link>https://xujiajiadexiaokeai.github.io/posts/my-first-post/</link><pubDate>Sat, 12 Feb 2022 13:17:00 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/posts/my-first-post/</guid><description>111</description><content>&lt;p>111&lt;/p></content></item><item><title>Posts Archive</title><link>https://xujiajiadexiaokeai.github.io/top/archive/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://xujiajiadexiaokeai.github.io/top/archive/</guid><description/><content/></item><item><title>关于我</title><link>https://xujiajiadexiaokeai.github.io/top/about/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://xujiajiadexiaokeai.github.io/top/about/</guid><description>姜文浩 出生年月 1997年11月 所在城市 中国 上海 Email whjiang1997@gmail.com Phone +86 15900544142 Github https://github.com/xujiajiadexiaokeai Blog https://xujiajiadexiaokeai.github.io 教育经历 2015.9 - 2019.6 上海第二工业大学 计算机与信息工程学院 软件工程系
+专业技能 熟悉Golang,Node.js 1年B端SaaS研发经验,有大量排查问题经历 对系统虚拟化有一定研究,了解容器编排、调度相关设计与实现 熟悉分布式原理,了解Paxos、Raft等一致性算法,并参照论文进行了实现 对数据复制、分区和事务中存在的问题有一定了解及思考 熟悉HTTP相关网络协议,知悉优劣,了解grpc 了解网络安全,了解web攻防技能 了解设计模式,DDD开发思想,混沌工程 工作经历 2020.8 - 2021.8 软通动力技术服务上海有限公司(阿里巴巴钉钉事业部Teambition团队) 推动脚本&amp;quot;dryRun&amp;quot;及可回滚</description><content>&lt;h2 id="姜文浩">姜文浩&lt;/h2>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>&lt;/th>
+&lt;th>&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>出生年月&lt;/td>
+&lt;td>1997年11月&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>所在城市&lt;/td>
+&lt;td>中国 上海&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Email&lt;/td>
+&lt;td>&lt;a href="mailto:whjiang1997@gmail.com">whjiang1997@gmail.com&lt;/a>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Phone&lt;/td>
+&lt;td>+86 15900544142&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>&lt;/th>
+&lt;th>&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>Github&lt;/td>
+&lt;td>&lt;a href="https://github.com/xujiajiadexiaokeai">https://github.com/xujiajiadexiaokeai&lt;/a>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Blog&lt;/td>
+&lt;td>&lt;a href="https://xujiajiadexiaokeai.github.io">https://xujiajiadexiaokeai.github.io&lt;/a>&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h1 id="教育经历">教育经历&lt;/h1>
+&lt;p>&lt;strong>2015.9 - 2019.6&lt;/strong> 上海第二工业大学 计算机与信息工程学院 软件工程系&lt;/p>
+&lt;h2 id="专业技能">专业技能&lt;/h2>
+&lt;ul>
+&lt;li>熟悉Golang,Node.js&lt;/li>
+&lt;li>1年B端SaaS研发经验,有大量排查问题经历&lt;/li>
+&lt;li>对系统虚拟化有一定研究,了解容器编排、调度相关设计与实现&lt;/li>
+&lt;li>熟悉分布式原理,了解Paxos、Raft等一致性算法,并参照论文进行了实现&lt;/li>
+&lt;li>对数据复制、分区和事务中存在的问题有一定了解及思考&lt;/li>
+&lt;li>熟悉HTTP相关网络协议,知悉优劣,了解grpc&lt;/li>
+&lt;li>了解网络安全,了解web攻防技能&lt;/li>
+&lt;li>了解设计模式,DDD开发思想,混沌工程&lt;/li>
+&lt;/ul>
+&lt;h2 id="工作经历">工作经历&lt;/h2>
+&lt;h3 id="20208---20218-软通动力技术服务上海有限公司阿里巴巴钉钉事业部teambition团队">2020.8 - 2021.8 软通动力技术服务上海有限公司(阿里巴巴钉钉事业部Teambition团队)&lt;/h3>
+&lt;p>&lt;strong>推动脚本&amp;quot;dryRun&amp;quot;及可回滚&lt;/strong>&lt;/p>
+&lt;p>&lt;strong>推动故障排查手册的建立&lt;/strong>&lt;/p>
+&lt;hr>
+&lt;h3 id="20194---20206-上海妙点网络科技有限公司">2019.4 - 2020.6 上海妙点网络科技有限公司&lt;/h3>
+&lt;h2 id="感兴趣的领域">感兴趣的领域&lt;/h2>
 &lt;ul>
 &lt;li>基于eBPF增强系统可观测性&lt;/li>
 &lt;li>基于Kubernetes的容器调度策略&lt;/li>
