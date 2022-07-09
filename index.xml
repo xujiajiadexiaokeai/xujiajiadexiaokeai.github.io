@@ -72,8 +72,8 @@ func (n *Node) treeBalanceFactor() { if n == nil { return 0 } else { return x.</
 &lt;p>&lt;img src="https://tcs.teambition.net/storage/312g335de979fb780cfd8a48c2348c1cc61f?Signature=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBcHBJRCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9hcHBJZCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9vcmdhbml6YXRpb25JZCI6IiIsImV4cCI6MTY0ODgxNTcxMSwiaWF0IjoxNjQ4MjEwOTExLCJyZXNvdXJjZSI6Ii9zdG9yYWdlLzMxMmczMzVkZTk3OWZiNzgwY2ZkOGE0OGMyMzQ4YzFjYzYxZiJ9.88VeeegnYTUu9r94DBtMln21URc3Dus40r0lOQyvM6U&amp;amp;download=image.png" alt="" title="">&lt;/p>
 &lt;ol start="4">
 &lt;li>RL&lt;/li>
-&lt;/ol></content></item><item><title>My First Post</title><link>https://xujiajiadexiaokeai.github.io/posts/my-first-post/</link><pubDate>Sat, 12 Feb 2022 13:17:00 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/posts/my-first-post/</guid><description>111</description><content>&lt;p>111&lt;/p></content></item><item><title>Posts Archive</title><link>https://xujiajiadexiaokeai.github.io/top/archive/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://xujiajiadexiaokeai.github.io/top/archive/</guid><description/><content/></item><item><title>关于我</title><link>https://xujiajiadexiaokeai.github.io/top/about/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://xujiajiadexiaokeai.github.io/top/about/</guid><description>姜文浩 出生年月 1997年11月 所在城市 中国 上海 Email whjiang1997@gmail.com Phone +86 15900544142 Github https://github.com/xujiajiadexiaokeai Blog https://xujiajiadexiaokeai.github.io 教育经历 2015.9 - 2019.6 上海第二工业大学 计算机与信息工程学院 软件工程系
-专业技能 熟悉Golang,Node.js 1年B端SaaS研发经验,有大量排查问题经历 对系统虚拟化有一定研究,了解容器编排、调度相关设计与实现 熟悉分布式原理,了解Paxos、Raft等一致性算法,并参照论文进行了实现 对数据复制、分区和事务中存在的问题有一定了解及思考 熟悉HTTP相关网络协议,知悉优劣,了解grpc 了解网络安全,了解web攻防技能 了解设计模式,DDD开发思想,混沌工程 工作经历 2020.8 - 2021.8 软通动力技术服务上海有限公司(阿里巴巴钉钉事业部Teambition团队) 推动脚本&amp;quot;dryRun&amp;quot;及可回滚</description><content>&lt;h2 id="姜文浩">姜文浩&lt;/h2>
+&lt;/ol></content></item><item><title>My First Post</title><link>https://xujiajiadexiaokeai.github.io/posts/my-first-post/</link><pubDate>Sat, 12 Feb 2022 13:17:00 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/posts/my-first-post/</guid><description>111</description><content>&lt;p>111&lt;/p></content></item><item><title>Posts Archive</title><link>https://xujiajiadexiaokeai.github.io/top/archive/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://xujiajiadexiaokeai.github.io/top/archive/</guid><description/><content/></item><item><title>关于我</title><link>https://xujiajiadexiaokeai.github.io/top/about/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://xujiajiadexiaokeai.github.io/top/about/</guid><description>姜文浩 出生年月 1997年11月 所在城市 中国 上海 Email whjiang1997@gmail.com Phone +86 15900544142 Github https://github.com/xujiajiadexiaokeai Blog https://xujiajiadexiaokeai.github.io 专业技能 熟悉Golang,Node.js 1年B端SaaS研发经验,有大量排查问题经历 对系统虚拟化有一定研究,了解容器编排、调度相关设计与实现 熟悉分布式原理,了解Paxos、Raft等一致性算法,并参照论文进行了实现 对数据复制、分区和事务中存在的问题有一定了解及思考 熟悉HTTP相关网络协议,知悉优劣,了解grpc 了解网络安全,了解web攻防技能 了解设计模式,DDD开发思想,混沌工程 教育经历 2015.9 - 2019.6 上海第二工业大学 计算机与信息工程学院 软件工程系
+工作经历 2020.8 - 2021.8 软通动力技术服务上海有限公司(阿里巴巴钉钉事业部Teambition团队) - 后端研发工程师 Teambition私有部署开发及维护 Teambition为自研团队协作工具,以项目和任务的可视化管理来支撑企业团队协作,有公有云和私有部署两个版本,拥有大量用户.</description><content>&lt;h2 id="姜文浩">姜文浩&lt;/h2>
 &lt;table>
 &lt;thead>
 &lt;tr>
@@ -118,9 +118,7 @@ func (n *Node) treeBalanceFactor() { if n == nil { return 0 } else { return x.</
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
-&lt;h1 id="教育经历">教育经历&lt;/h1>
-&lt;p>&lt;strong>2015.9 - 2019.6&lt;/strong> 上海第二工业大学 计算机与信息工程学院 软件工程系&lt;/p>
-&lt;h2 id="专业技能">专业技能&lt;/h2>
+&lt;h1 id="专业技能">专业技能&lt;/h1>
 &lt;ul>
 &lt;li>熟悉Golang,Node.js&lt;/li>
 &lt;li>1年B端SaaS研发经验,有大量排查问题经历&lt;/li>
@@ -131,13 +129,77 @@ func (n *Node) treeBalanceFactor() { if n == nil { return 0 } else { return x.</
 &lt;li>了解网络安全,了解web攻防技能&lt;/li>
 &lt;li>了解设计模式,DDD开发思想,混沌工程&lt;/li>
 &lt;/ul>
-&lt;h2 id="工作经历">工作经历&lt;/h2>
-&lt;h3 id="20208---20218-软通动力技术服务上海有限公司阿里巴巴钉钉事业部teambition团队">2020.8 - 2021.8 软通动力技术服务上海有限公司(阿里巴巴钉钉事业部Teambition团队)&lt;/h3>
-&lt;p>&lt;strong>推动脚本&amp;quot;dryRun&amp;quot;及可回滚&lt;/strong>&lt;/p>
-&lt;p>&lt;strong>推动故障排查手册的建立&lt;/strong>&lt;/p>
+&lt;h1 id="教育经历">教育经历&lt;/h1>
+&lt;p>&lt;strong>2015.9 - 2019.6&lt;/strong> 上海第二工业大学 计算机与信息工程学院 软件工程系&lt;/p>
+&lt;h1 id="工作经历">工作经历&lt;/h1>
+&lt;h2 id="20208---20218-软通动力技术服务上海有限公司阿里巴巴钉钉事业部teambition团队---后端研发工程师">2020.8 - 2021.8 软通动力技术服务上海有限公司(阿里巴巴钉钉事业部Teambition团队) - 后端研发工程师&lt;/h2>
+&lt;h3 id="teambition私有部署开发及维护">Teambition私有部署开发及维护&lt;/h3>
+&lt;p>&lt;a href="https://www.teambition.com/">Teambition&lt;/a>为自研团队协作工具,以项目和任务的可视化管理来支撑企业团队协作,有公有云和私有部署两个版本,拥有大量用户.&lt;/p>
+&lt;p>我主要负责私有部署线上问题的排查处理、公有云迁移私有部署时值班OnCall和处理一些客户定制开发需求.累计参与数百项问题的定位和修复.&lt;/p>
+&lt;p>&lt;strong>主要解决的问题:&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>推动刷库脚本&amp;quot;DryRun&amp;quot;及可回滚&lt;/li>
+&lt;/ul>
+&lt;p>在私有部署日常运营中,由于历史设计问题或者老版本遗留bug,数据库中可能会出现脏数据,需要刷库解决.&lt;/p>
+&lt;p>为了避免脚本在执行时因意外出错或者有逻辑错误,破坏数据且影响后续修复,我参与制定了脚本编写和执行规范: (1)涉及修改的操作需要输出日志; (2)脚本中需要包含回滚逻辑; (3)执行时需要先关闭修改逻辑“DryRun”确认要操作的数据;通过以上规范保障了数据一致性和完整性,避免刷库时出现重大事故.&lt;/p>
+&lt;ul>
+&lt;li>对强依赖中间件添加健康检查&lt;/li>
+&lt;/ul>
+&lt;p>在一次Mongodb连接失败问题排查中发现.由于网络波动,数据库切换了节点,但服务端程序并没有发觉并继续向原节点请求并持续连接失败.&lt;/p>
+&lt;p>我在发现问题原因后针对强依赖的中间件添加了健康检查,保障服务正常运行.&lt;/p>
+&lt;ul>
+&lt;li>推动故障排查手册的维护和使用&lt;/li>
+&lt;/ul>
+&lt;p>在之前的问题排查过程中,由于技术支持和运维同学对业务逻辑欠缺了解,每次都需要研发同学先期介入现场进行排查,而且后续因业务需要,还会有第三方伙伴负责一些工作.&lt;/p>
+&lt;p>为了避免重复劳动,规范故障处理流程,同时解决缺乏业务背景同学难以上手排查的问题,我结合了之前的故障排查经验,编写了故障排查手册,对不同问题进行分类,详细的列出了对应问题的排查流程和后续解决方案,并在团队中推动使用和后续维护,&lt;strong>减少了30%以上&lt;/strong>的问题处理时间.&lt;/p>
+&lt;ul>
+&lt;li>公网资源一键离线部署到内网&lt;/li>
+&lt;/ul>
+&lt;p>Teambition服务依赖公网资源,部分私有部署客户为纯内网客户,不能连接公网.&lt;/p>
+&lt;p>我编写了获取公网资源的脚本添加到部署流程中,同时该脚本支持域名全库替换,提高了部署效率.&lt;/p>
+&lt;p>&lt;strong>收获:&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>大量的线上问题排查经验&lt;/li>
+&lt;li>大型SaaS微服务架构设计经验&lt;/li>
+&lt;li>优秀团队规范的coding风格和标准的CI&amp;amp;CD流程&lt;/li>
+&lt;/ul>
 &lt;hr>
-&lt;h3 id="20194---20206-上海妙点网络科技有限公司">2019.4 - 2020.6 上海妙点网络科技有限公司&lt;/h3>
-&lt;h2 id="感兴趣的领域">感兴趣的领域&lt;/h2>
+&lt;h2 id="20194---20206-上海妙点网络科技有限公司---后端研发工程师">2019.4 - 2020.6 上海妙点网络科技有限公司 - 后端研发工程师&lt;/h2>
+&lt;h3 id="聚合写作">聚合写作&lt;/h3>
+&lt;p>聚合写作为公司内部项目,从网站、接口爬取数据,再根据预编写的规则对数据进行加工,生成数据用于内容部门生产,实现了完整的ETL过程.现有100+数据项目在线运行.&lt;/p>
+&lt;p>我主要负责数据规则的日常开发和维护.&lt;/p>
+&lt;p>&lt;strong>主要解决的问题:&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>基于BloomFilter的爬虫排重过滤器的开发&lt;/li>
+&lt;/ul>
+&lt;p>原有排重过滤组件需要扫描数据库全表确认是否重复,有大量读操作,影响系统性能.&lt;/p>
+&lt;p>我基于BloomFilter开发了新的排重过滤器,以一定的内存空间换取了更高的爬取速度.上线后运行状态良好.&lt;/p>
+&lt;p>&lt;strong>收获:&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>对Node.js的events、child_process、vm等模块有了更加详细的认识&lt;/li>
+&lt;li>加深了对Node.js单线程、非阻塞IO等特性的理解&lt;/li>
+&lt;/ul>
+&lt;h3 id="财经秘书">财经秘书&lt;/h3>
+&lt;p>财经秘书为公司C端产品,日活1万+.为用户提供90+细分行业每日经济资讯、行业数据；并有专业研究员为用户解答问题、提供投资建议和行业研报.&lt;/p>
+&lt;p>我主要负责v3.0版本的接口设计与开发、后台管理系统改造和内容创作中心的开发.&lt;/p>
+&lt;p>&lt;strong>主要解决的问题:&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>多来源、多类型混合feed流的开发&lt;/li>
+&lt;/ul>
+&lt;p>新版本app主页为用户提供一条混合feed流,包含多种来源和不同类型的数据,部分内容需要用户购买后可见.&lt;/p>
+&lt;p>我完成了新版的feed流接口,提供对每条内容进行鉴权操作、确认用户是否可见;以及对不同用户根据规则返回个性化的内容序列.&lt;/p>
+&lt;ul>
+&lt;li>后台管理系统改造为开放平台,允许第三方接入&lt;/li>
+&lt;/ul>
+&lt;p>原有后台管理系统仅供内部使用,因新版本需求,需要对该系统进行改造,支持外部用户登入.但原鉴权组件较薄弱,不适用于外部接入.&lt;/p>
+&lt;p>我开发了新的登录逻辑,在原有的账号密码登录的基础上改为手机验证码登录,提高了安全性;并对不同类型的用户开发了权限隔离的模块,只能看到和使用对应权限下的内容和功能.&lt;/p>
+&lt;p>&lt;strong>收获:&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>对NoSQL与SQL在使用和设计上的不同有了新的认识&lt;/li>
+&lt;li>尝试使用缓存和队列来缓解服务器和数据库压力&lt;/li>
+&lt;/ul>
+&lt;hr>
+&lt;h1 id="感兴趣的领域">感兴趣的领域&lt;/h1>
 &lt;ul>
 &lt;li>基于eBPF增强系统可观测性&lt;/li>
 &lt;li>基于Kubernetes的容器调度策略&lt;/li>
