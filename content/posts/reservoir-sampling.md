@@ -2,12 +2,13 @@
 title: "蓄水池抽样算法"
 date: 2022-07-04T03:06:30+08:00
 layout: post
-description: ""
+description: "蓄水池抽样算法"
 author: "Wenhao Jiang"
 draft: true
+showFullContent: false
 tags:
     - Algorithm
-URL: "/2022-07-04/red-black-tree"
+URL: "/2022-07-04/reservoir-sampling"
 ---
 # 蓄水池抽样算法
 
