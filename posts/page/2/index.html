@@ -1,0 +1,119 @@
+<!doctype html><html lang=en>
+<head>
+<title>Posts :: xujiajiadexiaokeai</title>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=description content>
+<meta name=keywords content>
+<meta name=robots content="noodp">
+<link rel=canonical href=https://xujiajiadexiaokeai.github.io/posts/>
+<link rel=stylesheet href=https://xujiajiadexiaokeai.github.io/assets/style.css>
+<link rel=apple-touch-icon href=https://xujiajiadexiaokeai.github.io/img/apple-touch-icon-192x192.png>
+<link rel="shortcut icon" href=https://xujiajiadexiaokeai.github.io/favicon.ico>
+<meta name=twitter:card content="summary">
+<meta property="og:locale" content="en">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Posts">
+<meta property="og:description" content>
+<meta property="og:url" content="https://xujiajiadexiaokeai.github.io/posts/">
+<meta property="og:site_name" content="xujiajiadexiaokeai">
+<meta property="og:image" content="https://xujiajiadexiaokeai.github.io/favicon.ico">
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+<link href=/posts/index.xml rel=alternate type=application/rss+xml title=xujiajiadexiaokeai>
+</head>
+<body class=orange>
+<div class="container center headings--one-size">
+<header class=header>
+<div class=header__inner>
+<div class=header__logo>
+<a href=/>
+<div class=logo>
+RTSC && RTFM
+</div>
+</a>
+</div>
+<div class=menu-trigger>menu</div>
+</div>
+<nav class=menu>
+<ul class="menu__inner menu__inner--desktop">
+<li><a href=/top/about>About</a></li>
+<li><a href=/top/archive>Archive</a></li>
+</ul>
+<ul class="menu__inner menu__inner--mobile">
+<li><a href=/top/about>About</a></li>
+<li><a href=/top/archive>Archive</a></li>
+</ul>
+</nav>
+</header>
+<div class=content>
+<div class=posts>
+<div class="post on-list">
+<h1 class=post-title>
+<a href=https://xujiajiadexiaokeai.github.io/posts/go-goroutine/>goroutine</a>
+</h1>
+<div class=post-meta>
+<span class=post-date>
+0001-01-01
+</span>
+</div>
+<div class=post-content>
+基本概念 进程 进程是应用程序的启动实例 有独立的内存空间 不同进程通过进程间通信的方式进行通信 线程 线程是cpu调度的基本单位 不同线程可以共享进程的资源 不同线程通过共享内存等线程间通信方式进行通信 协程 协程调度由用户程序提供,不直接受操作系统调度 协程调度器按照调度策略把协程调度到线程中执行 协程的优势 过多的线程会导致上下文切换的开销变大,而工作在用户态的协程则能大大减少上下文切换的开销 协程调度器把可运行的协程逐个调度到线程中执行,同时及时把阻塞的协程调度出线程 有效地避免了线程的频繁切换 实现了使用少量线程实现高并发的效果
+多个协程分享操作系统分给线程的时间片 协程调度器决定了协程运行的顺序 线程运行调度器指派的协程,每一时刻只能运行一个协程
+调度模型 线程模型 线程可分为用户线程和内核线程 用户线程由用户创建、同步合销毁 根据用户线程管理方式的不同,分为三种线程模型: N:1模型 N个用户线程运行在1个内核线程中,上下文切换较快 1:1模型 每个用户线程对应一个内核线程,上下文切换较慢 M:N模型 充分利用cpu且上下文切换较快,但调度算法较为复杂 Go GPM模型 G: goroutine,Go协程,每个go关键字都会创建一个goroutine P: processor,处理器(Go定义的一个概念,不是指cpu),包含运行Go代码的必要资源,也有调度goroutine的能力 M: machine,工作线程,由操作系统调度 M必须持有P才能运行代码 M会被系统调用阻塞
+P的个数在程序启动时决定,默认等于CPU的核数,可以使用环境变量GOMAXPROCS或在程序中使用runtime.GOMAXPROCS()方法指定P的个数
+export GOMAXPROC=80 runtime.GOMAXPROCS(80) M的个数通常稍大于P的个数,因为除了运行Go代码,还有其他内置任务需要处理.
+调度策略 队列轮转 每个处理器P维护着一个协程G的队列, 处理器P依次将协程G调度到M中执行 P会周期性地查看全局队列中是否有G待运行,防止“饥饿” 全局队列中的G主要来自从系统调用中恢复的G
+系统调用
+</div>
+<div>
+<a class="read-more button" href=/posts/go-goroutine/>Read more →</a>
+</div>
+</div>
+<div class="post on-list">
+<h1 class=post-title>
+<a href=https://xujiajiadexiaokeai.github.io/posts/go-select/>为什么select仅能作用于管道?</a>
+</h1>
+<div class=post-meta>
+<span class=post-date>
+0001-01-01
+</span>
+</div>
+<div class=post-content>
+select的特性 case的执行 具体执行那个case,取决于函数传入的管道
+管道没有缓冲区 有缓冲区并且还可以塞数据 有缓冲区但缓冲区已满 有缓冲区且已有部分数据 返回值 可以在case中声明变量并赋值
+default default不能处理管道读写 当所有case被阻塞,执行default default是特殊的case
+使用案例 永久阻塞 使用select阻塞main函数
+func main() { server := webhooktesting.NewTestServer(nil) server.StartTLS() fmt.Println("serving on", server.URL) select {} // 没有case和default ,main()永久阻塞 } 快速检错 当使用管道来传输error时, 可以使用select快速检查管道中是否有error
+errCh := make(chan error, active) jm.deleteJobPods(&job, activePods, errCh) // 传入chan用于记录error select { case manageJobErr = &lt;-errCh: if manageJobErr != nil { break } default: // 没有error, 结束 } 限时等待 当使用管道管理函数上下文时, 可以使用select创建具有时效性的管道
+func waitForStopOrTimeout(stopCh &lt;-chan struct{}, timeout time.
+</div>
+<div>
+<a class="read-more button" href=/posts/go-select/>Read more →</a>
+</div>
+</div>
+<div class=pagination>
+<div class=pagination__buttons>
+<span class="button previous">
+<a href=/posts/>
+<span class=button__icon>←</span>
+<span class=button__text>Newer posts</span>
+</a>
+</span>
+</div>
+</div>
+</div>
+</div>
+<footer class=footer>
+<div class=footer__inner>
+<div class="copyright copyright--user">
+<span>© 2021-2022 xujiajiadexiaokeai</span>
+<span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span>
+</div>
+</div>
+</footer>
+<script src=https://xujiajiadexiaokeai.github.io/assets/main.js></script>
+<script src=https://xujiajiadexiaokeai.github.io/assets/prism.js></script>
+</div>
+</body>
+</html>

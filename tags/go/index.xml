@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Go on xujiajiadexiaokeai</title><link>https://xujiajiadexiaokeai.github.io/tags/go/</link><description>Recent content in Go on xujiajiadexiaokeai</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>© 2021-2022 xujiajiadexiaokeai</copyright><lastBuildDate>Tue, 12 Jul 2022 21:12:06 +0800</lastBuildDate><atom:link href="https://xujiajiadexiaokeai.github.io/tags/go/index.xml" rel="self" type="application/rss+xml"/><item><title>Go Channel</title><link>https://xujiajiadexiaokeai.github.io/2022-07-12/go-channel/</link><pubDate>Tue, 12 Jul 2022 21:12:06 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2022-07-12/go-channel/</guid><description>读写nil管道均会阻塞 关闭的管道仍然可以读取数据 向关闭的管道写数据会触发panic
+只有一个缓冲区的管道,写入数据 —&amp;gt; 加锁; 读出数据 -&amp;gt; 解锁
+特性 初始化 变量声明 var ch chan int declare chan, value == nil make() ch1 := make(chan string) no-buffered chan ch2 := make(chan string, 5) buffered chan 管道操作 操作符: &amp;lt;- -&amp;gt; 默认为双向可读写,在函数传递间可使用操作符限制读写 func ChanParamR(ch &amp;lt;-chan int) { only can read from chan } func ChanParamW(ch chan&amp;lt;- int) { only can write to chan } 数据读写 协程读取管道时,阻塞的条件有: chan no-buffer chan buffer no data chan value == nil 协程写入管道时,阻塞的条件有: chan no-buffer chan buffer is full chan value == nil 实现原理 数据结构 https://cs.</description><content>&lt;p>读写nil管道均会阻塞
+关闭的管道仍然可以读取数据
+向关闭的管道写数据会触发panic&lt;/p>
+&lt;p>只有一个缓冲区的管道,写入数据 —&amp;gt; 加锁; 读出数据 -&amp;gt; 解锁&lt;/p>
+&lt;h1 id="特性">特性&lt;/h1>
+&lt;h2 id="初始化">初始化&lt;/h2>
+&lt;ul>
+&lt;li>变量声明&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">ch&lt;/span> &lt;span style="color:#66d9ef">chan&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">declare&lt;/span> &lt;span style="color:#66d9ef">chan&lt;/span>, &lt;span style="color:#a6e22e">value&lt;/span> &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">nil&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>make()&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#a6e22e">ch1&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> make(&lt;span style="color:#66d9ef">chan&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span>) &lt;span style="color:#a6e22e">no&lt;/span>&lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#a6e22e">buffered&lt;/span> &lt;span style="color:#66d9ef">chan&lt;/span>
+&lt;span style="color:#a6e22e">ch2&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> make(&lt;span style="color:#66d9ef">chan&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span>, &lt;span style="color:#ae81ff">5&lt;/span>) &lt;span style="color:#a6e22e">buffered&lt;/span> &lt;span style="color:#66d9ef">chan&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="管道操作">管道操作&lt;/h2>
+&lt;ul>
+&lt;li>操作符: &amp;lt;- -&amp;gt;
+默认为双向可读写,在函数传递间可使用操作符限制读写&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">ChanParamR&lt;/span>(&lt;span style="color:#a6e22e">ch&lt;/span> &lt;span style="color:#f92672">&amp;lt;-&lt;/span>&lt;span style="color:#66d9ef">chan&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>) {
+&lt;span style="color:#a6e22e">only&lt;/span> &lt;span style="color:#a6e22e">can&lt;/span> &lt;span style="color:#a6e22e">read&lt;/span> &lt;span style="color:#a6e22e">from&lt;/span> &lt;span style="color:#66d9ef">chan&lt;/span>
+}
+&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">ChanParamW&lt;/span>(&lt;span style="color:#a6e22e">ch&lt;/span> &lt;span style="color:#66d9ef">chan&lt;/span>&lt;span style="color:#f92672">&amp;lt;-&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>) {
+&lt;span style="color:#a6e22e">only&lt;/span> &lt;span style="color:#a6e22e">can&lt;/span> &lt;span style="color:#a6e22e">write&lt;/span> &lt;span style="color:#a6e22e">to&lt;/span> &lt;span style="color:#66d9ef">chan&lt;/span>
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>数据读写
+协程读取管道时,阻塞的条件有:&lt;/li>
+&lt;li>chan no-buffer&lt;/li>
+&lt;li>chan buffer no data&lt;/li>
+&lt;li>chan value == nil
+协程写入管道时,阻塞的条件有:&lt;/li>
+&lt;li>chan no-buffer&lt;/li>
+&lt;li>chan buffer is full&lt;/li>
+&lt;li>chan value == nil&lt;/li>
+&lt;/ul>
+&lt;h1 id="实现原理">实现原理&lt;/h1>
+&lt;h2 id="数据结构">数据结构&lt;/h2>
+&lt;blockquote>
+&lt;p>&lt;a href="https://cs.opensource.google/go/go/+/refs/tags/go1.18.3:src/runtime/chan.go">https://cs.opensource.google/go/go/+/refs/tags/go1.18.3:src/runtime/chan.go&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">hchan&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span> {
+&lt;span style="color:#a6e22e">qcount&lt;/span> &lt;span style="color:#66d9ef">uint&lt;/span> &lt;span style="color:#75715e">// total data in the queue
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">dataqsiz&lt;/span> &lt;span style="color:#66d9ef">uint&lt;/span> &lt;span style="color:#75715e">// size of the circular queue
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">buf&lt;/span> &lt;span style="color:#a6e22e">unsafe&lt;/span>.&lt;span style="color:#a6e22e">Pointer&lt;/span> &lt;span style="color:#75715e">// points to an array of dataqsiz elements
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">elemsize&lt;/span> &lt;span style="color:#66d9ef">uint16&lt;/span>
+&lt;span style="color:#a6e22e">closed&lt;/span> &lt;span style="color:#66d9ef">uint32&lt;/span>
+&lt;span style="color:#a6e22e">elemtype&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">_type&lt;/span> &lt;span style="color:#75715e">// element type
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">sendx&lt;/span> &lt;span style="color:#66d9ef">uint&lt;/span> &lt;span style="color:#75715e">// send index
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">recvx&lt;/span> &lt;span style="color:#66d9ef">uint&lt;/span> &lt;span style="color:#75715e">// receive index
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">recvq&lt;/span> &lt;span style="color:#a6e22e">waitq&lt;/span> &lt;span style="color:#75715e">// list of recv waiters
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">sendq&lt;/span> &lt;span style="color:#a6e22e">waitq&lt;/span> &lt;span style="color:#75715e">// list of send waiters
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>
+&lt;span style="color:#75715e">// lock protects all fields in hchan, as well as several
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">// fields in sudogs blocked on this channel.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">//
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">// Do not change another G&amp;#39;s status while holding this lock
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">// (in particular, do not ready a G), as this can deadlock
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">// with stack shrinking.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">lock&lt;/span> &lt;span style="color:#a6e22e">mutex&lt;/span>
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;ol>
+&lt;li>
+&lt;p>环形队列
+chan内部实现了一个环形队列,队列长度在chan创建时指定
+sendx: 队尾, 写入位
+recvx: 队首, 读取位&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>等待队列&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>goroutine从chan读 -&amp;gt; buf为空或没有buf -&amp;gt; 当前goroutine阻塞 -&amp;gt; 加入recvq&lt;/li>
+&lt;li>goroutine向chan写 -&amp;gt; buf已满或没有buf -&amp;gt; 当前goroutine阻塞 -&amp;gt; 加入sendq
+处于等待队列中的协程会在其他协程操作管道时被唤醒:&lt;/li>
+&lt;li>因读阻塞的协程会被向管道写入的协程唤醒&lt;/li>
+&lt;li>因写阻塞的协程会被从管道读取的协程唤醒&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>Invariants:
+At least one of c.sendq and c.recvq is empty,
+except for the case of an unbuffered channel with a single goroutine
+blocked on it for both sending and receiving using a select statement,
+in which case the length of c.sendq and c.recvq is limited only by the
+size of the select statement.
+For buffered channels, also:
+c.qcount &amp;gt; 0 implies that c.recvq is empty.
+c.qcount &amp;lt; c.dataqsiz implies that c.sendq is empty.
+&lt;/code>&lt;/pre>&lt;ol start="3">
+&lt;li>类型信息&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>一个管道只能传递一种类型的值&lt;/li>
+&lt;li>如果需要管道传递任意类型的数据,可以使用interface{}类型&lt;/li>
+&lt;/ul>
+&lt;ol start="4">
+&lt;li>互斥锁
+一个管道同时仅允许被一个协程读写&lt;/li>
+&lt;/ol>
+&lt;h2 id="管道操作-1">管道操作&lt;/h2>
+&lt;ol>
+&lt;li>
+&lt;p>创建管道
+创建管道 -&amp;gt; 初始化hchan结构&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>写入管道
+trick:
+当接收队列recvq不为空时,说明缓冲区中没有数据但有协程在等待数据
+会把数据直接传递给recvq队列中的第一个协程,而不必再写入缓冲区&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>读出管道
+trick:
+当等待发送队列sendq不为空,且没有缓冲区,
+那么此时将直接从sendq队列的第一个协程中获取数据&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>关闭管道
+关闭管道时会把recvq中的协程全部唤醒, 协程会获取对应类型的零值
+同时会把sendq队列中的协程全部唤醒,协程会触发panic&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>会触发panic的操作还有:&lt;/p>
+&lt;ul>
+&lt;li>关闭值为nil的管道&lt;/li>
+&lt;li>关闭已经被关闭的管道&lt;/li>
+&lt;li>向已经关闭的管道写入数据&lt;/li>
+&lt;/ul>
+&lt;h2 id="常见用法">常见用法&lt;/h2>
+&lt;ul>
+&lt;li>
+&lt;p>单向管道&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>select
+使用select可以监控多个管道
+select的case语句读管道时不会阻塞&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>for-range
+for-range可以持续从管道中读出数据,当管道中没有数据时会阻塞当前协程&lt;/p>
+&lt;/li>
+&lt;/ul></content></item></channel></rss>

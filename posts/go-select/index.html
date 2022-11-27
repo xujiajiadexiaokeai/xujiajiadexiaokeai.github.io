@@ -1,0 +1,246 @@
+<!doctype html><html lang=en>
+<head>
+<title>为什么select仅能作用于管道? :: xujiajiadexiaokeai</title>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=description content="select的特性 case的执行 具体执行那个case,取决于函数传入的管道
+ 管道没有缓冲区 有缓冲区并且还可以塞数据 有缓冲区但缓冲区已满 有缓冲区且已有部分数据  返回值 可以在case中声明变量并赋值
+default default不能处理管道读写 当所有case被阻塞,执行default default是特殊的case
+使用案例 永久阻塞 使用select阻塞main函数
+func main() { server := webhooktesting.NewTestServer(nil) server.StartTLS() fmt.Println(&amp;#34;serving on&amp;#34;, server.URL) select {} // 没有case和default ,main()永久阻塞 } 快速检错 当使用管道来传输error时, 可以使用select快速检查管道中是否有error
+errCh := make(chan error, active) jm.deleteJobPods(&amp;amp;job, activePods, errCh) // 传入chan用于记录error select { case manageJobErr = &amp;lt;-errCh: if manageJobErr != nil { break } default: // 没有error, 结束 } 限时等待 当使用管道管理函数上下文时, 可以使用select创建具有时效性的管道
+func waitForStopOrTimeout(stopCh &amp;lt;-chan struct{}, timeout time.">
+<meta name=keywords content>
+<meta name=robots content="noodp">
+<link rel=canonical href=https://xujiajiadexiaokeai.github.io/posts/go-select/>
+<link rel=stylesheet href=https://xujiajiadexiaokeai.github.io/assets/style.css>
+<link rel=apple-touch-icon href=https://xujiajiadexiaokeai.github.io/img/apple-touch-icon-192x192.png>
+<link rel="shortcut icon" href=https://xujiajiadexiaokeai.github.io/favicon.ico>
+<meta name=twitter:card content="summary">
+<meta property="og:locale" content="en">
+<meta property="og:type" content="article">
+<meta property="og:title" content="为什么select仅能作用于管道?">
+<meta property="og:description" content="select的特性 case的执行 具体执行那个case,取决于函数传入的管道
+ 管道没有缓冲区 有缓冲区并且还可以塞数据 有缓冲区但缓冲区已满 有缓冲区且已有部分数据  返回值 可以在case中声明变量并赋值
+default default不能处理管道读写 当所有case被阻塞,执行default default是特殊的case
+使用案例 永久阻塞 使用select阻塞main函数
+func main() { server := webhooktesting.NewTestServer(nil) server.StartTLS() fmt.Println(&amp;#34;serving on&amp;#34;, server.URL) select {} // 没有case和default ,main()永久阻塞 } 快速检错 当使用管道来传输error时, 可以使用select快速检查管道中是否有error
+errCh := make(chan error, active) jm.deleteJobPods(&amp;amp;job, activePods, errCh) // 传入chan用于记录error select { case manageJobErr = &amp;lt;-errCh: if manageJobErr != nil { break } default: // 没有error, 结束 } 限时等待 当使用管道管理函数上下文时, 可以使用select创建具有时效性的管道
+func waitForStopOrTimeout(stopCh &amp;lt;-chan struct{}, timeout time.">
+<meta property="og:url" content="https://xujiajiadexiaokeai.github.io/posts/go-select/">
+<meta property="og:site_name" content="xujiajiadexiaokeai">
+<meta property="og:image" content="https://xujiajiadexiaokeai.github.io/favicon.ico">
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+</head>
+<body class=orange>
+<div class="container center headings--one-size">
+<header class=header>
+<div class=header__inner>
+<div class=header__logo>
+<a href=/>
+<div class=logo>
+RTSC && RTFM
+</div>
+</a>
+</div>
+<div class=menu-trigger>menu</div>
+</div>
+<nav class=menu>
+<ul class="menu__inner menu__inner--desktop">
+<li><a href=/top/about>About</a></li>
+<li><a href=/top/archive>Archive</a></li>
+</ul>
+<ul class="menu__inner menu__inner--mobile">
+<li><a href=/top/about>About</a></li>
+<li><a href=/top/archive>Archive</a></li>
+</ul>
+</nav>
+</header>
+<div class=content>
+<div class=post>
+<h1 class=post-title>
+<a href=https://xujiajiadexiaokeai.github.io/posts/go-select/>为什么select仅能作用于管道?</a></h1>
+<div class=post-meta>
+<span class=post-reading-time>:: 1 min read (195 words)</span>
+</div>
+<div class=table-of-contents>
+<h2>
+Table of Contents
+</h2>
+<nav id=TableOfContents>
+<ul>
+<li><a href=#case的执行>case的执行</a></li>
+<li><a href=#返回值>返回值</a></li>
+<li><a href=#default>default</a></li>
+</ul>
+<ul>
+<li><a href=#永久阻塞>永久阻塞</a></li>
+<li><a href=#快速检错>快速检错</a></li>
+<li><a href=#限时等待>限时等待</a></li>
+</ul>
+<ul>
+<li><a href=#数据结构>数据结构</a></li>
+<li><a href=#实现逻辑>实现逻辑</a>
+<ul>
+<li><a href=#cas0>cas0</a></li>
+<li><a href=#ncases>ncases</a></li>
+<li><a href=#order0>order0</a></li>
+</ul>
+</li>
+<li><a href=#实现>实现</a></li>
+</ul>
+</nav>
+</div>
+<div class=post-content><div>
+<h1 id=select的特性>select的特性<a href=#select的特性 class=hanchor arialabel=Anchor>&#8983;</a> </h1>
+<h2 id=case的执行>case的执行<a href=#case的执行 class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>具体执行那个case,取决于函数传入的管道</p>
+<ul>
+<li>管道没有缓冲区</li>
+<li>有缓冲区并且还可以塞数据</li>
+<li>有缓冲区但缓冲区已满</li>
+<li>有缓冲区且已有部分数据</li>
+</ul>
+<h2 id=返回值>返回值<a href=#返回值 class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>可以在case中声明变量并赋值</p>
+<h2 id=default>default<a href=#default class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>default不能处理管道读写
+当所有case被阻塞,执行default
+default是特殊的case</p>
+<h1 id=使用案例>使用案例<a href=#使用案例 class=hanchor arialabel=Anchor>&#8983;</a> </h1>
+<h2 id=永久阻塞>永久阻塞<a href=#永久阻塞 class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>使用select阻塞main函数</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>main</span>() {
+    <span style=color:#a6e22e>server</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>webhooktesting</span>.<span style=color:#a6e22e>NewTestServer</span>(<span style=color:#66d9ef>nil</span>)
+    <span style=color:#a6e22e>server</span>.<span style=color:#a6e22e>StartTLS</span>()
+    <span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Println</span>(<span style=color:#e6db74>&#34;serving on&#34;</span>, <span style=color:#a6e22e>server</span>.<span style=color:#a6e22e>URL</span>)
+    <span style=color:#66d9ef>select</span> {} <span style=color:#75715e>// 没有case和default ,main()永久阻塞
+</span><span style=color:#75715e></span>}
+</code></pre></div><h2 id=快速检错>快速检错<a href=#快速检错 class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>当使用管道来传输error时, 可以使用select快速检查管道中是否有error</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#a6e22e>errCh</span> <span style=color:#f92672>:=</span> make(<span style=color:#66d9ef>chan</span> <span style=color:#66d9ef>error</span>, <span style=color:#a6e22e>active</span>)
+<span style=color:#a6e22e>jm</span>.<span style=color:#a6e22e>deleteJobPods</span>(<span style=color:#f92672>&amp;</span><span style=color:#a6e22e>job</span>, <span style=color:#a6e22e>activePods</span>, <span style=color:#a6e22e>errCh</span>) <span style=color:#75715e>// 传入chan用于记录error
+</span><span style=color:#75715e></span><span style=color:#66d9ef>select</span> {
+<span style=color:#66d9ef>case</span> <span style=color:#a6e22e>manageJobErr</span> = <span style=color:#f92672>&lt;-</span><span style=color:#a6e22e>errCh</span>:
+    <span style=color:#66d9ef>if</span> <span style=color:#a6e22e>manageJobErr</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
+        <span style=color:#66d9ef>break</span>
+    }
+<span style=color:#66d9ef>default</span>: <span style=color:#75715e>// 没有error, 结束
+</span><span style=color:#75715e></span>}
+</code></pre></div><h2 id=限时等待>限时等待<a href=#限时等待 class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>当使用管道管理函数上下文时, 可以使用select创建具有时效性的管道</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>waitForStopOrTimeout</span>(<span style=color:#a6e22e>stopCh</span> <span style=color:#f92672>&lt;-</span><span style=color:#66d9ef>chan</span> <span style=color:#66d9ef>struct</span>{}, <span style=color:#a6e22e>timeout</span> <span style=color:#a6e22e>time</span>.<span style=color:#a6e22e>Duration</span>) <span style=color:#f92672>&lt;-</span><span style=color:#66d9ef>chan</span> <span style=color:#66d9ef>struct</span>{} {
+    <span style=color:#a6e22e>stopChWithTimeout</span> <span style=color:#f92672>:=</span> make(<span style=color:#66d9ef>chan</span> <span style=color:#66d9ef>struct</span>{})
+    <span style=color:#66d9ef>go</span> <span style=color:#66d9ef>func</span>() {
+        <span style=color:#66d9ef>select</span> {
+        <span style=color:#66d9ef>case</span> <span style=color:#f92672>&lt;-</span><span style=color:#a6e22e>stopCh</span>:
+        <span style=color:#66d9ef>case</span> <span style=color:#f92672>&lt;-</span><span style=color:#a6e22e>time</span>.<span style=color:#a6e22e>After</span>(<span style=color:#a6e22e>timeout</span>): <span style=color:#75715e>// 管道会在指定时间内关闭
+</span><span style=color:#75715e></span>        }
+        close(<span style=color:#a6e22e>stopChWithTimeout</span>)
+    }()
+    <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>stopChWithTimeout</span> 
+}
+</code></pre></div><h1 id=实现原理>实现原理<a href=#实现原理 class=hanchor arialabel=Anchor>&#8983;</a> </h1>
+<ul>
+<li>为什么每个case语句只能处理一个管道?</li>
+<li>为什么case语句执行顺序随机(多个case都就绪的情况下)?</li>
+<li>为什么case语句向值为nil的管道中写数据不会触发panic?</li>
+</ul>
+<h2 id=数据结构>数据结构<a href=#数据结构 class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>scase</span> <span style=color:#66d9ef>struct</span> {
+    <span style=color:#a6e22e>c</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>hchan</span> <span style=color:#75715e>// 操作的管道
+</span><span style=color:#75715e></span>    <span style=color:#a6e22e>kind</span> <span style=color:#a6e22e>unit16</span> <span style=color:#75715e>// case类型
+</span><span style=color:#75715e></span>    <span style=color:#a6e22e>elem</span> <span style=color:#a6e22e>unsafe</span>.<span style=color:#a6e22e>Pointer</span> <span style=color:#75715e>// 指向数据存放位置的指针
+</span><span style=color:#75715e></span>    <span style=color:#f92672>...</span>
+}
+</code></pre></div><ol>
+<li>管道
+因为每个scase中只有一个管道, 这决定了一个case只能处理一个管道
+编译器在处理case语句时,如果case语句中没有管道操作(不能处理成scase对象),则会给出编译错误:</li>
+</ol>
+<pre tabindex=0><code>select case must be receive, send or assign recv
+</code></pre><ol start=2>
+<li>类型</li>
+</ol>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#66d9ef>const</span> (
+    <span style=color:#a6e22e>caseNil</span> = <span style=color:#66d9ef>iota</span>
+    <span style=color:#a6e22e>caseRecv</span>
+    <span style=color:#a6e22e>caseSend</span>
+    <span style=color:#a6e22e>caseDefault</span>
+)
+</code></pre></div><ul>
+<li>caseNil: 表示其操作的管道值为nil, 由于nil管道既不可读,也不可写,所以永远不会命中
+所以在case语句中向值为nil的管道中写数据不会触发panic的原因</li>
+<li>caseRecv: 从管道中读数据</li>
+<li>caseSend: 向管道中写数据</li>
+<li>caseDeafult: 不会操作管道,每个select中仅可存在一个, 可出现在任意位置</li>
+</ul>
+<ol start=3>
+<li>数据
+scase.elem表示数据存放的地址</li>
+</ol>
+<ul>
+<li>caseRecv: 读出的数据存放的地址</li>
+<li>caseSend: 将写入管道的数据存放的地址</li>
+</ul>
+<h2 id=实现逻辑>实现逻辑<a href=#实现逻辑 class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p><code>selectgo()</code> 用于处理select语句</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>selectgo</span>(<span style=color:#a6e22e>cas0</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>scase</span>, <span style=color:#a6e22e>order0</span> <span style=color:#f92672>*</span><span style=color:#66d9ef>uint16</span>, <span style=color:#a6e22e>ncases</span> <span style=color:#66d9ef>int</span>) (<span style=color:#66d9ef>int</span>, <span style=color:#66d9ef>bool</span>)
+</code></pre></div><p><code>selectgo()</code>函数会从一组case中挑选一个case,并返回命中case的下标,对于caseRecv的case,还会返回是否读取成功
+当所有case都不可能就绪时,selectgo()陷入永久阻塞,此时函数不会返回</p>
+<h3 id=cas0>cas0<a href=#cas0 class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>编译器会将select中的case语句存储在一个数组中,cas0保存这个数组的地址</p>
+<h3 id=ncases>ncases<a href=#ncases class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>ncases表示case的个数(包活default),即cas0数组的长度</p>
+<h3 id=order0>order0<a href=#order0 class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>order0 为一个整型数组的地址,其长度为case格式的2倍.
+order0数组是<strong>case执行随机性的关键</strong></p>
+<p>order0数组被一分为二
+前半部分存放case的随机顺序(pollorder),selectgo()会将原始的case顺序打乱,这样在检查每个case是否就绪时就会表现出随机性
+后半部分存放管道加锁的顺序(lockorder),selectgo()会按照管道地址顺序对多个管道加锁,从而避免因重复加锁引发的死锁问题</p>
+<h2 id=实现>实现<a href=#实现 class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>selectgo()函数的实现包括以下要点:</p>
+<ul>
+<li>通过随机函数fastrandn()将原始的case顺序打乱,在遍历各个case时使用打乱后的顺序就会表现出随机性</li>
+<li>循环遍历各个case时,如果发现某个case就绪,则直接跳出循环操作管道并返回</li>
+<li>循环遍历各个case时,如果循环正常结束,说明所有case都没有就绪,有default直接跳default</li>
+<li>如果都没有就绪且没有default,selectgo()将阻塞等待所有管道,任一管道就绪后,都将开始新的循环</li>
+</ul>
+<h1 id=小结>小结<a href=#小结 class=hanchor arialabel=Anchor>&#8983;</a> </h1>
+<ul>
+<li>select仅能操作管道</li>
+<li>每个case仅能处理一个管道,要么读要么写</li>
+<li>多个case语句的执行顺序是随机的</li>
+<li>存在default,则select不会阻塞</li>
+</ul>
+</div></div>
+<div class=pagination>
+<div class=pagination__title>
+<span class=pagination__title-h>Read other posts</span>
+<hr>
+</div>
+<div class=pagination__buttons>
+<span class="button previous">
+<a href=https://xujiajiadexiaokeai.github.io/posts/go-goroutine/>
+<span class=button__icon>←</span>
+<span class=button__text>goroutine</span>
+</a>
+</span>
+</div>
+</div>
+</div>
+</div>
+<footer class=footer>
+<div class=footer__inner>
+<div class="copyright copyright--user">
+<span>© 2021-2022 xujiajiadexiaokeai</span>
+<span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span>
+</div>
+</div>
+</footer>
+<script src=https://xujiajiadexiaokeai.github.io/assets/main.js></script>
+<script src=https://xujiajiadexiaokeai.github.io/assets/prism.js></script>
+</div>
+</body>
+</html>

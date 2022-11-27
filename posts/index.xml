@@ -1,4 +1,150 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on xujiajiadexiaokeai</title><link>https://xujiajiadexiaokeai.github.io/posts/</link><description>Recent content in Posts on xujiajiadexiaokeai</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>© 2021-2022 xujiajiadexiaokeai</copyright><lastBuildDate>Fri, 25 Mar 2022 22:06:30 +0800</lastBuildDate><atom:link href="https://xujiajiadexiaokeai.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Red Black Tree</title><link>https://xujiajiadexiaokeai.github.io/2022-03-25/red-black-tree/</link><pubDate>Fri, 25 Mar 2022 22:06:30 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2022-03-25/red-black-tree/</guid><description>23333</description><content>&lt;p>23333&lt;/p></content></item><item><title>AVLTree</title><link>https://xujiajiadexiaokeai.github.io/2022-03-25/avl-tree/</link><pubDate>Fri, 25 Mar 2022 20:32:48 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2022-03-25/avl-tree/</guid><description>特征 · 左右子树的高度差小于等于1
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on xujiajiadexiaokeai</title><link>https://xujiajiadexiaokeai.github.io/posts/</link><description>Recent content in Posts on xujiajiadexiaokeai</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>© 2021-2022 xujiajiadexiaokeai</copyright><lastBuildDate>Tue, 12 Jul 2022 21:12:06 +0800</lastBuildDate><atom:link href="https://xujiajiadexiaokeai.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Go Channel</title><link>https://xujiajiadexiaokeai.github.io/2022-07-12/go-channel/</link><pubDate>Tue, 12 Jul 2022 21:12:06 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2022-07-12/go-channel/</guid><description>读写nil管道均会阻塞 关闭的管道仍然可以读取数据 向关闭的管道写数据会触发panic
+只有一个缓冲区的管道,写入数据 —&amp;gt; 加锁; 读出数据 -&amp;gt; 解锁
+特性 初始化 变量声明 var ch chan int declare chan, value == nil make() ch1 := make(chan string) no-buffered chan ch2 := make(chan string, 5) buffered chan 管道操作 操作符: &amp;lt;- -&amp;gt; 默认为双向可读写,在函数传递间可使用操作符限制读写 func ChanParamR(ch &amp;lt;-chan int) { only can read from chan } func ChanParamW(ch chan&amp;lt;- int) { only can write to chan } 数据读写 协程读取管道时,阻塞的条件有: chan no-buffer chan buffer no data chan value == nil 协程写入管道时,阻塞的条件有: chan no-buffer chan buffer is full chan value == nil 实现原理 数据结构 https://cs.</description><content>&lt;p>读写nil管道均会阻塞
+关闭的管道仍然可以读取数据
+向关闭的管道写数据会触发panic&lt;/p>
+&lt;p>只有一个缓冲区的管道,写入数据 —&amp;gt; 加锁; 读出数据 -&amp;gt; 解锁&lt;/p>
+&lt;h1 id="特性">特性&lt;/h1>
+&lt;h2 id="初始化">初始化&lt;/h2>
+&lt;ul>
+&lt;li>变量声明&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">ch&lt;/span> &lt;span style="color:#66d9ef">chan&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">declare&lt;/span> &lt;span style="color:#66d9ef">chan&lt;/span>, &lt;span style="color:#a6e22e">value&lt;/span> &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">nil&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>make()&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#a6e22e">ch1&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> make(&lt;span style="color:#66d9ef">chan&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span>) &lt;span style="color:#a6e22e">no&lt;/span>&lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#a6e22e">buffered&lt;/span> &lt;span style="color:#66d9ef">chan&lt;/span>
+&lt;span style="color:#a6e22e">ch2&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> make(&lt;span style="color:#66d9ef">chan&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span>, &lt;span style="color:#ae81ff">5&lt;/span>) &lt;span style="color:#a6e22e">buffered&lt;/span> &lt;span style="color:#66d9ef">chan&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="管道操作">管道操作&lt;/h2>
+&lt;ul>
+&lt;li>操作符: &amp;lt;- -&amp;gt;
+默认为双向可读写,在函数传递间可使用操作符限制读写&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">ChanParamR&lt;/span>(&lt;span style="color:#a6e22e">ch&lt;/span> &lt;span style="color:#f92672">&amp;lt;-&lt;/span>&lt;span style="color:#66d9ef">chan&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>) {
+&lt;span style="color:#a6e22e">only&lt;/span> &lt;span style="color:#a6e22e">can&lt;/span> &lt;span style="color:#a6e22e">read&lt;/span> &lt;span style="color:#a6e22e">from&lt;/span> &lt;span style="color:#66d9ef">chan&lt;/span>
+}
+&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">ChanParamW&lt;/span>(&lt;span style="color:#a6e22e">ch&lt;/span> &lt;span style="color:#66d9ef">chan&lt;/span>&lt;span style="color:#f92672">&amp;lt;-&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>) {
+&lt;span style="color:#a6e22e">only&lt;/span> &lt;span style="color:#a6e22e">can&lt;/span> &lt;span style="color:#a6e22e">write&lt;/span> &lt;span style="color:#a6e22e">to&lt;/span> &lt;span style="color:#66d9ef">chan&lt;/span>
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>数据读写
+协程读取管道时,阻塞的条件有:&lt;/li>
+&lt;li>chan no-buffer&lt;/li>
+&lt;li>chan buffer no data&lt;/li>
+&lt;li>chan value == nil
+协程写入管道时,阻塞的条件有:&lt;/li>
+&lt;li>chan no-buffer&lt;/li>
+&lt;li>chan buffer is full&lt;/li>
+&lt;li>chan value == nil&lt;/li>
+&lt;/ul>
+&lt;h1 id="实现原理">实现原理&lt;/h1>
+&lt;h2 id="数据结构">数据结构&lt;/h2>
+&lt;blockquote>
+&lt;p>&lt;a href="https://cs.opensource.google/go/go/+/refs/tags/go1.18.3:src/runtime/chan.go">https://cs.opensource.google/go/go/+/refs/tags/go1.18.3:src/runtime/chan.go&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">hchan&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span> {
+&lt;span style="color:#a6e22e">qcount&lt;/span> &lt;span style="color:#66d9ef">uint&lt;/span> &lt;span style="color:#75715e">// total data in the queue
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">dataqsiz&lt;/span> &lt;span style="color:#66d9ef">uint&lt;/span> &lt;span style="color:#75715e">// size of the circular queue
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">buf&lt;/span> &lt;span style="color:#a6e22e">unsafe&lt;/span>.&lt;span style="color:#a6e22e">Pointer&lt;/span> &lt;span style="color:#75715e">// points to an array of dataqsiz elements
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">elemsize&lt;/span> &lt;span style="color:#66d9ef">uint16&lt;/span>
+&lt;span style="color:#a6e22e">closed&lt;/span> &lt;span style="color:#66d9ef">uint32&lt;/span>
+&lt;span style="color:#a6e22e">elemtype&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">_type&lt;/span> &lt;span style="color:#75715e">// element type
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">sendx&lt;/span> &lt;span style="color:#66d9ef">uint&lt;/span> &lt;span style="color:#75715e">// send index
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">recvx&lt;/span> &lt;span style="color:#66d9ef">uint&lt;/span> &lt;span style="color:#75715e">// receive index
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">recvq&lt;/span> &lt;span style="color:#a6e22e">waitq&lt;/span> &lt;span style="color:#75715e">// list of recv waiters
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">sendq&lt;/span> &lt;span style="color:#a6e22e">waitq&lt;/span> &lt;span style="color:#75715e">// list of send waiters
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>
+&lt;span style="color:#75715e">// lock protects all fields in hchan, as well as several
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">// fields in sudogs blocked on this channel.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">//
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">// Do not change another G&amp;#39;s status while holding this lock
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">// (in particular, do not ready a G), as this can deadlock
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">// with stack shrinking.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">lock&lt;/span> &lt;span style="color:#a6e22e">mutex&lt;/span>
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;ol>
+&lt;li>
+&lt;p>环形队列
+chan内部实现了一个环形队列,队列长度在chan创建时指定
+sendx: 队尾, 写入位
+recvx: 队首, 读取位&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>等待队列&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>goroutine从chan读 -&amp;gt; buf为空或没有buf -&amp;gt; 当前goroutine阻塞 -&amp;gt; 加入recvq&lt;/li>
+&lt;li>goroutine向chan写 -&amp;gt; buf已满或没有buf -&amp;gt; 当前goroutine阻塞 -&amp;gt; 加入sendq
+处于等待队列中的协程会在其他协程操作管道时被唤醒:&lt;/li>
+&lt;li>因读阻塞的协程会被向管道写入的协程唤醒&lt;/li>
+&lt;li>因写阻塞的协程会被从管道读取的协程唤醒&lt;/li>
+&lt;/ul>
+&lt;pre tabindex="0">&lt;code>Invariants:
+At least one of c.sendq and c.recvq is empty,
+except for the case of an unbuffered channel with a single goroutine
+blocked on it for both sending and receiving using a select statement,
+in which case the length of c.sendq and c.recvq is limited only by the
+size of the select statement.
+For buffered channels, also:
+c.qcount &amp;gt; 0 implies that c.recvq is empty.
+c.qcount &amp;lt; c.dataqsiz implies that c.sendq is empty.
+&lt;/code>&lt;/pre>&lt;ol start="3">
+&lt;li>类型信息&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>一个管道只能传递一种类型的值&lt;/li>
+&lt;li>如果需要管道传递任意类型的数据,可以使用interface{}类型&lt;/li>
+&lt;/ul>
+&lt;ol start="4">
+&lt;li>互斥锁
+一个管道同时仅允许被一个协程读写&lt;/li>
+&lt;/ol>
+&lt;h2 id="管道操作-1">管道操作&lt;/h2>
+&lt;ol>
+&lt;li>
+&lt;p>创建管道
+创建管道 -&amp;gt; 初始化hchan结构&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>写入管道
+trick:
+当接收队列recvq不为空时,说明缓冲区中没有数据但有协程在等待数据
+会把数据直接传递给recvq队列中的第一个协程,而不必再写入缓冲区&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>读出管道
+trick:
+当等待发送队列sendq不为空,且没有缓冲区,
+那么此时将直接从sendq队列的第一个协程中获取数据&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>关闭管道
+关闭管道时会把recvq中的协程全部唤醒, 协程会获取对应类型的零值
+同时会把sendq队列中的协程全部唤醒,协程会触发panic&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>会触发panic的操作还有:&lt;/p>
+&lt;ul>
+&lt;li>关闭值为nil的管道&lt;/li>
+&lt;li>关闭已经被关闭的管道&lt;/li>
+&lt;li>向已经关闭的管道写入数据&lt;/li>
+&lt;/ul>
+&lt;h2 id="常见用法">常见用法&lt;/h2>
+&lt;ul>
+&lt;li>
+&lt;p>单向管道&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>select
+使用select可以监控多个管道
+select的case语句读管道时不会阻塞&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>for-range
+for-range可以持续从管道中读出数据,当管道中没有数据时会阻塞当前协程&lt;/p>
+&lt;/li>
+&lt;/ul></content></item><item><title>Red Black Tree</title><link>https://xujiajiadexiaokeai.github.io/2022-03-25/red-black-tree/</link><pubDate>Fri, 25 Mar 2022 22:06:30 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2022-03-25/red-black-tree/</guid><description>23333</description><content>&lt;p>23333&lt;/p></content></item><item><title>AVLTree</title><link>https://xujiajiadexiaokeai.github.io/2022-03-25/avl-tree/</link><pubDate>Fri, 25 Mar 2022 20:32:48 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2022-03-25/avl-tree/</guid><description>特征 · 左右子树的高度差小于等于1
 · 每一个子树均为平衡二叉树
 原理 监督机制 监督指标: 平衡因子(Balance Factor): 某个节点的左子树高度-右子树高度的差值
 所以AVL树是一种所有节点的平衡因子的绝对值都不超过1的二叉树
@@ -72,4 +218,338 @@ func (n *Node) treeBalanceFactor() { if n == nil { return 0 } else { return x.</
 &lt;p>&lt;img src="https://tcs.teambition.net/storage/312g335de979fb780cfd8a48c2348c1cc61f?Signature=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBcHBJRCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9hcHBJZCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9vcmdhbml6YXRpb25JZCI6IiIsImV4cCI6MTY0ODgxNTcxMSwiaWF0IjoxNjQ4MjEwOTExLCJyZXNvdXJjZSI6Ii9zdG9yYWdlLzMxMmczMzVkZTk3OWZiNzgwY2ZkOGE0OGMyMzQ4YzFjYzYxZiJ9.88VeeegnYTUu9r94DBtMln21URc3Dus40r0lOQyvM6U&amp;amp;download=image.png" alt="" title="">&lt;/p>
 &lt;ol start="4">
 &lt;li>RL&lt;/li>
-&lt;/ol></content></item><item><title>My First Post</title><link>https://xujiajiadexiaokeai.github.io/posts/my-first-post/</link><pubDate>Sat, 12 Feb 2022 13:17:00 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/posts/my-first-post/</guid><description>111</description><content>&lt;p>111&lt;/p></content></item></channel></rss>
+&lt;/ol></content></item><item><title>My First Post</title><link>https://xujiajiadexiaokeai.github.io/posts/my-first-post/</link><pubDate>Sat, 12 Feb 2022 13:17:00 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/posts/my-first-post/</guid><description>111</description><content>&lt;p>111&lt;/p></content></item><item><title>go-memory</title><link>https://xujiajiadexiaokeai.github.io/posts/go-memory/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://xujiajiadexiaokeai.github.io/posts/go-memory/</guid><description>内存分配 内存分配过程 针对待分配对象大小的不同有不同的分配逻辑:
+(0, 16B)且不包含指针的对象: Tiny分配 (0, 16B)且包含指针的对象: 正常分配 [16B, 32KB] : 正常分配 (32KB, ∞): 大对象分配 以申请size为n的内存为例,分配步骤如下:
+获取当前线程的私有缓存mcache 根据size计算出适合的class的ID 从mcache的alloc[class]链表中查询可用的span 如果macache没有可用的span, 则从mcentral申请一个新的span加入mcache 如果mcentral中也没有可用的span, 则从mheap中申请一个新的span加入mcentral 从该span中获取空闲对象地址并返回 小结 Go程序启动时申请一大块内存, 并划分成span、bitmap、arena区域 arena区域按页划分成一个个小块 span管理一个或多个页 mcentral管理多个span供线程申请使用 mcache作为线程私有资源, 资源来源于mcentral 垃圾回收 常见垃圾回收算法 引用计数 对每个对象维护一个引用计数, 当引用改对象的对象被销毁时,引用计数减1, 当引用计数器为0时回收改对象 优点: 对象可以很快被回收,不会出现内存耗尽或达到某个阈值时才回收 缺点: 不能很好地处理循环引用, 而且实时维护引用计数也有一定代价
+标记-清除 从根变量开始遍历所有引用对象, 引用的对象标记为“被引用”, 没有标记的对象被回收 优点: 解决了引用计数的缺点 缺点: 需要”Stop The World“
+分代收集 按照对象生命周期的长短划分不同的代空间, 生命周期长的放入老生代, 短的放入新生代, 不同代有不同的回收算法和回收频率 优点: 回收性能好 缺点: 算法复杂</description><content>&lt;h1 id="内存分配">内存分配&lt;/h1>
+&lt;h2 id="内存分配过程">内存分配过程&lt;/h2>
+&lt;p>针对待分配对象大小的不同有不同的分配逻辑:&lt;/p>
+&lt;ul>
+&lt;li>(0, 16B)且不包含指针的对象: Tiny分配&lt;/li>
+&lt;li>(0, 16B)且包含指针的对象: 正常分配&lt;/li>
+&lt;li>[16B, 32KB] : 正常分配&lt;/li>
+&lt;li>(32KB, ∞): 大对象分配&lt;/li>
+&lt;/ul>
+&lt;p>以申请size为n的内存为例,分配步骤如下:&lt;/p>
+&lt;ol>
+&lt;li>获取当前线程的私有缓存mcache&lt;/li>
+&lt;li>根据size计算出适合的class的ID&lt;/li>
+&lt;li>从mcache的alloc[class]链表中查询可用的span&lt;/li>
+&lt;li>如果macache没有可用的span, 则从mcentral申请一个新的span加入mcache&lt;/li>
+&lt;li>如果mcentral中也没有可用的span, 则从mheap中申请一个新的span加入mcentral&lt;/li>
+&lt;li>从该span中获取空闲对象地址并返回&lt;/li>
+&lt;/ol>
+&lt;h2 id="小结">小结&lt;/h2>
+&lt;ul>
+&lt;li>Go程序启动时申请一大块内存, 并划分成span、bitmap、arena区域&lt;/li>
+&lt;li>arena区域按页划分成一个个小块&lt;/li>
+&lt;li>span管理一个或多个页&lt;/li>
+&lt;li>mcentral管理多个span供线程申请使用&lt;/li>
+&lt;li>mcache作为线程私有资源, 资源来源于mcentral&lt;/li>
+&lt;/ul>
+&lt;h1 id="垃圾回收">垃圾回收&lt;/h1>
+&lt;h2 id="常见垃圾回收算法">常见垃圾回收算法&lt;/h2>
+&lt;ul>
+&lt;li>
+&lt;p>引用计数
+对每个对象维护一个引用计数, 当引用改对象的对象被销毁时,引用计数减1, 当引用计数器为0时回收改对象
+优点: 对象可以很快被回收,不会出现内存耗尽或达到某个阈值时才回收
+缺点: 不能很好地处理循环引用, 而且实时维护引用计数也有一定代价&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>标记-清除
+从根变量开始遍历所有引用对象, 引用的对象标记为“被引用”, 没有标记的对象被回收
+优点: 解决了引用计数的缺点
+缺点: 需要”Stop The World“&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>分代收集
+按照对象生命周期的长短划分不同的代空间, 生命周期长的放入老生代, 短的放入新生代, 不同代有不同的回收算法和回收频率
+优点: 回收性能好
+缺点: 算法复杂&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="go垃圾回收">Go垃圾回收&lt;/h2>
+&lt;h3 id="标记-清除算法原理">“标记-清除”算法原理&lt;/h3>
+&lt;h3 id="内存标记">内存标记&lt;/h3>
+&lt;p>在&lt;code>mspan&lt;/code>的数据结构中, bitmap&lt;code>allocBits&lt;/code>表示每个内存块的使用情况, bitmap&lt;code>gcmarkBits&lt;/code>用于标记内存块被引用的情况
+在标记阶段对每块内存进行标记, 有对象引用的内存标记为1,没有引用的保持为0(default)
+&lt;code>allocBits&lt;/code>和&lt;code>gcmarkBits&lt;/code>的数据结构完全一样, 标记结束后进行内存回收, 回收时将allocBits指向gcmarkBits, 代表标记过的内存才是存活的, gcmarkBits会在下次标记时重新分配内存&lt;/p>
+&lt;h3 id="三色标记法">三色标记法&lt;/h3>
+&lt;p>三色主要是为了对应gc过程中对象的三种状态:&lt;/p>
+&lt;ul>
+&lt;li>灰色: 对象还在标记队列中等待&lt;/li>
+&lt;li>黑色: 对象已被标记, gcmarkBits对应的位为1(本次不会被清理)&lt;/li>
+&lt;li>白色: 对象未被标记, gcmarkBits对应的位为0(本次会被清理)&lt;/li>
+&lt;/ul>
+&lt;h3 id="stop-the-world">Stop The World&lt;/h3>
+&lt;p>在gc过程中, 需要控制内存的变化, 否则在回收过程中指针传递会引起内存引用关系变化
+STW时间的长短直接影响了应用的执行&lt;/p>
+&lt;h2 id="垃圾回收优化">垃圾回收优化&lt;/h2>
+&lt;h3 id="写屏障write-barrier">写屏障(Write Barrier)&lt;/h3>
+&lt;p>STW的目的是防止GC扫描时内存变化而停止goroutine, 而写屏障就是让goroutine与GC同时运行的手段.
+虽然写屏障不能完全消除STW,但是可以大大缩短STW的时间&lt;/p>
+&lt;h3 id="辅助gcmutator-assist">辅助GC(Mutator Assist)&lt;/h3>
+&lt;p>在GC过程中, 如果goroutine需要分配内存, 那么改goroutine会参与以部分GC的工作&lt;/p>
+&lt;h2 id="gc的触发时机">GC的触发时机&lt;/h2>
+&lt;ol>
+&lt;li>内存分配量达到阈值触发GC&lt;/li>
+&lt;li>定期触发GC&lt;/li>
+&lt;li>手动触发&lt;/li>
+&lt;/ol>
+&lt;h2 id="gc性能优化">GC性能优化&lt;/h2>
+&lt;p>GC性能与对象数量负相关&lt;/p>
+&lt;ul>
+&lt;li>减少对象分配: 对象复用或使用大对象组合多个小对象&lt;/li>
+&lt;li>内存逃逸也会加重GC负担&lt;/li>
+&lt;/ul>
+&lt;h1 id="逃逸分析">逃逸分析&lt;/h1>
+&lt;p>逃逸分析(escape analysis)是指编译器决定内存分配的位置, 不需要程序员指定
+在函数中申请一个新的对象:&lt;/p>
+&lt;ul>
+&lt;li>如果分配在栈中, 则函数执行结束后可自动将内存回收&lt;/li>
+&lt;li>如果分配在堆中, 则函数执行结束后可交给GC处理&lt;/li>
+&lt;/ul>
+&lt;h2 id="逃逸策略">逃逸策略&lt;/h2>
+&lt;p>在函数中申请一个闲的对象, 编译器会根据该对象是否被函数外部引用来决定是否逃逸:&lt;/p>
+&lt;ul>
+&lt;li>如果函数外部没有引用, 则优先放入栈中&lt;/li>
+&lt;li>如果函数外部存在引用, 则优先放入堆中&lt;/li>
+&lt;li>对于仅在函数内部使用的对象, 也有可能放到堆中, 比如内存过大超过栈的大小&lt;/li>
+&lt;/ul>
+&lt;h2 id="逃逸场景">逃逸场景&lt;/h2>
+&lt;ol>
+&lt;li>指针逃逸
+Go返回了局部变量的指针&lt;/li>
+&lt;li>栈空间不足
+当栈空间不足以存放当前对象或无法判断当前切片长度时会将对象分配到堆中&lt;/li>
+&lt;li>动态类型逃逸
+如果函数中使用了动态类型参数, 编译期间很难确定参数类型, 也会产生逃逸&lt;/li>
+&lt;li>闭包引用对象逃逸
+闭包中的局部对象由于闭包的引用, 产生逃逸&lt;/li>
+&lt;/ol>
+&lt;h2 id="小结-1">小结&lt;/h2>
+&lt;ul>
+&lt;li>栈上分配内存比在堆中分配内存有更高的效率&lt;/li>
+&lt;li>逃逸分析的目的是决定分配到栈还是堆&lt;/li>
+&lt;li>逃逸分析在编译阶段完成&lt;/li>
+&lt;/ul></content></item><item><title>goroutine</title><link>https://xujiajiadexiaokeai.github.io/posts/go-goroutine/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://xujiajiadexiaokeai.github.io/posts/go-goroutine/</guid><description>基本概念 进程 进程是应用程序的启动实例 有独立的内存空间 不同进程通过进程间通信的方式进行通信 线程 线程是cpu调度的基本单位 不同线程可以共享进程的资源 不同线程通过共享内存等线程间通信方式进行通信 协程 协程调度由用户程序提供,不直接受操作系统调度 协程调度器按照调度策略把协程调度到线程中执行 协程的优势 过多的线程会导致上下文切换的开销变大,而工作在用户态的协程则能大大减少上下文切换的开销 协程调度器把可运行的协程逐个调度到线程中执行,同时及时把阻塞的协程调度出线程 有效地避免了线程的频繁切换 实现了使用少量线程实现高并发的效果
+多个协程分享操作系统分给线程的时间片 协程调度器决定了协程运行的顺序 线程运行调度器指派的协程,每一时刻只能运行一个协程
+调度模型 线程模型 线程可分为用户线程和内核线程 用户线程由用户创建、同步合销毁 根据用户线程管理方式的不同,分为三种线程模型: N:1模型 N个用户线程运行在1个内核线程中,上下文切换较快 1:1模型 每个用户线程对应一个内核线程,上下文切换较慢 M:N模型 充分利用cpu且上下文切换较快,但调度算法较为复杂 Go GPM模型 G: goroutine,Go协程,每个go关键字都会创建一个goroutine P: processor,处理器(Go定义的一个概念,不是指cpu),包含运行Go代码的必要资源,也有调度goroutine的能力 M: machine,工作线程,由操作系统调度 M必须持有P才能运行代码 M会被系统调用阻塞
+P的个数在程序启动时决定,默认等于CPU的核数,可以使用环境变量GOMAXPROCS或在程序中使用runtime.GOMAXPROCS()方法指定P的个数
+export GOMAXPROC=80 runtime.GOMAXPROCS(80) M的个数通常稍大于P的个数,因为除了运行Go代码,还有其他内置任务需要处理.
+调度策略 队列轮转 每个处理器P维护着一个协程G的队列, 处理器P依次将协程G调度到M中执行 P会周期性地查看全局队列中是否有G待运行,防止“饥饿” 全局队列中的G主要来自从系统调用中恢复的G
+系统调用</description><content>&lt;h1 id="基本概念">基本概念&lt;/h1>
+&lt;ol>
+&lt;li>进程&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>进程是应用程序的启动实例&lt;/li>
+&lt;li>有独立的内存空间&lt;/li>
+&lt;li>不同进程通过进程间通信的方式进行通信&lt;/li>
+&lt;/ul>
+&lt;ol start="2">
+&lt;li>线程&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>线程是cpu调度的基本单位&lt;/li>
+&lt;li>不同线程可以共享进程的资源&lt;/li>
+&lt;li>不同线程通过共享内存等线程间通信方式进行通信&lt;/li>
+&lt;/ul>
+&lt;ol start="3">
+&lt;li>协程&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>协程调度由用户程序提供,不直接受操作系统调度&lt;/li>
+&lt;li>协程调度器按照调度策略把协程调度到线程中执行&lt;/li>
+&lt;/ul>
+&lt;h1 id="协程的优势">协程的优势&lt;/h1>
+&lt;p>过多的线程会导致上下文切换的开销变大,而工作在用户态的协程则能大大减少上下文切换的开销
+协程调度器把可运行的协程逐个调度到线程中执行,同时及时把阻塞的协程调度出线程
+有效地避免了线程的频繁切换
+实现了使用少量线程实现高并发的效果&lt;/p>
+&lt;p>多个协程分享操作系统分给线程的时间片
+协程调度器决定了协程运行的顺序
+线程运行调度器指派的协程,每一时刻只能运行一个协程&lt;/p>
+&lt;h1 id="调度模型">调度模型&lt;/h1>
+&lt;ol>
+&lt;li>线程模型
+线程可分为用户线程和内核线程
+用户线程由用户创建、同步合销毁
+根据用户线程管理方式的不同,分为三种线程模型:&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>N:1模型
+N个用户线程运行在1个内核线程中,上下文切换较快&lt;/li>
+&lt;li>1:1模型
+每个用户线程对应一个内核线程,上下文切换较慢&lt;/li>
+&lt;li>M:N模型
+充分利用cpu且上下文切换较快,但调度算法较为复杂&lt;/li>
+&lt;/ul>
+&lt;ol start="2">
+&lt;li>Go GPM模型
+G: goroutine,Go协程,每个&lt;code>go&lt;/code>关键字都会创建一个goroutine
+P: processor,处理器(Go定义的一个概念,不是指cpu),包含运行Go代码的必要资源,也有调度goroutine的能力
+M: machine,工作线程,由操作系统调度&lt;/li>
+&lt;/ol>
+&lt;p>M必须持有P才能运行代码
+M会被系统调用阻塞&lt;/p>
+&lt;p>P的个数在程序启动时决定,默认等于CPU的核数,可以使用环境变量GOMAXPROCS或在程序中使用runtime.GOMAXPROCS()方法指定P的个数&lt;/p>
+&lt;pre tabindex="0">&lt;code>export GOMAXPROC=80
+runtime.GOMAXPROCS(80)
+&lt;/code>&lt;/pre>&lt;p>M的个数通常稍大于P的个数,因为除了运行Go代码,还有其他内置任务需要处理.&lt;/p>
+&lt;h1 id="调度策略">调度策略&lt;/h1>
+&lt;ol>
+&lt;li>
+&lt;p>队列轮转
+每个处理器P维护着一个协程G的队列, 处理器P依次将协程G调度到M中执行
+P会周期性地查看全局队列中是否有G待运行,防止“饥饿”
+全局队列中的G主要来自从系统调用中恢复的G&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>系统调用&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>P的个数默认等于CPU的核数, 每个M必须持有一个P才能执行G
+一般情况下M的个数略大于P,多出来的M将会在G产生系统调用时发挥作用&lt;/p>
+&lt;p>M池
+当M运行的某个G产生系统调用时: // TODO&lt;/p>
+&lt;ol start="3">
+&lt;li>工作量窃取
+通过&lt;code>go&lt;/code>关键字创建的协程通常会优先放到当前协程对应的多处理器队列中
+可能有些协程自身会不断派生新协程,有些协程不会派生,导致多个P中维护的G队列是不均衡的&lt;/li>
+&lt;/ol>
+&lt;p>所以Go调度器提供了工作量窃取策略: 当某个P没有需要调度的协程时, 将从其他处理器中偷取协程&lt;/p>
+&lt;p>发生窃取前,会查询全局队列,如果全局队列中没有需要调度的协程,才会从其他P中偷取,一次偷一半&lt;/p>
+&lt;ol start="4">
+&lt;li>抢占式调度
+避免某个协程长时间执行,而阻碍其他协程被调度的机制&lt;/li>
+&lt;/ol>
+&lt;p>调度器会监控每个协程的执行时间, 一旦执行时间过程且有其他协程在等待时,会把当前协程暂停,转而调度等待的协程,类似&lt;code>时间片轮转&lt;/code>&lt;/p></content></item><item><title>为什么select仅能作用于管道?</title><link>https://xujiajiadexiaokeai.github.io/posts/go-select/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://xujiajiadexiaokeai.github.io/posts/go-select/</guid><description>select的特性 case的执行 具体执行那个case,取决于函数传入的管道
+管道没有缓冲区 有缓冲区并且还可以塞数据 有缓冲区但缓冲区已满 有缓冲区且已有部分数据 返回值 可以在case中声明变量并赋值
+default default不能处理管道读写 当所有case被阻塞,执行default default是特殊的case
+使用案例 永久阻塞 使用select阻塞main函数
+func main() { server := webhooktesting.NewTestServer(nil) server.StartTLS() fmt.Println(&amp;#34;serving on&amp;#34;, server.URL) select {} // 没有case和default ,main()永久阻塞 } 快速检错 当使用管道来传输error时, 可以使用select快速检查管道中是否有error
+errCh := make(chan error, active) jm.deleteJobPods(&amp;amp;job, activePods, errCh) // 传入chan用于记录error select { case manageJobErr = &amp;lt;-errCh: if manageJobErr != nil { break } default: // 没有error, 结束 } 限时等待 当使用管道管理函数上下文时, 可以使用select创建具有时效性的管道
+func waitForStopOrTimeout(stopCh &amp;lt;-chan struct{}, timeout time.</description><content>&lt;h1 id="select的特性">select的特性&lt;/h1>
+&lt;h2 id="case的执行">case的执行&lt;/h2>
+&lt;p>具体执行那个case,取决于函数传入的管道&lt;/p>
+&lt;ul>
+&lt;li>管道没有缓冲区&lt;/li>
+&lt;li>有缓冲区并且还可以塞数据&lt;/li>
+&lt;li>有缓冲区但缓冲区已满&lt;/li>
+&lt;li>有缓冲区且已有部分数据&lt;/li>
+&lt;/ul>
+&lt;h2 id="返回值">返回值&lt;/h2>
+&lt;p>可以在case中声明变量并赋值&lt;/p>
+&lt;h2 id="default">default&lt;/h2>
+&lt;p>default不能处理管道读写
+当所有case被阻塞,执行default
+default是特殊的case&lt;/p>
+&lt;h1 id="使用案例">使用案例&lt;/h1>
+&lt;h2 id="永久阻塞">永久阻塞&lt;/h2>
+&lt;p>使用select阻塞main函数&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span>() {
+&lt;span style="color:#a6e22e">server&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">webhooktesting&lt;/span>.&lt;span style="color:#a6e22e">NewTestServer&lt;/span>(&lt;span style="color:#66d9ef">nil&lt;/span>)
+&lt;span style="color:#a6e22e">server&lt;/span>.&lt;span style="color:#a6e22e">StartTLS&lt;/span>()
+&lt;span style="color:#a6e22e">fmt&lt;/span>.&lt;span style="color:#a6e22e">Println&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;serving on&amp;#34;&lt;/span>, &lt;span style="color:#a6e22e">server&lt;/span>.&lt;span style="color:#a6e22e">URL&lt;/span>)
+&lt;span style="color:#66d9ef">select&lt;/span> {} &lt;span style="color:#75715e">// 没有case和default ,main()永久阻塞
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>}
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="快速检错">快速检错&lt;/h2>
+&lt;p>当使用管道来传输error时, 可以使用select快速检查管道中是否有error&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#a6e22e">errCh&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> make(&lt;span style="color:#66d9ef">chan&lt;/span> &lt;span style="color:#66d9ef">error&lt;/span>, &lt;span style="color:#a6e22e">active&lt;/span>)
+&lt;span style="color:#a6e22e">jm&lt;/span>.&lt;span style="color:#a6e22e">deleteJobPods&lt;/span>(&lt;span style="color:#f92672">&amp;amp;&lt;/span>&lt;span style="color:#a6e22e">job&lt;/span>, &lt;span style="color:#a6e22e">activePods&lt;/span>, &lt;span style="color:#a6e22e">errCh&lt;/span>) &lt;span style="color:#75715e">// 传入chan用于记录error
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">select&lt;/span> {
+&lt;span style="color:#66d9ef">case&lt;/span> &lt;span style="color:#a6e22e">manageJobErr&lt;/span> = &lt;span style="color:#f92672">&amp;lt;-&lt;/span>&lt;span style="color:#a6e22e">errCh&lt;/span>:
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">manageJobErr&lt;/span> &lt;span style="color:#f92672">!=&lt;/span> &lt;span style="color:#66d9ef">nil&lt;/span> {
+&lt;span style="color:#66d9ef">break&lt;/span>
+}
+&lt;span style="color:#66d9ef">default&lt;/span>: &lt;span style="color:#75715e">// 没有error, 结束
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>}
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="限时等待">限时等待&lt;/h2>
+&lt;p>当使用管道管理函数上下文时, 可以使用select创建具有时效性的管道&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">waitForStopOrTimeout&lt;/span>(&lt;span style="color:#a6e22e">stopCh&lt;/span> &lt;span style="color:#f92672">&amp;lt;-&lt;/span>&lt;span style="color:#66d9ef">chan&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span>{}, &lt;span style="color:#a6e22e">timeout&lt;/span> &lt;span style="color:#a6e22e">time&lt;/span>.&lt;span style="color:#a6e22e">Duration&lt;/span>) &lt;span style="color:#f92672">&amp;lt;-&lt;/span>&lt;span style="color:#66d9ef">chan&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span>{} {
+&lt;span style="color:#a6e22e">stopChWithTimeout&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> make(&lt;span style="color:#66d9ef">chan&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span>{})
+&lt;span style="color:#66d9ef">go&lt;/span> &lt;span style="color:#66d9ef">func&lt;/span>() {
+&lt;span style="color:#66d9ef">select&lt;/span> {
+&lt;span style="color:#66d9ef">case&lt;/span> &lt;span style="color:#f92672">&amp;lt;-&lt;/span>&lt;span style="color:#a6e22e">stopCh&lt;/span>:
+&lt;span style="color:#66d9ef">case&lt;/span> &lt;span style="color:#f92672">&amp;lt;-&lt;/span>&lt;span style="color:#a6e22e">time&lt;/span>.&lt;span style="color:#a6e22e">After&lt;/span>(&lt;span style="color:#a6e22e">timeout&lt;/span>): &lt;span style="color:#75715e">// 管道会在指定时间内关闭
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> }
+close(&lt;span style="color:#a6e22e">stopChWithTimeout&lt;/span>)
+}()
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">stopChWithTimeout&lt;/span>
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="实现原理">实现原理&lt;/h1>
+&lt;ul>
+&lt;li>为什么每个case语句只能处理一个管道?&lt;/li>
+&lt;li>为什么case语句执行顺序随机(多个case都就绪的情况下)?&lt;/li>
+&lt;li>为什么case语句向值为nil的管道中写数据不会触发panic?&lt;/li>
+&lt;/ul>
+&lt;h2 id="数据结构">数据结构&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">scase&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span> {
+&lt;span style="color:#a6e22e">c&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">hchan&lt;/span> &lt;span style="color:#75715e">// 操作的管道
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">kind&lt;/span> &lt;span style="color:#a6e22e">unit16&lt;/span> &lt;span style="color:#75715e">// case类型
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">elem&lt;/span> &lt;span style="color:#a6e22e">unsafe&lt;/span>.&lt;span style="color:#a6e22e">Pointer&lt;/span> &lt;span style="color:#75715e">// 指向数据存放位置的指针
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#f92672">...&lt;/span>
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;ol>
+&lt;li>管道
+因为每个scase中只有一个管道, 这决定了一个case只能处理一个管道
+编译器在处理case语句时,如果case语句中没有管道操作(不能处理成scase对象),则会给出编译错误:&lt;/li>
+&lt;/ol>
+&lt;pre tabindex="0">&lt;code>select case must be receive, send or assign recv
+&lt;/code>&lt;/pre>&lt;ol start="2">
+&lt;li>类型&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#66d9ef">const&lt;/span> (
+&lt;span style="color:#a6e22e">caseNil&lt;/span> = &lt;span style="color:#66d9ef">iota&lt;/span>
+&lt;span style="color:#a6e22e">caseRecv&lt;/span>
+&lt;span style="color:#a6e22e">caseSend&lt;/span>
+&lt;span style="color:#a6e22e">caseDefault&lt;/span>
+)
+&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>caseNil: 表示其操作的管道值为nil, 由于nil管道既不可读,也不可写,所以永远不会命中
+所以在case语句中向值为nil的管道中写数据不会触发panic的原因&lt;/li>
+&lt;li>caseRecv: 从管道中读数据&lt;/li>
+&lt;li>caseSend: 向管道中写数据&lt;/li>
+&lt;li>caseDeafult: 不会操作管道,每个select中仅可存在一个, 可出现在任意位置&lt;/li>
+&lt;/ul>
+&lt;ol start="3">
+&lt;li>数据
+scase.elem表示数据存放的地址&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>caseRecv: 读出的数据存放的地址&lt;/li>
+&lt;li>caseSend: 将写入管道的数据存放的地址&lt;/li>
+&lt;/ul>
+&lt;h2 id="实现逻辑">实现逻辑&lt;/h2>
+&lt;p>&lt;code>selectgo()&lt;/code> 用于处理select语句&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">selectgo&lt;/span>(&lt;span style="color:#a6e22e">cas0&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">scase&lt;/span>, &lt;span style="color:#a6e22e">order0&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#66d9ef">uint16&lt;/span>, &lt;span style="color:#a6e22e">ncases&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>) (&lt;span style="color:#66d9ef">int&lt;/span>, &lt;span style="color:#66d9ef">bool&lt;/span>)
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>selectgo()&lt;/code>函数会从一组case中挑选一个case,并返回命中case的下标,对于caseRecv的case,还会返回是否读取成功
+当所有case都不可能就绪时,selectgo()陷入永久阻塞,此时函数不会返回&lt;/p>
+&lt;h3 id="cas0">cas0&lt;/h3>
+&lt;p>编译器会将select中的case语句存储在一个数组中,cas0保存这个数组的地址&lt;/p>
+&lt;h3 id="ncases">ncases&lt;/h3>
+&lt;p>ncases表示case的个数(包活default),即cas0数组的长度&lt;/p>
+&lt;h3 id="order0">order0&lt;/h3>
+&lt;p>order0 为一个整型数组的地址,其长度为case格式的2倍.
+order0数组是&lt;strong>case执行随机性的关键&lt;/strong>&lt;/p>
+&lt;p>order0数组被一分为二
+前半部分存放case的随机顺序(pollorder),selectgo()会将原始的case顺序打乱,这样在检查每个case是否就绪时就会表现出随机性
+后半部分存放管道加锁的顺序(lockorder),selectgo()会按照管道地址顺序对多个管道加锁,从而避免因重复加锁引发的死锁问题&lt;/p>
+&lt;h2 id="实现">实现&lt;/h2>
+&lt;p>selectgo()函数的实现包括以下要点:&lt;/p>
+&lt;ul>
+&lt;li>通过随机函数fastrandn()将原始的case顺序打乱,在遍历各个case时使用打乱后的顺序就会表现出随机性&lt;/li>
+&lt;li>循环遍历各个case时,如果发现某个case就绪,则直接跳出循环操作管道并返回&lt;/li>
+&lt;li>循环遍历各个case时,如果循环正常结束,说明所有case都没有就绪,有default直接跳default&lt;/li>
+&lt;li>如果都没有就绪且没有default,selectgo()将阻塞等待所有管道,任一管道就绪后,都将开始新的循环&lt;/li>
+&lt;/ul>
+&lt;h1 id="小结">小结&lt;/h1>
+&lt;ul>
+&lt;li>select仅能操作管道&lt;/li>
+&lt;li>每个case仅能处理一个管道,要么读要么写&lt;/li>
+&lt;li>多个case语句的执行顺序是随机的&lt;/li>
+&lt;li>存在default,则select不会阻塞&lt;/li>
+&lt;/ul></content></item></channel></rss>

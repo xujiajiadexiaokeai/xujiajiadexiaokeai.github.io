@@ -1,0 +1,255 @@
+<!doctype html><html lang=en>
+<head>
+<title>Go Channel :: xujiajiadexiaokeai</title>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=description content="Go channel">
+<meta name=keywords content>
+<meta name=robots content="noodp">
+<link rel=canonical href=https://xujiajiadexiaokeai.github.io/2022-07-12/go-channel/>
+<link rel=stylesheet href=https://xujiajiadexiaokeai.github.io/assets/style.css>
+<link rel=apple-touch-icon href=https://xujiajiadexiaokeai.github.io/img/apple-touch-icon-192x192.png>
+<link rel="shortcut icon" href=https://xujiajiadexiaokeai.github.io/favicon.ico>
+<meta name=twitter:card content="summary">
+<meta property="og:locale" content="en">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go Channel">
+<meta property="og:description" content="Go channel">
+<meta property="og:url" content="https://xujiajiadexiaokeai.github.io/2022-07-12/go-channel/">
+<meta property="og:site_name" content="xujiajiadexiaokeai">
+<meta property="og:image" content="https://xujiajiadexiaokeai.github.io/favicon.ico">
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+<meta property="article:published_time" content="2022-07-12 21:12:06 +0800 +0800">
+</head>
+<body class=orange>
+<div class="container center headings--one-size">
+<header class=header>
+<div class=header__inner>
+<div class=header__logo>
+<a href=/>
+<div class=logo>
+RTSC && RTFM
+</div>
+</a>
+</div>
+<div class=menu-trigger>menu</div>
+</div>
+<nav class=menu>
+<ul class="menu__inner menu__inner--desktop">
+<li><a href=/top/about>About</a></li>
+<li><a href=/top/archive>Archive</a></li>
+</ul>
+<ul class="menu__inner menu__inner--mobile">
+<li><a href=/top/about>About</a></li>
+<li><a href=/top/archive>Archive</a></li>
+</ul>
+</nav>
+</header>
+<div class=content>
+<div class=post>
+<h1 class=post-title>
+<a href=https://xujiajiadexiaokeai.github.io/2022-07-12/go-channel/>Go Channel</a></h1>
+<div class=post-meta>
+<span class=post-date>
+2022-07-12
+</span>
+<span class=post-author>:: Wenhao Jiang</span>
+<span class=post-reading-time>:: 2 min read (333 words)</span>
+</div>
+<span class=post-tags>
+#<a href=https://xujiajiadexiaokeai.github.io/tags/go/>Go</a>&nbsp;
+</span>
+<div class=table-of-contents>
+<h2>
+Table of Contents
+</h2>
+<nav id=TableOfContents>
+<ul>
+<li><a href=#初始化>初始化</a></li>
+<li><a href=#管道操作>管道操作</a></li>
+</ul>
+<ul>
+<li><a href=#数据结构>数据结构</a></li>
+<li><a href=#管道操作-1>管道操作</a></li>
+<li><a href=#常见用法>常见用法</a></li>
+</ul>
+</nav>
+</div>
+<div class=post-content><div>
+<p>读写nil管道均会阻塞
+关闭的管道仍然可以读取数据
+向关闭的管道写数据会触发panic</p>
+<p>只有一个缓冲区的管道,写入数据 —> 加锁; 读出数据 -> 解锁</p>
+<h1 id=特性>特性<a href=#特性 class=hanchor arialabel=Anchor>&#8983;</a> </h1>
+<h2 id=初始化>初始化<a href=#初始化 class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<ul>
+<li>变量声明</li>
+</ul>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#66d9ef>var</span> <span style=color:#a6e22e>ch</span> <span style=color:#66d9ef>chan</span> <span style=color:#66d9ef>int</span> <span style=color:#a6e22e>declare</span> <span style=color:#66d9ef>chan</span>, <span style=color:#a6e22e>value</span> <span style=color:#f92672>==</span> <span style=color:#66d9ef>nil</span>
+</code></pre></div><ul>
+<li>make()</li>
+</ul>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#a6e22e>ch1</span> <span style=color:#f92672>:=</span> make(<span style=color:#66d9ef>chan</span> <span style=color:#66d9ef>string</span>) <span style=color:#a6e22e>no</span><span style=color:#f92672>-</span><span style=color:#a6e22e>buffered</span> <span style=color:#66d9ef>chan</span>
+<span style=color:#a6e22e>ch2</span> <span style=color:#f92672>:=</span> make(<span style=color:#66d9ef>chan</span> <span style=color:#66d9ef>string</span>, <span style=color:#ae81ff>5</span>) <span style=color:#a6e22e>buffered</span> <span style=color:#66d9ef>chan</span>
+</code></pre></div><h2 id=管道操作>管道操作<a href=#管道操作 class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<ul>
+<li>操作符: &lt;- ->
+默认为双向可读写,在函数传递间可使用操作符限制读写</li>
+</ul>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>ChanParamR</span>(<span style=color:#a6e22e>ch</span> <span style=color:#f92672>&lt;-</span><span style=color:#66d9ef>chan</span> <span style=color:#66d9ef>int</span>) {
+    <span style=color:#a6e22e>only</span> <span style=color:#a6e22e>can</span> <span style=color:#a6e22e>read</span> <span style=color:#a6e22e>from</span> <span style=color:#66d9ef>chan</span>
+}
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>ChanParamW</span>(<span style=color:#a6e22e>ch</span> <span style=color:#66d9ef>chan</span><span style=color:#f92672>&lt;-</span> <span style=color:#66d9ef>int</span>) {
+    <span style=color:#a6e22e>only</span> <span style=color:#a6e22e>can</span> <span style=color:#a6e22e>write</span> <span style=color:#a6e22e>to</span> <span style=color:#66d9ef>chan</span>
+}
+</code></pre></div><ul>
+<li>数据读写
+协程读取管道时,阻塞的条件有:</li>
+<li>chan no-buffer</li>
+<li>chan buffer no data</li>
+<li>chan value == nil
+协程写入管道时,阻塞的条件有:</li>
+<li>chan no-buffer</li>
+<li>chan buffer is full</li>
+<li>chan value == nil</li>
+</ul>
+<h1 id=实现原理>实现原理<a href=#实现原理 class=hanchor arialabel=Anchor>&#8983;</a> </h1>
+<h2 id=数据结构>数据结构<a href=#数据结构 class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<blockquote>
+<p><a href=https://cs.opensource.google/go/go/+/refs/tags/go1.18.3:src/runtime/chan.go>https://cs.opensource.google/go/go/+/refs/tags/go1.18.3:src/runtime/chan.go</a></p>
+</blockquote>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>hchan</span> <span style=color:#66d9ef>struct</span> {
+	<span style=color:#a6e22e>qcount</span>   <span style=color:#66d9ef>uint</span>           <span style=color:#75715e>// total data in the queue
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>dataqsiz</span> <span style=color:#66d9ef>uint</span>           <span style=color:#75715e>// size of the circular queue
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>buf</span>      <span style=color:#a6e22e>unsafe</span>.<span style=color:#a6e22e>Pointer</span> <span style=color:#75715e>// points to an array of dataqsiz elements
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>elemsize</span> <span style=color:#66d9ef>uint16</span>
+	<span style=color:#a6e22e>closed</span>   <span style=color:#66d9ef>uint32</span>
+	<span style=color:#a6e22e>elemtype</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>_type</span> <span style=color:#75715e>// element type
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>sendx</span>    <span style=color:#66d9ef>uint</span>   <span style=color:#75715e>// send index
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>recvx</span>    <span style=color:#66d9ef>uint</span>   <span style=color:#75715e>// receive index
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>recvq</span>    <span style=color:#a6e22e>waitq</span>  <span style=color:#75715e>// list of recv waiters
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>sendq</span>    <span style=color:#a6e22e>waitq</span>  <span style=color:#75715e>// list of send waiters
+</span><span style=color:#75715e></span>
+	<span style=color:#75715e>// lock protects all fields in hchan, as well as several
+</span><span style=color:#75715e></span>	<span style=color:#75715e>// fields in sudogs blocked on this channel.
+</span><span style=color:#75715e></span>	<span style=color:#75715e>//
+</span><span style=color:#75715e></span>	<span style=color:#75715e>// Do not change another G&#39;s status while holding this lock
+</span><span style=color:#75715e></span>	<span style=color:#75715e>// (in particular, do not ready a G), as this can deadlock
+</span><span style=color:#75715e></span>	<span style=color:#75715e>// with stack shrinking.
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>lock</span> <span style=color:#a6e22e>mutex</span>
+}
+</code></pre></div><ol>
+<li>
+<p>环形队列
+chan内部实现了一个环形队列,队列长度在chan创建时指定
+sendx: 队尾, 写入位
+recvx: 队首, 读取位</p>
+</li>
+<li>
+<p>等待队列</p>
+</li>
+</ol>
+<ul>
+<li>goroutine从chan读 -> buf为空或没有buf -> 当前goroutine阻塞 -> 加入recvq</li>
+<li>goroutine向chan写 -> buf已满或没有buf -> 当前goroutine阻塞 -> 加入sendq
+处于等待队列中的协程会在其他协程操作管道时被唤醒:</li>
+<li>因读阻塞的协程会被向管道写入的协程唤醒</li>
+<li>因写阻塞的协程会被从管道读取的协程唤醒</li>
+</ul>
+<pre tabindex=0><code>Invariants:
+ At least one of c.sendq and c.recvq is empty,
+ except for the case of an unbuffered channel with a single goroutine
+ blocked on it for both sending and receiving using a select statement,
+ in which case the length of c.sendq and c.recvq is limited only by the
+ size of the select statement.
+
+For buffered channels, also:
+ c.qcount &gt; 0 implies that c.recvq is empty.
+ c.qcount &lt; c.dataqsiz implies that c.sendq is empty.
+</code></pre><ol start=3>
+<li>类型信息</li>
+</ol>
+<ul>
+<li>一个管道只能传递一种类型的值</li>
+<li>如果需要管道传递任意类型的数据,可以使用interface{}类型</li>
+</ul>
+<ol start=4>
+<li>互斥锁
+一个管道同时仅允许被一个协程读写</li>
+</ol>
+<h2 id=管道操作-1>管道操作<a href=#管道操作-1 class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<ol>
+<li>
+<p>创建管道
+创建管道 -> 初始化hchan结构</p>
+</li>
+<li>
+<p>写入管道
+trick:
+当接收队列recvq不为空时,说明缓冲区中没有数据但有协程在等待数据
+会把数据直接传递给recvq队列中的第一个协程,而不必再写入缓冲区</p>
+</li>
+<li>
+<p>读出管道
+trick:
+当等待发送队列sendq不为空,且没有缓冲区,
+那么此时将直接从sendq队列的第一个协程中获取数据</p>
+</li>
+<li>
+<p>关闭管道
+关闭管道时会把recvq中的协程全部唤醒, 协程会获取对应类型的零值
+同时会把sendq队列中的协程全部唤醒,协程会触发panic</p>
+</li>
+</ol>
+<p>会触发panic的操作还有:</p>
+<ul>
+<li>关闭值为nil的管道</li>
+<li>关闭已经被关闭的管道</li>
+<li>向已经关闭的管道写入数据</li>
+</ul>
+<h2 id=常见用法>常见用法<a href=#常见用法 class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<ul>
+<li>
+<p>单向管道</p>
+</li>
+<li>
+<p>select
+使用select可以监控多个管道
+select的case语句读管道时不会阻塞</p>
+</li>
+<li>
+<p>for-range
+for-range可以持续从管道中读出数据,当管道中没有数据时会阻塞当前协程</p>
+</li>
+</ul>
+</div></div>
+<div class=pagination>
+<div class=pagination__title>
+<span class=pagination__title-h>Read other posts</span>
+<hr>
+</div>
+<div class=pagination__buttons>
+<span class="button next">
+<a href=https://xujiajiadexiaokeai.github.io/2022-03-25/red-black-tree/>
+<span class=button__text>Red Black Tree</span>
+<span class=button__icon>→</span>
+</a>
+</span>
+</div>
+</div>
+</div>
+</div>
+<footer class=footer>
+<div class=footer__inner>
+<div class="copyright copyright--user">
+<span>© 2021-2022 xujiajiadexiaokeai</span>
+<span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span>
+</div>
+</div>
+</footer>
+<script src=https://xujiajiadexiaokeai.github.io/assets/main.js></script>
+<script src=https://xujiajiadexiaokeai.github.io/assets/prism.js></script>
+</div>
+</body>
+</html>
