@@ -81,8 +81,8 @@ paginate = 5
       [[languages.en.menu.main]]
         identifier = "archive"
         name = "Archive"
-        url = "/top/archive"
+        url = "/archive"
       [[languages.en.menu.main]]
         identifier = "about"
         name = "About"
-        url = "/top/about"
+        url = "/about"
