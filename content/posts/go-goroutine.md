@@ -1,5 +1,13 @@
 ---
-title: "goroutine"
+date: 2022-07-13T10:16:17+08:00
+draft: false
+url: "/2022-07-13/go-goroutine"
+layout: post
+description: "Go Memory"
+author: "Wenhao Jiang"
+tags:
+    - Go
+title: "Goroutine"
 ---
 
 # 基本概念

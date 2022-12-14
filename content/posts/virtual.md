@@ -1,10 +1,11 @@
 ---
 title: "Virtual"
-date: 2022-03-29T09:54:11+08:00
+date: 2021-03-29T09:54:11+08:00
 layout: post
 description: ""
 excerpt: ""
 author: "Wenhao Jiang"
+showFullContent: true
 draft: true
 tags:
 URL: ""

@@ -1,5 +1,13 @@
 ---
-title: "go-memory"
+date: 2022-07-13T08:15:17+08:00
+draft: false
+url: "/2022-07-13/go-memory"
+layout: post
+description: "Go Memory"
+author: "Wenhao Jiang"
+tags:
+    - Go
+title: "Go Memory"
 ---
 
 # 内存分配
