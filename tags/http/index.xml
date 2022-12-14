@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>HTTP on xujiajiadexiaokeai</title><link>https://xujiajiadexiaokeai.github.io/tags/http/</link><description>Recent content in HTTP on xujiajiadexiaokeai</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>© 2021-2022 xujiajiadexiaokeai</copyright><lastBuildDate>Thu, 20 Oct 2022 09:20:17 +0800</lastBuildDate><atom:link href="https://xujiajiadexiaokeai.github.io/tags/http/index.xml" rel="self" type="application/rss+xml"/><item><title>什么是mTLS</title><link>https://xujiajiadexiaokeai.github.io/2022-10-20/what-is-mtls/</link><pubDate>Thu, 20 Oct 2022 09:20:17 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2022-10-20/what-is-mtls/</guid><description>无密钥SSL 这可以防止或帮助阻止在没有身份验证时可能发生的多种攻击，例如： 在途攻击 DNS 劫持 BGP 劫持 域欺骗</description><content>&lt;ul>
+&lt;li>无密钥SSL&lt;/li>
+&lt;/ul>
+&lt;p>这可以防止或帮助阻止在没有身份验证时可能发生的多种攻击，例如：
+在途攻击
+DNS 劫持
+BGP 劫持
+域欺骗&lt;/p></content></item></channel></rss>

@@ -1,0 +1,153 @@
+<!doctype html><html lang=en>
+<head>
+<title>算法笔记 :: xujiajiadexiaokeai</title>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=description content="算法笔记">
+<meta name=keywords content>
+<meta name=robots content="noodp">
+<link rel=canonical href=https://xujiajiadexiaokeai.github.io/2022-08-01/algorithm-notes/>
+<link rel=stylesheet href=https://xujiajiadexiaokeai.github.io/assets/style.css>
+<link rel=apple-touch-icon href=https://xujiajiadexiaokeai.github.io/img/apple-touch-icon-192x192.png>
+<link rel="shortcut icon" href=https://xujiajiadexiaokeai.github.io/favicon.ico>
+<meta name=twitter:card content="summary">
+<meta property="og:locale" content="en">
+<meta property="og:type" content="article">
+<meta property="og:title" content="算法笔记">
+<meta property="og:description" content="算法笔记">
+<meta property="og:url" content="https://xujiajiadexiaokeai.github.io/2022-08-01/algorithm-notes/">
+<meta property="og:site_name" content="xujiajiadexiaokeai">
+<meta property="og:image" content="https://xujiajiadexiaokeai.github.io/favicon.ico">
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+<meta property="article:published_time" content="2022-08-01 08:14:47 +0800 +0800">
+</head>
+<body class=orange>
+<div class="container center headings--one-size">
+<header class=header>
+<div class=header__inner>
+<div class=header__logo>
+<a href=/>
+<div class=logo>
+RTSC && RTFM
+</div>
+</a>
+</div>
+<div class=menu-trigger>menu</div>
+</div>
+<nav class=menu>
+<ul class="menu__inner menu__inner--desktop">
+<li><a href=/top/about>About</a></li>
+<li><a href=/top/archive>Archive</a></li>
+</ul>
+<ul class="menu__inner menu__inner--mobile">
+<li><a href=/top/about>About</a></li>
+<li><a href=/top/archive>Archive</a></li>
+</ul>
+</nav>
+</header>
+<div class=content>
+<div class=post>
+<h1 class=post-title>
+<a href=https://xujiajiadexiaokeai.github.io/2022-08-01/algorithm-notes/>算法笔记</a></h1>
+<div class=post-meta>
+<span class=post-date>
+2022-08-01
+</span>
+<span class=post-author>:: Wenhao Jiang</span>
+<span class=post-reading-time>:: 1 min read (59 words)</span>
+</div>
+<span class=post-tags>
+#<a href=https://xujiajiadexiaokeai.github.io/tags/algorithm/>Algorithm</a>&nbsp;
+</span>
+<div class=table-of-contents>
+<h2>
+Table of Contents
+</h2>
+<nav id=TableOfContents>
+<ul>
+<li><a href=#思路>思路</a>
+<ul>
+<li><a href=#一维>一维</a></li>
+<li><a href=#二维多维>二维/多维</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><a href=#排列数>排列数</a></li>
+<li><a href=#组合数>组合数</a></li>
+</ul>
+</nav>
+</div>
+<div class=post-content><div>
+<h1 id=前缀和>前缀和<a href=#前缀和 class=hanchor arialabel=Anchor>&#8983;</a> </h1>
+<blockquote>
+<p><a href=https://oi-wiki.org/basic/prefix-sum>https://oi-wiki.org/basic/prefix-sum</a></p>
+</blockquote>
+<ul>
+<li>数据预处理</li>
+<li>降低时间复杂度</li>
+<li>数列前n项的和</li>
+</ul>
+<h2 id=思路>思路<a href=#思路 class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<h3 id=一维>一维<a href=#一维 class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<pre tabindex=0><code>recurrence:
+
+B[0] = A[0],对于i&gt;=1,则B[i] = B[i-1] + A[i]
+</code></pre><h3 id=二维多维>二维/多维<a href=#二维多维 class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<ul>
+<li>容斥原理</li>
+</ul>
+<blockquote>
+<p><a href=https://zh.m.wikipedia.org/zh-hans/%E6%8E%92%E5%AE%B9%E5%8E%9F%E7%90%86>https://zh.m.wikipedia.org/zh-hans/%E6%8E%92%E5%AE%B9%E5%8E%9F%E7%90%86</a></p>
+</blockquote>
+<p>$$\left|\bigcap_{i=1}^{n}S_i\right|=\sum_{m=1}^n(-1)^{m-1}\sum_{a_i&lt;a_{i+1}}\left|\bigcap_{i=1}^mS_{a_i}\right|$$</p>
+<p>不定方程非负整数解计数</p>
+<h1 id=排列组合>排列组合<a href=#排列组合 class=hanchor arialabel=Anchor>&#8983;</a> </h1>
+<blockquote>
+<p><a href=https://oi-wiki.org/math/combinatorics/combination/>https://oi-wiki.org/math/combinatorics/combination/</a></p>
+</blockquote>
+<h2 id=排列数>排列数<a href=#排列数 class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>$$\mathrm A_n^m = n(n-1)(n-2) \cdots (n-m+1) = \frac{n!}{(n-m)!}$$</p>
+<h2 id=组合数>组合数<a href=#组合数 class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>$$ \mathrm C_n^m = \frac{\mathrm A_n^m}{m!} = \frac{n!}{m!(n-m)!}$$</p>
+<p>组合数也被称为「二项式系数」,$\displaystyle \binom{n}{m}$ 读作「n选m」</p>
+<p>$$\displaystyle \mathrm C_n^m = \binom{n}{m}$$</p>
+<p>特别地,规定当m > n时, $\mathrm A_n^m = \mathrm C_n^m = 0$</p>
+<h1 id=单调栈>单调栈<a href=#单调栈 class=hanchor arialabel=Anchor>&#8983;</a> </h1>
+</div></div>
+<div class=pagination>
+<div class=pagination__title>
+<span class=pagination__title-h>Read other posts</span>
+<hr>
+</div>
+<div class=pagination__buttons>
+<span class="button previous">
+<a href=https://xujiajiadexiaokeai.github.io/2022-08-20/consistent-hashing/>
+<span class=button__icon>←</span>
+<span class=button__text>一致性哈希</span>
+</a>
+</span>
+<span class="button next">
+<a href=https://xujiajiadexiaokeai.github.io/2022-07-13/go-goroutine/>
+<span class=button__text>Goroutine</span>
+<span class=button__icon>→</span>
+</a>
+</span>
+</div>
+</div>
+</div>
+</div>
+<footer class=footer>
+<div class=footer__inner>
+<div class="copyright copyright--user">
+<span>© 2021-2022 xujiajiadexiaokeai</span>
+<span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span>
+</div>
+</div>
+</footer>
+<script src=https://xujiajiadexiaokeai.github.io/assets/main.js></script>
+<script src=https://xujiajiadexiaokeai.github.io/assets/prism.js></script>
+</div>
+</body>
+</html>

@@ -1,33 +1,26 @@
 <!doctype html><html lang=en>
 <head>
-<title>go-memory :: xujiajiadexiaokeai</title>
+<title>Go Memory :: xujiajiadexiaokeai</title>
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=description content="内存分配 内存分配过程 针对待分配对象大小的不同有不同的分配逻辑:
- (0, 16B)且不包含指针的对象: Tiny分配 (0, 16B)且包含指针的对象: 正常分配 [16B, 32KB] : 正常分配 (32KB, ∞): 大对象分配  以申请size为n的内存为例,分配步骤如下:
- 获取当前线程的私有缓存mcache 根据size计算出适合的class的ID 从mcache的alloc[class]链表中查询可用的span 如果macache没有可用的span, 则从mcentral申请一个新的span加入mcache 如果mcentral中也没有可用的span, 则从mheap中申请一个新的span加入mcentral 从该span中获取空闲对象地址并返回  小结  Go程序启动时申请一大块内存, 并划分成span、bitmap、arena区域 arena区域按页划分成一个个小块 span管理一个或多个页 mcentral管理多个span供线程申请使用 mcache作为线程私有资源, 资源来源于mcentral  垃圾回收 常见垃圾回收算法   引用计数 对每个对象维护一个引用计数, 当引用改对象的对象被销毁时,引用计数减1, 当引用计数器为0时回收改对象 优点: 对象可以很快被回收,不会出现内存耗尽或达到某个阈值时才回收 缺点: 不能很好地处理循环引用, 而且实时维护引用计数也有一定代价
-  标记-清除 从根变量开始遍历所有引用对象, 引用的对象标记为“被引用”, 没有标记的对象被回收 优点: 解决了引用计数的缺点 缺点: 需要”Stop The World“
-  分代收集 按照对象生命周期的长短划分不同的代空间, 生命周期长的放入老生代, 短的放入新生代, 不同代有不同的回收算法和回收频率 优点: 回收性能好 缺点: 算法复杂">
+<meta name=description content="Go Memory">
 <meta name=keywords content>
 <meta name=robots content="noodp">
-<link rel=canonical href=https://xujiajiadexiaokeai.github.io/posts/go-memory/>
+<link rel=canonical href=https://xujiajiadexiaokeai.github.io/2022-07-13/go-memory/>
 <link rel=stylesheet href=https://xujiajiadexiaokeai.github.io/assets/style.css>
 <link rel=apple-touch-icon href=https://xujiajiadexiaokeai.github.io/img/apple-touch-icon-192x192.png>
 <link rel="shortcut icon" href=https://xujiajiadexiaokeai.github.io/favicon.ico>
 <meta name=twitter:card content="summary">
 <meta property="og:locale" content="en">
 <meta property="og:type" content="article">
-<meta property="og:title" content="go-memory">
-<meta property="og:description" content="内存分配 内存分配过程 针对待分配对象大小的不同有不同的分配逻辑:
- (0, 16B)且不包含指针的对象: Tiny分配 (0, 16B)且包含指针的对象: 正常分配 [16B, 32KB] : 正常分配 (32KB, ∞): 大对象分配  以申请size为n的内存为例,分配步骤如下:
- 获取当前线程的私有缓存mcache 根据size计算出适合的class的ID 从mcache的alloc[class]链表中查询可用的span 如果macache没有可用的span, 则从mcentral申请一个新的span加入mcache 如果mcentral中也没有可用的span, 则从mheap中申请一个新的span加入mcentral 从该span中获取空闲对象地址并返回  小结  Go程序启动时申请一大块内存, 并划分成span、bitmap、arena区域 arena区域按页划分成一个个小块 span管理一个或多个页 mcentral管理多个span供线程申请使用 mcache作为线程私有资源, 资源来源于mcentral  垃圾回收 常见垃圾回收算法   引用计数 对每个对象维护一个引用计数, 当引用改对象的对象被销毁时,引用计数减1, 当引用计数器为0时回收改对象 优点: 对象可以很快被回收,不会出现内存耗尽或达到某个阈值时才回收 缺点: 不能很好地处理循环引用, 而且实时维护引用计数也有一定代价
-  标记-清除 从根变量开始遍历所有引用对象, 引用的对象标记为“被引用”, 没有标记的对象被回收 优点: 解决了引用计数的缺点 缺点: 需要”Stop The World“
-  分代收集 按照对象生命周期的长短划分不同的代空间, 生命周期长的放入老生代, 短的放入新生代, 不同代有不同的回收算法和回收频率 优点: 回收性能好 缺点: 算法复杂">
-<meta property="og:url" content="https://xujiajiadexiaokeai.github.io/posts/go-memory/">
+<meta property="og:title" content="Go Memory">
+<meta property="og:description" content="Go Memory">
+<meta property="og:url" content="https://xujiajiadexiaokeai.github.io/2022-07-13/go-memory/">
 <meta property="og:site_name" content="xujiajiadexiaokeai">
 <meta property="og:image" content="https://xujiajiadexiaokeai.github.io/favicon.ico">
 <meta property="og:image:width" content="2048">
 <meta property="og:image:height" content="1024">
+<meta property="article:published_time" content="2022-07-13 08:15:17 +0800 +0800">
 </head>
 <body class=orange>
 <div class="container center headings--one-size">
@@ -56,10 +49,17 @@ RTSC && RTFM
 <div class=content>
 <div class=post>
 <h1 class=post-title>
-<a href=https://xujiajiadexiaokeai.github.io/posts/go-memory/>go-memory</a></h1>
+<a href=https://xujiajiadexiaokeai.github.io/2022-07-13/go-memory/>Go Memory</a></h1>
 <div class=post-meta>
+<span class=post-date>
+2022-07-13
+</span>
+<span class=post-author>:: Wenhao Jiang</span>
 <span class=post-reading-time>:: 1 min read (148 words)</span>
 </div>
+<span class=post-tags>
+#<a href=https://xujiajiadexiaokeai.github.io/tags/go/>Go</a>&nbsp;
+</span>
 <div class=table-of-contents>
 <h2>
 Table of Contents
@@ -217,14 +217,14 @@ Go返回了局部变量的指针</li>
 </div>
 <div class=pagination__buttons>
 <span class="button previous">
-<a href=https://xujiajiadexiaokeai.github.io/posts/my-first-post/>
+<a href=https://xujiajiadexiaokeai.github.io/2022-07-13/go-goroutine/>
 <span class=button__icon>←</span>
-<span class=button__text>My First Post</span>
+<span class=button__text>Goroutine</span>
 </a>
 </span>
 <span class="button next">
-<a href=https://xujiajiadexiaokeai.github.io/posts/go-goroutine/>
-<span class=button__text>goroutine</span>
+<a href=https://xujiajiadexiaokeai.github.io/2022-07-12/go-channel/>
+<span class=button__text>Go Channel</span>
 <span class=button__icon>→</span>
 </a>
 </span>

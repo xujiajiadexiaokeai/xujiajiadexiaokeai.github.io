@@ -1,0 +1,207 @@
+<!doctype html><html lang=en>
+<head>
+<title>令牌桶 :: xujiajiadexiaokeai</title>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=description content="token-bucket">
+<meta name=keywords content>
+<meta name=robots content="noodp">
+<link rel=canonical href=https://xujiajiadexiaokeai.github.io/2022-08-20/token-bucket/>
+<link rel=stylesheet href=https://xujiajiadexiaokeai.github.io/assets/style.css>
+<link rel=apple-touch-icon href=https://xujiajiadexiaokeai.github.io/img/apple-touch-icon-192x192.png>
+<link rel="shortcut icon" href=https://xujiajiadexiaokeai.github.io/favicon.ico>
+<meta name=twitter:card content="summary">
+<meta property="og:locale" content="en">
+<meta property="og:type" content="article">
+<meta property="og:title" content="令牌桶">
+<meta property="og:description" content="token-bucket">
+<meta property="og:url" content="https://xujiajiadexiaokeai.github.io/2022-08-20/token-bucket/">
+<meta property="og:site_name" content="xujiajiadexiaokeai">
+<meta property="og:image" content="https://xujiajiadexiaokeai.github.io/favicon.ico">
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+<meta property="article:published_time" content="2022-08-20 15:30:17 +0800 +0800">
+</head>
+<body class=orange>
+<div class="container center headings--one-size">
+<header class=header>
+<div class=header__inner>
+<div class=header__logo>
+<a href=/>
+<div class=logo>
+RTSC && RTFM
+</div>
+</a>
+</div>
+<div class=menu-trigger>menu</div>
+</div>
+<nav class=menu>
+<ul class="menu__inner menu__inner--desktop">
+<li><a href=/top/about>About</a></li>
+<li><a href=/top/archive>Archive</a></li>
+</ul>
+<ul class="menu__inner menu__inner--mobile">
+<li><a href=/top/about>About</a></li>
+<li><a href=/top/archive>Archive</a></li>
+</ul>
+</nav>
+</header>
+<div class=content>
+<div class=post>
+<h1 class=post-title>
+<a href=https://xujiajiadexiaokeai.github.io/2022-08-20/token-bucket/>令牌桶</a></h1>
+<div class=post-meta>
+<span class=post-date>
+2022-08-20
+</span>
+<span class=post-author>:: Wenhao Jiang</span>
+<span class=post-reading-time>:: 1 min read (205 words)</span>
+</div>
+<span class=post-tags>
+#<a href=https://xujiajiadexiaokeai.github.io/tags/algorithm/>Algorithm</a>&nbsp;
+</span>
+<div class=table-of-contents>
+<h2>
+Table of Contents
+</h2>
+<nav id=TableOfContents>
+<ul>
+<li><a href=#timerate实现原理>time/rate实现原理</a></li>
+<li><a href=#token的生成和消耗>Token的生成和消耗</a></li>
+<li><a href=#如何应对突发流量>如何应对突发流量</a></li>
+<li><a href=#数值溢出问题>数值溢出问题</a></li>
+</ul>
+</nav>
+</div>
+<div class=post-content><div>
+<blockquote>
+<p><a href=https://zhuanlan.zhihu.com/p/442218413>https://zhuanlan.zhihu.com/p/442218413</a></p>
+</blockquote>
+<h1 id=基本思想>基本思想<a href=#基本思想 class=hanchor arialabel=Anchor>&#8983;</a> </h1>
+<p>令牌桶, 通过让请求被处理前先行获取令牌, 只有获取到令牌的请求才能被放行处理</p>
+<ul>
+<li>按固定速率来产生令牌存入桶中, 如果令牌数量超过桶的最大容量则直接丢掉</li>
+<li>当有请求时先从桶中获取令牌,获取到令牌后才能进行处理, 否则被直接丢弃或者等待获取令牌</li>
+</ul>
+<h1 id=令牌桶与漏桶的区别>令牌桶与漏桶的区别<a href=#令牌桶与漏桶的区别 class=hanchor arialabel=Anchor>&#8983;</a> </h1>
+<p>令牌桶与漏桶的区别在于漏桶控制的是请求被处理的速率。即当有请求的时候，先进入桶中进行排队，按固定的速率流出被处理；而令牌桶控制的是令牌产生的速率。即当有请求的时候，先从令牌桶中获取令牌，只要能获取到令牌就能立即通过被处理，不限制请求被处理的速度，所以也就可以应对一定程度的突发流量</p>
+<h1 id=实现>实现<a href=#实现 class=hanchor arialabel=Anchor>&#8983;</a> </h1>
+<p><a href=https://pkg.go.dev/golang.org/x/time/rate>time/rate</a>包就是基于令牌桶实现的</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>main</span>() {
+    <span style=color:#75715e>// 构造限流器
+</span><span style=color:#75715e></span>    <span style=color:#a6e22e>limiter</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>NewLimiter</span>(<span style=color:#ae81ff>10</span>, <span style=color:#ae81ff>5</span>)
+
+    <span style=color:#66d9ef>for</span> <span style=color:#a6e22e>i</span> <span style=color:#f92672>:=</span> <span style=color:#ae81ff>0</span>; <span style=color:#a6e22e>i</span> &lt; <span style=color:#ae81ff>10</span>; <span style=color:#a6e22e>i</span><span style=color:#f92672>++</span> {
+        <span style=color:#a6e22e>time</span>.<span style=color:#a6e22e>Sleep</span>(<span style=color:#a6e22e>time</span>.<span style=color:#a6e22e>Millisecond</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>20</span>)
+        <span style=color:#66d9ef>if</span> !<span style=color:#a6e22e>limiter</span>.<span style=color:#a6e22e>Allow</span>() {
+            <span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Printf</span>(<span style=color:#e6db74>&#34;%d passed\n&#34;</span>, <span style=color:#a6e22e>i</span>)
+            <span style=color:#66d9ef>continue</span>
+        }
+
+        <span style=color:#75715e>// 说明请求通过Allow获取到了令牌, 继续处理
+</span><span style=color:#75715e></span>        <span style=color:#75715e>// todo
+</span><span style=color:#75715e></span>
+    }
+}
+</code></pre></div><h2 id=timerate实现原理>time/rate实现原理<a href=#timerate实现原理 class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<ul>
+<li>lazyload</li>
+<li>直到有请求消费时才根据时间查更新Token数目</li>
+<li>通过计数原理计算当前桶中已有的Token数量</li>
+</ul>
+<h2 id=token的生成和消耗>Token的生成和消耗<a href=#token的生成和消耗 class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<ul>
+<li>以<strong>固定速率</strong>产生Token</li>
+</ul>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>NewLimiter</span>(<span style=color:#a6e22e>r</span> <span style=color:#a6e22e>Limit</span>, <span style=color:#a6e22e>b</span> <span style=color:#66d9ef>int</span>) <span style=color:#f92672>*</span><span style=color:#a6e22e>Limiter</span> {
+    <span style=color:#66d9ef>return</span> <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>Limiter</span>{
+        <span style=color:#a6e22e>limit</span>: <span style=color:#a6e22e>r</span>, <span style=color:#75715e>// 每秒钟可以生成Token的数量
+</span><span style=color:#75715e></span>        <span style=color:#a6e22e>burst</span>: <span style=color:#a6e22e>b</span>,
+    }
+}  
+</code></pre></div><ul>
+<li>lazyload
+当有请求到来时，去桶中获取令牌的同时先计算一下从上次生成令牌到现在的这段时间应该添加多少个令牌，把增量的令牌数先加到总的令牌数据上即可，后面被取走的令牌再从总数中减去即可</li>
+</ul>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Limiter</span> <span style=color:#66d9ef>struct</span> {
+    <span style=color:#a6e22e>limit</span> <span style=color:#a6e22e>Limit</span>    <span style=color:#75715e>// QPS 一秒钟多少个token
+</span><span style=color:#75715e></span>    <span style=color:#a6e22e>burst</span> <span style=color:#66d9ef>int</span>      <span style=color:#75715e>// 桶的容量
+</span><span style=color:#75715e></span>    <span style=color:#a6e22e>tokens</span> <span style=color:#66d9ef>float64</span> <span style=color:#75715e>// 当前的token数量
+</span><span style=color:#75715e></span>    <span style=color:#a6e22e>last</span> <span style=color:#a6e22e>time</span>.<span style=color:#a6e22e>Time</span> <span style=color:#75715e>// last代表最近一次更新token的时间
+</span><span style=color:#75715e></span>}
+</code></pre></div><p>所以在请求到来时:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#a6e22e>tokens</span> <span style=color:#f92672>+=</span> (<span style=color:#a6e22e>当前时间t</span> <span style=color:#f92672>-</span> <span style=color:#a6e22e>最近一次更新tokens的时间last</span>) <span style=color:#f92672>/</span> <span style=color:#a6e22e>时间间隔</span>
+</code></pre></div><h2 id=如何应对突发流量>如何应对突发流量<a href=#如何应对突发流量 class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<ul>
+<li>令牌桶缓存令牌</li>
+<li>令牌桶最大容量约束</li>
+</ul>
+<h2 id=数值溢出问题>数值溢出问题<a href=#数值溢出问题 class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go>    <span style=color:#75715e>// elapsed表示最后一次更新tokens数量的时间到现在的时间差
+</span><span style=color:#75715e></span>    <span style=color:#a6e22e>elapsed</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>now</span>.<span style=color:#a6e22e>Sub</span>(<span style=color:#a6e22e>last</span>)
+    <span style=color:#75715e>// delta 具有数值溢出风险， 表示elapsed这段时间应该产生的令牌数量
+</span><span style=color:#75715e></span>    <span style=color:#a6e22e>delta</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>elapsed</span>.<span style=color:#a6e22e>Seconds</span>() <span style=color:#f92672>*</span> float64(<span style=color:#a6e22e>limit</span>)
+
+    <span style=color:#75715e>//tokens 表示当前总的令牌数量
+</span><span style=color:#75715e></span>    <span style=color:#a6e22e>tokens</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>lim</span>.<span style=color:#a6e22e>tokens</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>delta</span>
+    <span style=color:#66d9ef>if</span> <span style=color:#a6e22e>burst</span> <span style=color:#f92672>:=</span> float64(<span style=color:#a6e22e>lim</span>.<span style=color:#a6e22e>burst</span>); <span style=color:#a6e22e>tokens</span> &gt; <span style=color:#a6e22e>burst</span> {
+        <span style=color:#a6e22e>tokens</span> = <span style=color:#a6e22e>burst</span>
+    }
+</code></pre></div><p>所以为了防止delta溢出,应该对elapsed有最大值的约束, maxElapsed是可以计算得到的</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go>    <span style=color:#a6e22e>maxElapsed</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>lim</span>.<span style=color:#a6e22e>limit</span>.<span style=color:#a6e22e>durationFromTokens</span>(float64(<span style=color:#a6e22e>lim</span>.<span style=color:#a6e22e>burst</span>) <span style=color:#f92672>-</span> <span style=color:#a6e22e>lim</span>.<span style=color:#a6e22e>tokens</span>)
+    <span style=color:#a6e22e>elapsed</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>now</span>.<span style=color:#a6e22e>Sub</span>(<span style=color:#a6e22e>last</span>)
+    <span style=color:#66d9ef>if</span> <span style=color:#a6e22e>elapsed</span> &gt; <span style=color:#a6e22e>maxElapsed</span> {
+        <span style=color:#a6e22e>elapsed</span> = <span style=color:#a6e22e>maxElapsed</span>
+    }
+
+    <span style=color:#a6e22e>delta</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>lim</span>.<span style=color:#a6e22e>limit</span>.<span style=color:#a6e22e>tokensFromDuration</span>(<span style=color:#a6e22e>elapsed</span>)
+
+    <span style=color:#a6e22e>tokens</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>lim</span>.<span style=color:#a6e22e>tokens</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>delta</span>
+    <span style=color:#66d9ef>if</span> <span style=color:#a6e22e>burst</span> <span style=color:#f92672>:=</span> float64(<span style=color:#a6e22e>lim</span>.<span style=color:#a6e22e>burst</span>); <span style=color:#a6e22e>tokens</span> &gt; <span style=color:#a6e22e>burst</span> {
+        <span style=color:#a6e22e>tokens</span> = <span style=color:#a6e22e>burst</span>
+    }
+
+    <span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>limit</span> <span style=color:#a6e22e>Limit</span>) <span style=color:#a6e22e>tokensFromDuration</span>(<span style=color:#a6e22e>d</span> <span style=color:#a6e22e>time</span>.<span style=color:#a6e22e>Duration</span>) <span style=color:#66d9ef>float64</span> {
+        <span style=color:#a6e22e>sec</span> <span style=color:#f92672>:=</span> float64(<span style=color:#a6e22e>d</span><span style=color:#f92672>/</span><span style=color:#a6e22e>time</span>.<span style=color:#a6e22e>Second</span>) <span style=color:#f92672>*</span> float64(<span style=color:#a6e22e>limit</span>)
+        <span style=color:#a6e22e>nsec</span> <span style=color:#f92672>:=</span> float64(<span style=color:#a6e22e>d</span><span style=color:#f92672>%</span><span style=color:#a6e22e>time</span>.<span style=color:#a6e22e>Second</span>) <span style=color:#f92672>*</span> float64(<span style=color:#a6e22e>limit</span>)
+        <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>sec</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>nsec</span><span style=color:#f92672>/</span><span style=color:#ae81ff>1e9</span>
+    }
+}
+</code></pre></div><h1 id=总结>总结<a href=#总结 class=hanchor arialabel=Anchor>&#8983;</a> </h1>
+<p>TokenBucket是以固定的速率生成令牌，让获得令牌的请求才能通过被处理。令牌桶的限流方式可以应对一定的突发流量。在实现TokenBucket时需要注意在计算令牌总数时的数值溢出问题以及精度问题。</p>
+</div></div>
+<div class=pagination>
+<div class=pagination__title>
+<span class=pagination__title-h>Read other posts</span>
+<hr>
+</div>
+<div class=pagination__buttons>
+<span class="button previous">
+<a href=https://xujiajiadexiaokeai.github.io/2022-08-20/leaky-bucket/>
+<span class=button__icon>←</span>
+<span class=button__text>漏桶算法</span>
+</a>
+</span>
+<span class="button next">
+<a href=https://xujiajiadexiaokeai.github.io/2022-08-20/current-limiting-algorithm/>
+<span class=button__text>限流算法</span>
+<span class=button__icon>→</span>
+</a>
+</span>
+</div>
+</div>
+</div>
+</div>
+<footer class=footer>
+<div class=footer__inner>
+<div class="copyright copyright--user">
+<span>© 2021-2022 xujiajiadexiaokeai</span>
+<span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span>
+</div>
+</div>
+</footer>
+<script src=https://xujiajiadexiaokeai.github.io/assets/main.js></script>
+<script src=https://xujiajiadexiaokeai.github.io/assets/prism.js></script>
+</div>
+</body>
+</html>

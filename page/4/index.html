@@ -1,0 +1,131 @@
+<!doctype html><html lang=en>
+<head>
+<meta name=generator content="Hugo 0.89.2">
+<title>xujiajiadexiaokeai</title>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=description content="RTSC && RTFM">
+<meta name=keywords content>
+<meta name=robots content="noodp">
+<link rel=canonical href=https://xujiajiadexiaokeai.github.io/>
+<link rel=stylesheet href=https://xujiajiadexiaokeai.github.io/assets/style.css>
+<link rel=apple-touch-icon href=https://xujiajiadexiaokeai.github.io/img/apple-touch-icon-192x192.png>
+<link rel="shortcut icon" href=https://xujiajiadexiaokeai.github.io/favicon.ico>
+<meta name=twitter:card content="summary">
+<meta property="og:locale" content="en">
+<meta property="og:type" content="website">
+<meta property="og:title" content="xujiajiadexiaokeai">
+<meta property="og:description" content="RTSC && RTFM">
+<meta property="og:url" content="https://xujiajiadexiaokeai.github.io/">
+<meta property="og:site_name" content="xujiajiadexiaokeai">
+<meta property="og:image" content="https://xujiajiadexiaokeai.github.io/favicon.ico">
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+<link href=/index.xml rel=alternate type=application/rss+xml title=xujiajiadexiaokeai>
+</head>
+<body class=orange>
+<div class="container center headings--one-size">
+<header class=header>
+<div class=header__inner>
+<div class=header__logo>
+<a href=/>
+<div class=logo>
+RTSC && RTFM
+</div>
+</a>
+</div>
+<div class=menu-trigger>menu</div>
+</div>
+<nav class=menu>
+<ul class="menu__inner menu__inner--desktop">
+<li><a href=/top/about>About</a></li>
+<li><a href=/top/archive>Archive</a></li>
+</ul>
+<ul class="menu__inner menu__inner--mobile">
+<li><a href=/top/about>About</a></li>
+<li><a href=/top/archive>Archive</a></li>
+</ul>
+</nav>
+</header>
+<div class=content>
+<div class="index-content framed">
+<p>Hi there!</p>
+<p>I&rsquo;m Wenhao Jiang.</p>
+<ul>
+<li>🌱 I’m currently learning Go, OS, Distributed System and eBPF.</li>
+<li>🔭 I’m currently working on Cloud Native.</li>
+<li>📆 I worked in Teambition with Javascript and Node.js.</li>
+</ul>
+</div>
+<div class=posts>
+<div class="post on-list">
+<h1 class=post-title>
+<a href=https://xujiajiadexiaokeai.github.io/posts/my-first-post/>
+My First Post
+</a>
+</h1>
+<div class=post-meta>
+<span class=post-date>
+2022-02-12
+</span>
+<span class=post-author>:: Wenhao Jiang</span>
+</div>
+<span class=post-tags>
+#<a href=https://xujiajiadexiaokeai.github.io/tags/test/>Test</a>&nbsp;
+</span>
+<div class=post-content>
+111
+</div>
+<div>
+<a class="read-more button" href=/posts/my-first-post/>Read more →</a>
+</div>
+</div>
+<div class="post on-list">
+<h1 class=post-title>
+<a href=https://xujiajiadexiaokeai.github.io/posts/go-select/>
+为什么select仅能作用于管道?
+</a>
+</h1>
+<div class=post-meta>
+<span class=post-date>
+0001-01-01
+</span>
+</div>
+<div class=post-content>
+select的特性 case的执行 具体执行那个case,取决于函数传入的管道
+管道没有缓冲区 有缓冲区并且还可以塞数据 有缓冲区但缓冲区已满 有缓冲区且已有部分数据 返回值 可以在case中声明变量并赋值
+default default不能处理管道读写 当所有case被阻塞,执行default default是特殊的case
+使用案例 永久阻塞 使用select阻塞main函数
+func main() { server := webhooktesting.NewTestServer(nil) server.StartTLS() fmt.Println("serving on", server.URL) select {} // 没有case和default ,main()永久阻塞 } 快速检错 当使用管道来传输error时, 可以使用select快速检查管道中是否有error
+errCh := make(chan error, active) jm.deleteJobPods(&job, activePods, errCh) // 传入chan用于记录error select { case manageJobErr = &lt;-errCh: if manageJobErr != nil { break } default: // 没有error, 结束 } 限时等待 当使用管道管理函数上下文时, 可以使用select创建具有时效性的管道
+func waitForStopOrTimeout(stopCh &lt;-chan struct{}, timeout time.
+</div>
+<div>
+<a class="read-more button" href=/posts/go-select/>Read more →</a>
+</div>
+</div>
+<div class=pagination>
+<div class=pagination__buttons>
+<span class="button previous">
+<a href=/page/3/>
+<span class=button__icon>←</span>
+<span class=button__text>Newer posts</span>
+</a>
+</span>
+</div>
+</div>
+</div>
+</div>
+<footer class=footer>
+<div class=footer__inner>
+<div class="copyright copyright--user">
+<span>© 2021-2022 xujiajiadexiaokeai</span>
+<span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span>
+</div>
+</div>
+</footer>
+<script src=https://xujiajiadexiaokeai.github.io/assets/main.js></script>
+<script src=https://xujiajiadexiaokeai.github.io/assets/prism.js></script>
+</div>
+</body>
+</html>

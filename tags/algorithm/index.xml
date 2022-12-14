@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Algorithm on xujiajiadexiaokeai</title><link>https://xujiajiadexiaokeai.github.io/tags/algorithm/</link><description>Recent content in Algorithm on xujiajiadexiaokeai</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>© 2021-2022 xujiajiadexiaokeai</copyright><lastBuildDate>Sat, 20 Aug 2022 15:32:17 +0800</lastBuildDate><atom:link href="https://xujiajiadexiaokeai.github.io/tags/algorithm/index.xml" rel="self" type="application/rss+xml"/><item><title>漏桶算法</title><link>https://xujiajiadexiaokeai.github.io/2022-08-20/leaky-bucket/</link><pubDate>Sat, 20 Aug 2022 15:32:17 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2022-08-20/leaky-bucket/</guid><description>请求如何排队 delta = 当前时间t - last last = 当前时间t + (rate - delta)
+type LeakyBucket struct { rate int64 // 处理请求的速率 capacity int64 // 桶的最大容量 last time.Time // 桶中最后一个排队请求被处理的时间 mu sync.Mutex } func (t *LeakyBucket) Limit(ctx context.Context) (time.Duration, error) { t.mu.Lock() defer t.mu.Unlock() now := time.Now().UnixNano() if now &amp;lt; t.last { // 说明已经有请求在排队了,那么新请求进来排队后被处理的时间就是rate后 t.last += t.rate } else { // 桶为空 var offset int64 // 代表等待处理该请求的时间需要等待多久 delta := now - state.</description><content>&lt;h1 id="请求如何排队">请求如何排队&lt;/h1>
+&lt;p>delta = 当前时间t - last
+last = 当前时间t + (rate - delta)&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">LeakyBucket&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span> {
+&lt;span style="color:#a6e22e">rate&lt;/span> &lt;span style="color:#66d9ef">int64&lt;/span> &lt;span style="color:#75715e">// 处理请求的速率
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">capacity&lt;/span> &lt;span style="color:#66d9ef">int64&lt;/span> &lt;span style="color:#75715e">// 桶的最大容量
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">last&lt;/span> &lt;span style="color:#a6e22e">time&lt;/span>.&lt;span style="color:#a6e22e">Time&lt;/span> &lt;span style="color:#75715e">// 桶中最后一个排队请求被处理的时间
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">mu&lt;/span> &lt;span style="color:#a6e22e">sync&lt;/span>.&lt;span style="color:#a6e22e">Mutex&lt;/span>
+}
+&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">t&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">LeakyBucket&lt;/span>) &lt;span style="color:#a6e22e">Limit&lt;/span>(&lt;span style="color:#a6e22e">ctx&lt;/span> &lt;span style="color:#a6e22e">context&lt;/span>.&lt;span style="color:#a6e22e">Context&lt;/span>) (&lt;span style="color:#a6e22e">time&lt;/span>.&lt;span style="color:#a6e22e">Duration&lt;/span>, &lt;span style="color:#66d9ef">error&lt;/span>) {
+&lt;span style="color:#a6e22e">t&lt;/span>.&lt;span style="color:#a6e22e">mu&lt;/span>.&lt;span style="color:#a6e22e">Lock&lt;/span>()
+&lt;span style="color:#66d9ef">defer&lt;/span> &lt;span style="color:#a6e22e">t&lt;/span>.&lt;span style="color:#a6e22e">mu&lt;/span>.&lt;span style="color:#a6e22e">Unlock&lt;/span>()
+&lt;span style="color:#a6e22e">now&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">time&lt;/span>.&lt;span style="color:#a6e22e">Now&lt;/span>().&lt;span style="color:#a6e22e">UnixNano&lt;/span>()
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">now&lt;/span> &amp;lt; &lt;span style="color:#a6e22e">t&lt;/span>.&lt;span style="color:#a6e22e">last&lt;/span> {
+&lt;span style="color:#75715e">// 说明已经有请求在排队了,那么新请求进来排队后被处理的时间就是rate后
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">t&lt;/span>.&lt;span style="color:#a6e22e">last&lt;/span> &lt;span style="color:#f92672">+=&lt;/span> &lt;span style="color:#a6e22e">t&lt;/span>.&lt;span style="color:#a6e22e">rate&lt;/span>
+} &lt;span style="color:#66d9ef">else&lt;/span> {
+&lt;span style="color:#75715e">// 桶为空
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">var&lt;/span> &lt;span style="color:#a6e22e">offset&lt;/span> &lt;span style="color:#66d9ef">int64&lt;/span> &lt;span style="color:#75715e">// 代表等待处理该请求的时间需要等待多久
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">delta&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">now&lt;/span> &lt;span style="color:#f92672">-&lt;/span> &lt;span style="color:#a6e22e">state&lt;/span>.&lt;span style="color:#a6e22e">Last&lt;/span> &lt;span style="color:#75715e">// 代表当前时间距离上次处理请求的时间过了多久
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">delta&lt;/span> &amp;lt; &lt;span style="color:#a6e22e">t&lt;/span>.&lt;span style="color:#a6e22e">rate&lt;/span> {
+&lt;span style="color:#75715e">// 说明还没有到下次处理请求的时间, 还需要等待offset后才能到
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">offset&lt;/span> = &lt;span style="color:#a6e22e">t&lt;/span>.&lt;span style="color:#a6e22e">rate&lt;/span> &lt;span style="color:#f92672">-&lt;/span> &lt;span style="color:#a6e22e">delta&lt;/span>
+}
+&lt;span style="color:#a6e22e">t&lt;/span>.&lt;span style="color:#a6e22e">last&lt;/span> = &lt;span style="color:#a6e22e">now&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">offset&lt;/span>
+}
+&lt;span style="color:#a6e22e">wait&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">t&lt;/span>.&lt;span style="color:#a6e22e">last&lt;/span> &lt;span style="color:#f92672">-&lt;/span> &lt;span style="color:#a6e22e">now&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">wait&lt;/span> &lt;span style="color:#f92672">/&lt;/span> &lt;span style="color:#a6e22e">t&lt;/span>.&lt;span style="color:#a6e22e">rate&lt;/span> &amp;gt; &lt;span style="color:#a6e22e">t&lt;/span>.&lt;span style="color:#a6e22e">capacity&lt;/span> { &lt;span style="color:#75715e">// 桶满了, 直接丢弃请求, 返回error
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">t&lt;/span>.&lt;span style="color:#a6e22e">last&lt;/span> = &lt;span style="color:#a6e22e">now&lt;/span> &lt;span style="color:#f92672">-&lt;/span> &lt;span style="color:#a6e22e">offset&lt;/span>
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">time&lt;/span>.&lt;span style="color:#a6e22e">Duration&lt;/span>(&lt;span style="color:#a6e22e">wait&lt;/span>), &lt;span style="color:#a6e22e">ErrLimitExhausted&lt;/span>
+}
+&lt;span style="color:#75715e">// 排队成功, 返回要等待的时间给调用者, 让调用者sleep进行阻塞就能实现按rate速率处理请求了
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">time&lt;/span>.&lt;span style="color:#a6e22e">Duration&lt;/span>(&lt;span style="color:#a6e22e">wait&lt;/span>), &lt;span style="color:#66d9ef">nil&lt;/span>
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="总结">总结&lt;/h1>
+&lt;p>LeakyBucket的核心思想是按固定的速率处理请求, 不支持突增的流量
+基于计数原理的实现本质上就是按固定的处理速率计算该请求能够被处理的时间以及需要等待的时间&lt;/p></content></item><item><title>令牌桶</title><link>https://xujiajiadexiaokeai.github.io/2022-08-20/token-bucket/</link><pubDate>Sat, 20 Aug 2022 15:30:17 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2022-08-20/token-bucket/</guid><description>https://zhuanlan.zhihu.com/p/442218413
+基本思想 令牌桶, 通过让请求被处理前先行获取令牌, 只有获取到令牌的请求才能被放行处理
+按固定速率来产生令牌存入桶中, 如果令牌数量超过桶的最大容量则直接丢掉 当有请求时先从桶中获取令牌,获取到令牌后才能进行处理, 否则被直接丢弃或者等待获取令牌 令牌桶与漏桶的区别 令牌桶与漏桶的区别在于漏桶控制的是请求被处理的速率。即当有请求的时候，先进入桶中进行排队，按固定的速率流出被处理；而令牌桶控制的是令牌产生的速率。即当有请求的时候，先从令牌桶中获取令牌，只要能获取到令牌就能立即通过被处理，不限制请求被处理的速度，所以也就可以应对一定程度的突发流量
+实现 time/rate包就是基于令牌桶实现的
+func main() { // 构造限流器 limiter := NewLimiter(10, 5) for i := 0; i &amp;lt; 10; i++ { time.Sleep(time.Millisecond * 20) if !limiter.Allow() { fmt.Printf(&amp;#34;%d passed\n&amp;#34;, i) continue } // 说明请求通过Allow获取到了令牌, 继续处理 // todo } } time/rate实现原理 lazyload 直到有请求消费时才根据时间查更新Token数目 通过计数原理计算当前桶中已有的Token数量 Token的生成和消耗 以固定速率产生Token func NewLimiter(r Limit, b int) *Limiter { return &amp;amp;Limiter{ limit: r, // 每秒钟可以生成Token的数量 burst: b, } } lazyload 当有请求到来时，去桶中获取令牌的同时先计算一下从上次生成令牌到现在的这段时间应该添加多少个令牌，把增量的令牌数先加到总的令牌数据上即可，后面被取走的令牌再从总数中减去即可 type Limiter struct { limit Limit // QPS 一秒钟多少个token burst int // 桶的容量 tokens float64 // 当前的token数量 last time.</description><content>&lt;blockquote>
+&lt;p>&lt;a href="https://zhuanlan.zhihu.com/p/442218413">https://zhuanlan.zhihu.com/p/442218413&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;h1 id="基本思想">基本思想&lt;/h1>
+&lt;p>令牌桶, 通过让请求被处理前先行获取令牌, 只有获取到令牌的请求才能被放行处理&lt;/p>
+&lt;ul>
+&lt;li>按固定速率来产生令牌存入桶中, 如果令牌数量超过桶的最大容量则直接丢掉&lt;/li>
+&lt;li>当有请求时先从桶中获取令牌,获取到令牌后才能进行处理, 否则被直接丢弃或者等待获取令牌&lt;/li>
+&lt;/ul>
+&lt;h1 id="令牌桶与漏桶的区别">令牌桶与漏桶的区别&lt;/h1>
+&lt;p>令牌桶与漏桶的区别在于漏桶控制的是请求被处理的速率。即当有请求的时候，先进入桶中进行排队，按固定的速率流出被处理；而令牌桶控制的是令牌产生的速率。即当有请求的时候，先从令牌桶中获取令牌，只要能获取到令牌就能立即通过被处理，不限制请求被处理的速度，所以也就可以应对一定程度的突发流量&lt;/p>
+&lt;h1 id="实现">实现&lt;/h1>
+&lt;p>&lt;a href="https://pkg.go.dev/golang.org/x/time/rate">time/rate&lt;/a>包就是基于令牌桶实现的&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span>() {
+&lt;span style="color:#75715e">// 构造限流器
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">limiter&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">NewLimiter&lt;/span>(&lt;span style="color:#ae81ff">10&lt;/span>, &lt;span style="color:#ae81ff">5&lt;/span>)
+&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#a6e22e">i&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>; &lt;span style="color:#a6e22e">i&lt;/span> &amp;lt; &lt;span style="color:#ae81ff">10&lt;/span>; &lt;span style="color:#a6e22e">i&lt;/span>&lt;span style="color:#f92672">++&lt;/span> {
+&lt;span style="color:#a6e22e">time&lt;/span>.&lt;span style="color:#a6e22e">Sleep&lt;/span>(&lt;span style="color:#a6e22e">time&lt;/span>.&lt;span style="color:#a6e22e">Millisecond&lt;/span> &lt;span style="color:#f92672">*&lt;/span> &lt;span style="color:#ae81ff">20&lt;/span>)
+&lt;span style="color:#66d9ef">if&lt;/span> !&lt;span style="color:#a6e22e">limiter&lt;/span>.&lt;span style="color:#a6e22e">Allow&lt;/span>() {
+&lt;span style="color:#a6e22e">fmt&lt;/span>.&lt;span style="color:#a6e22e">Printf&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;%d passed\n&amp;#34;&lt;/span>, &lt;span style="color:#a6e22e">i&lt;/span>)
+&lt;span style="color:#66d9ef">continue&lt;/span>
+}
+&lt;span style="color:#75715e">// 说明请求通过Allow获取到了令牌, 继续处理
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">// todo
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>
+}
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="timerate实现原理">time/rate实现原理&lt;/h2>
+&lt;ul>
+&lt;li>lazyload&lt;/li>
+&lt;li>直到有请求消费时才根据时间查更新Token数目&lt;/li>
+&lt;li>通过计数原理计算当前桶中已有的Token数量&lt;/li>
+&lt;/ul>
+&lt;h2 id="token的生成和消耗">Token的生成和消耗&lt;/h2>
+&lt;ul>
+&lt;li>以&lt;strong>固定速率&lt;/strong>产生Token&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">NewLimiter&lt;/span>(&lt;span style="color:#a6e22e">r&lt;/span> &lt;span style="color:#a6e22e">Limit&lt;/span>, &lt;span style="color:#a6e22e">b&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>) &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Limiter&lt;/span> {
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#f92672">&amp;amp;&lt;/span>&lt;span style="color:#a6e22e">Limiter&lt;/span>{
+&lt;span style="color:#a6e22e">limit&lt;/span>: &lt;span style="color:#a6e22e">r&lt;/span>, &lt;span style="color:#75715e">// 每秒钟可以生成Token的数量
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">burst&lt;/span>: &lt;span style="color:#a6e22e">b&lt;/span>,
+}
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>lazyload
+当有请求到来时，去桶中获取令牌的同时先计算一下从上次生成令牌到现在的这段时间应该添加多少个令牌，把增量的令牌数先加到总的令牌数据上即可，后面被取走的令牌再从总数中减去即可&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">Limiter&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span> {
+&lt;span style="color:#a6e22e">limit&lt;/span> &lt;span style="color:#a6e22e">Limit&lt;/span> &lt;span style="color:#75715e">// QPS 一秒钟多少个token
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">burst&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#75715e">// 桶的容量
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">tokens&lt;/span> &lt;span style="color:#66d9ef">float64&lt;/span> &lt;span style="color:#75715e">// 当前的token数量
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">last&lt;/span> &lt;span style="color:#a6e22e">time&lt;/span>.&lt;span style="color:#a6e22e">Time&lt;/span> &lt;span style="color:#75715e">// last代表最近一次更新token的时间
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>所以在请求到来时:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#a6e22e">tokens&lt;/span> &lt;span style="color:#f92672">+=&lt;/span> (&lt;span style="color:#a6e22e">当前时间t&lt;/span> &lt;span style="color:#f92672">-&lt;/span> &lt;span style="color:#a6e22e">最近一次更新tokens的时间last&lt;/span>) &lt;span style="color:#f92672">/&lt;/span> &lt;span style="color:#a6e22e">时间间隔&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="如何应对突发流量">如何应对突发流量&lt;/h2>
+&lt;ul>
+&lt;li>令牌桶缓存令牌&lt;/li>
+&lt;li>令牌桶最大容量约束&lt;/li>
+&lt;/ul>
+&lt;h2 id="数值溢出问题">数值溢出问题&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go"> &lt;span style="color:#75715e">// elapsed表示最后一次更新tokens数量的时间到现在的时间差
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">elapsed&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">now&lt;/span>.&lt;span style="color:#a6e22e">Sub&lt;/span>(&lt;span style="color:#a6e22e">last&lt;/span>)
+&lt;span style="color:#75715e">// delta 具有数值溢出风险， 表示elapsed这段时间应该产生的令牌数量
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">delta&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">elapsed&lt;/span>.&lt;span style="color:#a6e22e">Seconds&lt;/span>() &lt;span style="color:#f92672">*&lt;/span> float64(&lt;span style="color:#a6e22e">limit&lt;/span>)
+&lt;span style="color:#75715e">//tokens 表示当前总的令牌数量
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">tokens&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">lim&lt;/span>.&lt;span style="color:#a6e22e">tokens&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">delta&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">burst&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> float64(&lt;span style="color:#a6e22e">lim&lt;/span>.&lt;span style="color:#a6e22e">burst&lt;/span>); &lt;span style="color:#a6e22e">tokens&lt;/span> &amp;gt; &lt;span style="color:#a6e22e">burst&lt;/span> {
+&lt;span style="color:#a6e22e">tokens&lt;/span> = &lt;span style="color:#a6e22e">burst&lt;/span>
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>所以为了防止delta溢出,应该对elapsed有最大值的约束, maxElapsed是可以计算得到的&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go"> &lt;span style="color:#a6e22e">maxElapsed&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">lim&lt;/span>.&lt;span style="color:#a6e22e">limit&lt;/span>.&lt;span style="color:#a6e22e">durationFromTokens&lt;/span>(float64(&lt;span style="color:#a6e22e">lim&lt;/span>.&lt;span style="color:#a6e22e">burst&lt;/span>) &lt;span style="color:#f92672">-&lt;/span> &lt;span style="color:#a6e22e">lim&lt;/span>.&lt;span style="color:#a6e22e">tokens&lt;/span>)
+&lt;span style="color:#a6e22e">elapsed&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">now&lt;/span>.&lt;span style="color:#a6e22e">Sub&lt;/span>(&lt;span style="color:#a6e22e">last&lt;/span>)
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">elapsed&lt;/span> &amp;gt; &lt;span style="color:#a6e22e">maxElapsed&lt;/span> {
+&lt;span style="color:#a6e22e">elapsed&lt;/span> = &lt;span style="color:#a6e22e">maxElapsed&lt;/span>
+}
+&lt;span style="color:#a6e22e">delta&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">lim&lt;/span>.&lt;span style="color:#a6e22e">limit&lt;/span>.&lt;span style="color:#a6e22e">tokensFromDuration&lt;/span>(&lt;span style="color:#a6e22e">elapsed&lt;/span>)
+&lt;span style="color:#a6e22e">tokens&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">lim&lt;/span>.&lt;span style="color:#a6e22e">tokens&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">delta&lt;/span>
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">burst&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> float64(&lt;span style="color:#a6e22e">lim&lt;/span>.&lt;span style="color:#a6e22e">burst&lt;/span>); &lt;span style="color:#a6e22e">tokens&lt;/span> &amp;gt; &lt;span style="color:#a6e22e">burst&lt;/span> {
+&lt;span style="color:#a6e22e">tokens&lt;/span> = &lt;span style="color:#a6e22e">burst&lt;/span>
+}
+&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">limit&lt;/span> &lt;span style="color:#a6e22e">Limit&lt;/span>) &lt;span style="color:#a6e22e">tokensFromDuration&lt;/span>(&lt;span style="color:#a6e22e">d&lt;/span> &lt;span style="color:#a6e22e">time&lt;/span>.&lt;span style="color:#a6e22e">Duration&lt;/span>) &lt;span style="color:#66d9ef">float64&lt;/span> {
+&lt;span style="color:#a6e22e">sec&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> float64(&lt;span style="color:#a6e22e">d&lt;/span>&lt;span style="color:#f92672">/&lt;/span>&lt;span style="color:#a6e22e">time&lt;/span>.&lt;span style="color:#a6e22e">Second&lt;/span>) &lt;span style="color:#f92672">*&lt;/span> float64(&lt;span style="color:#a6e22e">limit&lt;/span>)
+&lt;span style="color:#a6e22e">nsec&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> float64(&lt;span style="color:#a6e22e">d&lt;/span>&lt;span style="color:#f92672">%&lt;/span>&lt;span style="color:#a6e22e">time&lt;/span>.&lt;span style="color:#a6e22e">Second&lt;/span>) &lt;span style="color:#f92672">*&lt;/span> float64(&lt;span style="color:#a6e22e">limit&lt;/span>)
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">sec&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#a6e22e">nsec&lt;/span>&lt;span style="color:#f92672">/&lt;/span>&lt;span style="color:#ae81ff">1e9&lt;/span>
+}
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="总结">总结&lt;/h1>
+&lt;p>TokenBucket是以固定的速率生成令牌，让获得令牌的请求才能通过被处理。令牌桶的限流方式可以应对一定的突发流量。在实现TokenBucket时需要注意在计算令牌总数时的数值溢出问题以及精度问题。&lt;/p></content></item><item><title>一致性哈希</title><link>https://xujiajiadexiaokeai.github.io/2022-08-20/consistent-hashing/</link><pubDate>Sat, 20 Aug 2022 09:20:17 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2022-08-20/consistent-hashing/</guid><description> https://www.zsythink.net/archives/1182 问题1：当缓存服务器数量发生变化时，会引起缓存的雪崩，可能会引起整体系统压力过大而崩溃（大量缓存同一时间失效）。
+问题2：当缓存服务器数量发生变化时，几乎所有缓存的位置都会发生改变，怎样才能尽量减少受影响的缓存呢？
+优点 服务器数量发生改变, 并不是所有缓存都会失效,是部分失效 问题 哈希环倾斜, 数据分配不均 解决方案 虚拟节点 优化 如果缓存服务器间性能存在较大差异,可考虑容器化? 均匀分配数据处理能力 sample实现 https://www.cnblogs.com/luxiaoxun/p/12573742.html
+Chord环 https://zhuanlan.zhihu.com/p/129049724
+Napster 使用中心服务器接收所有查询 问题: 中心服务器单点失效导致整个网络瘫痪 Gnutella 使用消息洪泛(message flooding)来定位数据 使用TTL来限制网络内转发消息的数量 问题: 消息数与节点数成线性关系,网络负载较重 SN SN保存网络中节点的索引信息,有多个SN Chord算法 实现原理 资源定位 查询步骤 路由表维护</description><content>&lt;blockquote>
+&lt;p>&lt;a href="https://www.zsythink.net/archives/1182">https://www.zsythink.net/archives/1182&lt;/a>
+问题1：当缓存服务器数量发生变化时，会引起缓存的雪崩，可能会引起整体系统压力过大而崩溃（大量缓存同一时间失效）。&lt;/p>
+&lt;/blockquote>
+&lt;p>问题2：当缓存服务器数量发生变化时，几乎所有缓存的位置都会发生改变，怎样才能尽量减少受影响的缓存呢？&lt;/p>
+&lt;h1 id="优点">优点&lt;/h1>
+&lt;ul>
+&lt;li>服务器数量发生改变, 并不是所有缓存都会失效,是部分失效&lt;/li>
+&lt;/ul>
+&lt;h1 id="问题">问题&lt;/h1>
+&lt;ul>
+&lt;li>哈希环倾斜, 数据分配不均&lt;/li>
+&lt;/ul>
+&lt;h1 id="解决方案">解决方案&lt;/h1>
+&lt;ul>
+&lt;li>虚拟节点&lt;/li>
+&lt;/ul>
+&lt;h1 id="优化">优化&lt;/h1>
+&lt;ul>
+&lt;li>如果缓存服务器间性能存在较大差异,可考虑容器化? 均匀分配数据处理能力&lt;/li>
+&lt;/ul>
+&lt;h1 id="sample实现">sample实现&lt;/h1>
+&lt;blockquote>
+&lt;p>&lt;a href="https://www.cnblogs.com/luxiaoxun/p/12573742.html">https://www.cnblogs.com/luxiaoxun/p/12573742.html&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;h1 id="chord环">Chord环&lt;/h1>
+&lt;blockquote>
+&lt;p>&lt;a href="https://zhuanlan.zhihu.com/p/129049724">https://zhuanlan.zhihu.com/p/129049724&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;ol>
+&lt;li>Napster&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>使用中心服务器接收所有查询&lt;/li>
+&lt;li>问题: 中心服务器单点失效导致整个网络瘫痪&lt;/li>
+&lt;/ul>
+&lt;ol start="2">
+&lt;li>Gnutella&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>使用消息洪泛(message flooding)来定位数据&lt;/li>
+&lt;li>使用TTL来限制网络内转发消息的数量&lt;/li>
+&lt;li>问题: 消息数与节点数成线性关系,网络负载较重&lt;/li>
+&lt;/ul>
+&lt;ol start="3">
+&lt;li>SN&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>SN保存网络中节点的索引信息,有多个SN&lt;/li>
+&lt;/ul>
+&lt;h2 id="chord算法">Chord算法&lt;/h2>
+&lt;h3 id="实现原理">实现原理&lt;/h3>
+&lt;h3 id="资源定位">资源定位&lt;/h3>
+&lt;h3 id="查询步骤">查询步骤&lt;/h3>
+&lt;h3 id="路由表维护">路由表维护&lt;/h3></content></item><item><title>算法笔记</title><link>https://xujiajiadexiaokeai.github.io/2022-08-01/algorithm-notes/</link><pubDate>Mon, 01 Aug 2022 08:14:47 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2022-08-01/algorithm-notes/</guid><description>前缀和 https://oi-wiki.org/basic/prefix-sum
+数据预处理 降低时间复杂度 数列前n项的和 思路 一维 recurrence: B[0] = A[0],对于i&amp;gt;=1,则B[i] = B[i-1] + A[i] 二维/多维 容斥原理 https://zh.m.wikipedia.org/zh-hans/%E6%8E%92%E5%AE%B9%E5%8E%9F%E7%90%86
+$$\left|\bigcap_{i=1}^{n}S_i\right|=\sum_{m=1}^n(-1)^{m-1}\sum_{a_i&amp;lt;a_{i+1}}\left|\bigcap_{i=1}^mS_{a_i}\right|$$
+不定方程非负整数解计数
+排列组合 https://oi-wiki.org/math/combinatorics/combination/
+排列数 $$\mathrm A_n^m = n(n-1)(n-2) \cdots (n-m+1) = \frac{n!}{(n-m)!}$$
+组合数 $$ \mathrm C_n^m = \frac{\mathrm A_n^m}{m!} = \frac{n!}{m!(n-m)!}$$
+组合数也被称为「二项式系数」,$\displaystyle \binom{n}{m}$ 读作「n选m」
+$$\displaystyle \mathrm C_n^m = \binom{n}{m}$$
+特别地,规定当m &amp;gt; n时, $\mathrm A_n^m = \mathrm C_n^m = 0$
+单调栈</description><content>&lt;h1 id="前缀和">前缀和&lt;/h1>
+&lt;blockquote>
+&lt;p>&lt;a href="https://oi-wiki.org/basic/prefix-sum">https://oi-wiki.org/basic/prefix-sum&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;ul>
+&lt;li>数据预处理&lt;/li>
+&lt;li>降低时间复杂度&lt;/li>
+&lt;li>数列前n项的和&lt;/li>
+&lt;/ul>
+&lt;h2 id="思路">思路&lt;/h2>
+&lt;h3 id="一维">一维&lt;/h3>
+&lt;pre tabindex="0">&lt;code>recurrence:
+B[0] = A[0],对于i&amp;gt;=1,则B[i] = B[i-1] + A[i]
+&lt;/code>&lt;/pre>&lt;h3 id="二维多维">二维/多维&lt;/h3>
+&lt;ul>
+&lt;li>容斥原理&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>&lt;a href="https://zh.m.wikipedia.org/zh-hans/%E6%8E%92%E5%AE%B9%E5%8E%9F%E7%90%86">https://zh.m.wikipedia.org/zh-hans/%E6%8E%92%E5%AE%B9%E5%8E%9F%E7%90%86&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>$$\left|\bigcap_{i=1}^{n}S_i\right|=\sum_{m=1}^n(-1)^{m-1}\sum_{a_i&amp;lt;a_{i+1}}\left|\bigcap_{i=1}^mS_{a_i}\right|$$&lt;/p>
+&lt;p>不定方程非负整数解计数&lt;/p>
+&lt;h1 id="排列组合">排列组合&lt;/h1>
+&lt;blockquote>
+&lt;p>&lt;a href="https://oi-wiki.org/math/combinatorics/combination/">https://oi-wiki.org/math/combinatorics/combination/&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="排列数">排列数&lt;/h2>
+&lt;p>$$\mathrm A_n^m = n(n-1)(n-2) \cdots (n-m+1) = \frac{n!}{(n-m)!}$$&lt;/p>
+&lt;h2 id="组合数">组合数&lt;/h2>
+&lt;p>$$ \mathrm C_n^m = \frac{\mathrm A_n^m}{m!} = \frac{n!}{m!(n-m)!}$$&lt;/p>
+&lt;p>组合数也被称为「二项式系数」,$\displaystyle \binom{n}{m}$ 读作「n选m」&lt;/p>
+&lt;p>$$\displaystyle \mathrm C_n^m = \binom{n}{m}$$&lt;/p>
+&lt;p>特别地,规定当m &amp;gt; n时, $\mathrm A_n^m = \mathrm C_n^m = 0$&lt;/p>
+&lt;h1 id="单调栈">单调栈&lt;/h1></content></item></channel></rss>

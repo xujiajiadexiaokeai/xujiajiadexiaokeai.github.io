@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Chaos Mesh on xujiajiadexiaokeai</title><link>https://xujiajiadexiaokeai.github.io/tags/chaos-mesh/</link><description>Recent content in Chaos Mesh on xujiajiadexiaokeai</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>© 2021-2022 xujiajiadexiaokeai</copyright><lastBuildDate>Wed, 21 Sep 2022 09:20:17 +0800</lastBuildDate><atom:link href="https://xujiajiadexiaokeai.github.io/tags/chaos-mesh/index.xml" rel="self" type="application/rss+xml"/><item><title>Chaos Mesh上手</title><link>https://xujiajiadexiaokeai.github.io/2022-09-21/consistent-hashing/</link><pubDate>Wed, 21 Sep 2022 09:20:17 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2022-09-21/consistent-hashing/</guid><description>安装kind 注意科学上网
+安装chaos-mesh 测试用 install.sh 需要指定k8s&amp;amp;&amp;amp;kind版本
+安装kubernetes Dashboard Kubernetes Dashboard
+base dashboard@2.6.1 kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.6.1/aio/deploy/recommended.yaml
+kubectl proxy http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/
+create an authentication token(RBAC)
+访问Chaos Mesh Dashboard https://chaos-mesh.org/zh/docs/1.2.4/user_guides/dashboard/
+访问 Chaos Dashboard 的典型方法是使用kubectl port-forward：
+kubectl port-forward -n chaos-mesh --address localhost,...ip svc/chaos-dashboard 2333:2333 http://localhost:2333</description><content>&lt;h1 id="安装kind">安装kind&lt;/h1>
+&lt;p>注意科学上网&lt;/p>
+&lt;h1 id="安装chaos-mesh">安装chaos-mesh&lt;/h1>
+&lt;p>测试用 install.sh
+需要指定k8s&amp;amp;&amp;amp;kind版本&lt;/p>
+&lt;h1 id="安装kubernetes-dashboard">安装kubernetes Dashboard&lt;/h1>
+&lt;p>&lt;a href="https://github.com/kubernetes/dashboard">Kubernetes Dashboard&lt;/a>&lt;/p>
+&lt;p>base &lt;a href="mailto:dashboard@2.6.1">dashboard@2.6.1&lt;/a>
+kubectl apply -f &lt;a href="https://raw.githubusercontent.com/kubernetes/dashboard/v2.6.1/aio/deploy/recommended.yaml">https://raw.githubusercontent.com/kubernetes/dashboard/v2.6.1/aio/deploy/recommended.yaml&lt;/a>&lt;/p>
+&lt;pre tabindex="0">&lt;code>kubectl proxy
+&lt;/code>&lt;/pre>&lt;p>http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/&lt;/p>
+&lt;p>create an authentication token(RBAC)&lt;/p>
+&lt;h1 id="访问chaos-mesh-dashboard">访问Chaos Mesh Dashboard&lt;/h1>
+&lt;blockquote>
+&lt;p>&lt;a href="https://chaos-mesh.org/zh/docs/1.2.4/user_guides/dashboard/">https://chaos-mesh.org/zh/docs/1.2.4/user_guides/dashboard/&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>访问 Chaos Dashboard 的典型方法是使用kubectl port-forward：&lt;/p>
+&lt;pre tabindex="0">&lt;code>kubectl port-forward -n chaos-mesh --address localhost,...ip svc/chaos-dashboard 2333:2333
+&lt;/code>&lt;/pre>&lt;p>http://localhost:2333&lt;/p></content></item></channel></rss>

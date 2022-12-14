@@ -1,0 +1,147 @@
+<!doctype html><html lang=en>
+<head>
+<title>漏桶算法 :: xujiajiadexiaokeai</title>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=description content="token-bucket">
+<meta name=keywords content>
+<meta name=robots content="noodp">
+<link rel=canonical href=https://xujiajiadexiaokeai.github.io/2022-08-20/leaky-bucket/>
+<link rel=stylesheet href=https://xujiajiadexiaokeai.github.io/assets/style.css>
+<link rel=apple-touch-icon href=https://xujiajiadexiaokeai.github.io/img/apple-touch-icon-192x192.png>
+<link rel="shortcut icon" href=https://xujiajiadexiaokeai.github.io/favicon.ico>
+<meta name=twitter:card content="summary">
+<meta property="og:locale" content="en">
+<meta property="og:type" content="article">
+<meta property="og:title" content="漏桶算法">
+<meta property="og:description" content="token-bucket">
+<meta property="og:url" content="https://xujiajiadexiaokeai.github.io/2022-08-20/leaky-bucket/">
+<meta property="og:site_name" content="xujiajiadexiaokeai">
+<meta property="og:image" content="https://xujiajiadexiaokeai.github.io/favicon.ico">
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+<meta property="article:published_time" content="2022-08-20 15:32:17 +0800 +0800">
+</head>
+<body class=orange>
+<div class="container center headings--one-size">
+<header class=header>
+<div class=header__inner>
+<div class=header__logo>
+<a href=/>
+<div class=logo>
+RTSC && RTFM
+</div>
+</a>
+</div>
+<div class=menu-trigger>menu</div>
+</div>
+<nav class=menu>
+<ul class="menu__inner menu__inner--desktop">
+<li><a href=/top/about>About</a></li>
+<li><a href=/top/archive>Archive</a></li>
+</ul>
+<ul class="menu__inner menu__inner--mobile">
+<li><a href=/top/about>About</a></li>
+<li><a href=/top/archive>Archive</a></li>
+</ul>
+</nav>
+</header>
+<div class=content>
+<div class=post>
+<h1 class=post-title>
+<a href=https://xujiajiadexiaokeai.github.io/2022-08-20/leaky-bucket/>漏桶算法</a></h1>
+<div class=post-meta>
+<span class=post-date>
+2022-08-20
+</span>
+<span class=post-author>:: Wenhao Jiang</span>
+<span class=post-reading-time>:: 1 min read (130 words)</span>
+</div>
+<span class=post-tags>
+#<a href=https://xujiajiadexiaokeai.github.io/tags/algorithm/>Algorithm</a>&nbsp;
+</span>
+<div class=table-of-contents>
+<h2>
+Table of Contents
+</h2>
+<nav id=TableOfContents></nav>
+</div>
+<div class=post-content><div>
+<h1 id=请求如何排队>请求如何排队<a href=#请求如何排队 class=hanchor arialabel=Anchor>&#8983;</a> </h1>
+<p>delta = 当前时间t - last
+last = 当前时间t + (rate - delta)</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>LeakyBucket</span> <span style=color:#66d9ef>struct</span> {
+    <span style=color:#a6e22e>rate</span> <span style=color:#66d9ef>int64</span> <span style=color:#75715e>// 处理请求的速率
+</span><span style=color:#75715e></span>    <span style=color:#a6e22e>capacity</span> <span style=color:#66d9ef>int64</span> <span style=color:#75715e>// 桶的最大容量
+</span><span style=color:#75715e></span>    <span style=color:#a6e22e>last</span> <span style=color:#a6e22e>time</span>.<span style=color:#a6e22e>Time</span> <span style=color:#75715e>// 桶中最后一个排队请求被处理的时间
+</span><span style=color:#75715e></span>    <span style=color:#a6e22e>mu</span> <span style=color:#a6e22e>sync</span>.<span style=color:#a6e22e>Mutex</span>
+}
+
+<span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>t</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>LeakyBucket</span>) <span style=color:#a6e22e>Limit</span>(<span style=color:#a6e22e>ctx</span> <span style=color:#a6e22e>context</span>.<span style=color:#a6e22e>Context</span>) (<span style=color:#a6e22e>time</span>.<span style=color:#a6e22e>Duration</span>, <span style=color:#66d9ef>error</span>) {
+    <span style=color:#a6e22e>t</span>.<span style=color:#a6e22e>mu</span>.<span style=color:#a6e22e>Lock</span>()
+    <span style=color:#66d9ef>defer</span> <span style=color:#a6e22e>t</span>.<span style=color:#a6e22e>mu</span>.<span style=color:#a6e22e>Unlock</span>()
+
+    <span style=color:#a6e22e>now</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>time</span>.<span style=color:#a6e22e>Now</span>().<span style=color:#a6e22e>UnixNano</span>()
+    <span style=color:#66d9ef>if</span> <span style=color:#a6e22e>now</span> &lt; <span style=color:#a6e22e>t</span>.<span style=color:#a6e22e>last</span> {
+        <span style=color:#75715e>// 说明已经有请求在排队了,那么新请求进来排队后被处理的时间就是rate后
+</span><span style=color:#75715e></span>        <span style=color:#a6e22e>t</span>.<span style=color:#a6e22e>last</span> <span style=color:#f92672>+=</span> <span style=color:#a6e22e>t</span>.<span style=color:#a6e22e>rate</span>
+    } <span style=color:#66d9ef>else</span> {
+        <span style=color:#75715e>// 桶为空
+</span><span style=color:#75715e></span>        <span style=color:#66d9ef>var</span> <span style=color:#a6e22e>offset</span> <span style=color:#66d9ef>int64</span> <span style=color:#75715e>// 代表等待处理该请求的时间需要等待多久
+</span><span style=color:#75715e></span>        <span style=color:#a6e22e>delta</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>now</span> <span style=color:#f92672>-</span> <span style=color:#a6e22e>state</span>.<span style=color:#a6e22e>Last</span> <span style=color:#75715e>// 代表当前时间距离上次处理请求的时间过了多久
+</span><span style=color:#75715e></span>        <span style=color:#66d9ef>if</span> <span style=color:#a6e22e>delta</span> &lt; <span style=color:#a6e22e>t</span>.<span style=color:#a6e22e>rate</span> {
+            <span style=color:#75715e>// 说明还没有到下次处理请求的时间, 还需要等待offset后才能到
+</span><span style=color:#75715e></span>            <span style=color:#a6e22e>offset</span> = <span style=color:#a6e22e>t</span>.<span style=color:#a6e22e>rate</span> <span style=color:#f92672>-</span> <span style=color:#a6e22e>delta</span>
+        }
+        <span style=color:#a6e22e>t</span>.<span style=color:#a6e22e>last</span> = <span style=color:#a6e22e>now</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>offset</span>
+    }
+
+    <span style=color:#a6e22e>wait</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>t</span>.<span style=color:#a6e22e>last</span> <span style=color:#f92672>-</span> <span style=color:#a6e22e>now</span> 
+    <span style=color:#66d9ef>if</span> <span style=color:#a6e22e>wait</span> <span style=color:#f92672>/</span> <span style=color:#a6e22e>t</span>.<span style=color:#a6e22e>rate</span> &gt; <span style=color:#a6e22e>t</span>.<span style=color:#a6e22e>capacity</span> { <span style=color:#75715e>// 桶满了, 直接丢弃请求, 返回error
+</span><span style=color:#75715e></span>        <span style=color:#a6e22e>t</span>.<span style=color:#a6e22e>last</span> = <span style=color:#a6e22e>now</span> <span style=color:#f92672>-</span> <span style=color:#a6e22e>offset</span>
+        <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>time</span>.<span style=color:#a6e22e>Duration</span>(<span style=color:#a6e22e>wait</span>), <span style=color:#a6e22e>ErrLimitExhausted</span>
+    }
+
+    <span style=color:#75715e>// 排队成功, 返回要等待的时间给调用者, 让调用者sleep进行阻塞就能实现按rate速率处理请求了
+</span><span style=color:#75715e></span>    <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>time</span>.<span style=color:#a6e22e>Duration</span>(<span style=color:#a6e22e>wait</span>), <span style=color:#66d9ef>nil</span>
+
+}
+</code></pre></div><h1 id=总结>总结<a href=#总结 class=hanchor arialabel=Anchor>&#8983;</a> </h1>
+<p>LeakyBucket的核心思想是按固定的速率处理请求, 不支持突增的流量
+基于计数原理的实现本质上就是按固定的处理速率计算该请求能够被处理的时间以及需要等待的时间</p>
+</div></div>
+<div class=pagination>
+<div class=pagination__title>
+<span class=pagination__title-h>Read other posts</span>
+<hr>
+</div>
+<div class=pagination__buttons>
+<span class="button previous">
+<a href=https://xujiajiadexiaokeai.github.io/2022-09-21/consistent-hashing/>
+<span class=button__icon>←</span>
+<span class=button__text>Chaos Mesh上手</span>
+</a>
+</span>
+<span class="button next">
+<a href=https://xujiajiadexiaokeai.github.io/2022-08-20/token-bucket/>
+<span class=button__text>令牌桶</span>
+<span class=button__icon>→</span>
+</a>
+</span>
+</div>
+</div>
+</div>
+</div>
+<footer class=footer>
+<div class=footer__inner>
+<div class="copyright copyright--user">
+<span>© 2021-2022 xujiajiadexiaokeai</span>
+<span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span>
+</div>
+</div>
+</footer>
+<script src=https://xujiajiadexiaokeai.github.io/assets/main.js></script>
+<script src=https://xujiajiadexiaokeai.github.io/assets/prism.js></script>
+</div>
+</body>
+</html>

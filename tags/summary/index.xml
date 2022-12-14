@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>summary on xujiajiadexiaokeai</title><link>https://xujiajiadexiaokeai.github.io/tags/summary/</link><description>Recent content in summary on xujiajiadexiaokeai</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>© 2021-2022 xujiajiadexiaokeai</copyright><lastBuildDate>Tue, 20 Sep 2022 22:14:47 +0800</lastBuildDate><atom:link href="https://xujiajiadexiaokeai.github.io/tags/summary/index.xml" rel="self" type="application/rss+xml"/><item><title>关于离职的这一年我做了什么</title><link>https://xujiajiadexiaokeai.github.io/2022-09-20/summary/</link><pubDate>Tue, 20 Sep 2022 22:14:47 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2022-09-20/summary/</guid><description>关于离职的这一年我做了什么? 起子 其实这篇文章本可以叫做《未来的XX时间我要做什么》,用来指导关于技术上的学习计划. 可惜由于某些原因,我选择了离职来完成这部分学习计划. 也由于某些原因, 这部分计划的完成距我2021年8月20日离职至今已经近13个月的时间, 这大大超出了我的预期,对自己的生活也造成了一定的影响. 希望通过这篇文章对过去这13个月的时间进行总结和复盘.
+我想要做什么? 补全大学时期忽略的一些理论知识, 比如操作系统原理、计算机体系结构、编译原理、计算机网络等等 重新梳理知识结构,搭建知识框架,达到以理论指导实践 搭建自己的从“输入”到“输出”的知识管理工具体系 为什么要这么做? 对自己没有清晰的认知,对生活的掌握是失控的
+为什么离职? 大学时没有好好的学习基础,过于专注于业务实现 工作时感觉到困惑和恐惧 决定好好复习下基础知识 想当然,不知其所以然 这一年做了什么? 读完《DDIA》 读完《现代操作系统 原理与实现》 看了6.824 看了jyy的操作系统课 从头学了Golang 玩了PingCAP的tinyKV 写操作系统内核 写TCP协议 写编译器 写Raft算法 写Kubernetes Operator 玩Chaos Mesh 玩eBPF 剩下的任务 补全leetcode-diary.md 完成go的相关文章 完成ribbonfilter.md 完成paxos.md 写一个operator 看etcd-operator 看tidb-operator 看inference server 看nginx 看系统设计 系统调用的角度 syscall</description><content>&lt;h2 id="关于离职的这一年我做了什么">关于离职的这一年我做了什么?&lt;/h2>
+&lt;h1 id="起子">起子&lt;/h1>
+&lt;p>其实这篇文章本可以叫做《未来的XX时间我要做什么》,用来指导关于技术上的学习计划.
+可惜由于某些原因,我选择了离职来完成这部分学习计划.
+也由于某些原因, 这部分计划的完成距我2021年8月20日离职至今已经近13个月的时间,
+这大大超出了我的预期,对自己的生活也造成了一定的影响.
+希望通过这篇文章对过去这13个月的时间进行总结和复盘.&lt;/p>
+&lt;h1 id="我想要做什么">我想要做什么?&lt;/h1>
+&lt;ul>
+&lt;li>补全大学时期忽略的一些理论知识, 比如操作系统原理、计算机体系结构、编译原理、计算机网络等等&lt;/li>
+&lt;li>重新梳理知识结构,搭建知识框架,达到以理论指导实践&lt;/li>
+&lt;li>搭建自己的从“输入”到“输出”的知识管理工具体系&lt;/li>
+&lt;/ul>
+&lt;h1 id="为什么要这么做">为什么要这么做?&lt;/h1>
+&lt;p>对自己没有清晰的认知,对生活的掌握是失控的&lt;/p>
+&lt;h1 id="为什么离职">为什么离职?&lt;/h1>
+&lt;ul>
+&lt;li>大学时没有好好的学习基础,过于专注于业务实现&lt;/li>
+&lt;li>工作时感觉到困惑和恐惧&lt;/li>
+&lt;li>决定好好复习下基础知识&lt;/li>
+&lt;li>想当然,不知其所以然&lt;/li>
+&lt;/ul>
+&lt;h1 id="这一年做了什么">这一年做了什么?&lt;/h1>
+&lt;ul>
+&lt;li>&lt;input checked="" disabled="" type="checkbox"> 读完《DDIA》&lt;/li>
+&lt;li>&lt;input checked="" disabled="" type="checkbox"> 读完《现代操作系统 原理与实现》&lt;/li>
+&lt;li>&lt;input checked="" disabled="" type="checkbox"> 看了6.824&lt;/li>
+&lt;li>&lt;input checked="" disabled="" type="checkbox"> 看了jyy的操作系统课&lt;/li>
+&lt;li>&lt;input checked="" disabled="" type="checkbox"> 从头学了Golang&lt;/li>
+&lt;li>&lt;input disabled="" type="checkbox"> 玩了PingCAP的tinyKV&lt;/li>
+&lt;li>&lt;input disabled="" type="checkbox"> 写操作系统内核&lt;/li>
+&lt;li>&lt;input checked="" disabled="" type="checkbox"> 写TCP协议&lt;/li>
+&lt;li>&lt;input disabled="" type="checkbox"> 写编译器&lt;/li>
+&lt;li>&lt;input disabled="" type="checkbox"> 写Raft算法&lt;/li>
+&lt;li>&lt;input checked="" disabled="" type="checkbox"> 写Kubernetes Operator&lt;/li>
+&lt;li>&lt;input checked="" disabled="" type="checkbox"> 玩Chaos Mesh&lt;/li>
+&lt;li>&lt;input checked="" disabled="" type="checkbox"> 玩eBPF&lt;/li>
+&lt;/ul>
+&lt;h1 id="剩下的任务">剩下的任务&lt;/h1>
+&lt;ul>
+&lt;li>&lt;input disabled="" type="checkbox"> 补全leetcode-diary.md&lt;/li>
+&lt;li>&lt;input checked="" disabled="" type="checkbox"> 完成go的相关文章&lt;/li>
+&lt;li>&lt;input disabled="" type="checkbox"> 完成ribbonfilter.md&lt;/li>
+&lt;li>&lt;input disabled="" type="checkbox"> 完成paxos.md&lt;/li>
+&lt;li>&lt;input checked="" disabled="" type="checkbox"> 写一个operator&lt;/li>
+&lt;li>&lt;input checked="" disabled="" type="checkbox"> 看etcd-operator&lt;/li>
+&lt;li>&lt;input disabled="" type="checkbox"> 看tidb-operator&lt;/li>
+&lt;li>&lt;input disabled="" type="checkbox"> 看inference server&lt;/li>
+&lt;li>&lt;input disabled="" type="checkbox"> 看nginx&lt;/li>
+&lt;li>&lt;input checked="" disabled="" type="checkbox"> 看系统设计&lt;/li>
+&lt;li>&lt;input disabled="" type="checkbox"> 系统调用的角度 syscall&lt;/li>
+&lt;/ul></content></item></channel></rss>

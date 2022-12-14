@@ -1,37 +1,26 @@
 <!doctype html><html lang=en>
 <head>
-<title>goroutine :: xujiajiadexiaokeai</title>
+<title>Goroutine :: xujiajiadexiaokeai</title>
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=description content="基本概念  进程   进程是应用程序的启动实例 有独立的内存空间 不同进程通过进程间通信的方式进行通信  线程   线程是cpu调度的基本单位 不同线程可以共享进程的资源 不同线程通过共享内存等线程间通信方式进行通信  协程   协程调度由用户程序提供,不直接受操作系统调度 协程调度器按照调度策略把协程调度到线程中执行  协程的优势 过多的线程会导致上下文切换的开销变大,而工作在用户态的协程则能大大减少上下文切换的开销 协程调度器把可运行的协程逐个调度到线程中执行,同时及时把阻塞的协程调度出线程 有效地避免了线程的频繁切换 实现了使用少量线程实现高并发的效果
-多个协程分享操作系统分给线程的时间片 协程调度器决定了协程运行的顺序 线程运行调度器指派的协程,每一时刻只能运行一个协程
-调度模型  线程模型 线程可分为用户线程和内核线程 用户线程由用户创建、同步合销毁 根据用户线程管理方式的不同,分为三种线程模型:   N:1模型 N个用户线程运行在1个内核线程中,上下文切换较快 1:1模型 每个用户线程对应一个内核线程,上下文切换较慢 M:N模型 充分利用cpu且上下文切换较快,但调度算法较为复杂  Go GPM模型 G: goroutine,Go协程,每个go关键字都会创建一个goroutine P: processor,处理器(Go定义的一个概念,不是指cpu),包含运行Go代码的必要资源,也有调度goroutine的能力 M: machine,工作线程,由操作系统调度  M必须持有P才能运行代码 M会被系统调用阻塞
-P的个数在程序启动时决定,默认等于CPU的核数,可以使用环境变量GOMAXPROCS或在程序中使用runtime.GOMAXPROCS()方法指定P的个数
-export GOMAXPROC=80 runtime.GOMAXPROCS(80) M的个数通常稍大于P的个数,因为除了运行Go代码,还有其他内置任务需要处理.
-调度策略   队列轮转 每个处理器P维护着一个协程G的队列, 处理器P依次将协程G调度到M中执行 P会周期性地查看全局队列中是否有G待运行,防止“饥饿” 全局队列中的G主要来自从系统调用中恢复的G
-  系统调用">
+<meta name=description content="Go Memory">
 <meta name=keywords content>
 <meta name=robots content="noodp">
-<link rel=canonical href=https://xujiajiadexiaokeai.github.io/posts/go-goroutine/>
+<link rel=canonical href=https://xujiajiadexiaokeai.github.io/2022-07-13/go-goroutine/>
 <link rel=stylesheet href=https://xujiajiadexiaokeai.github.io/assets/style.css>
 <link rel=apple-touch-icon href=https://xujiajiadexiaokeai.github.io/img/apple-touch-icon-192x192.png>
 <link rel="shortcut icon" href=https://xujiajiadexiaokeai.github.io/favicon.ico>
 <meta name=twitter:card content="summary">
 <meta property="og:locale" content="en">
 <meta property="og:type" content="article">
-<meta property="og:title" content="goroutine">
-<meta property="og:description" content="基本概念  进程   进程是应用程序的启动实例 有独立的内存空间 不同进程通过进程间通信的方式进行通信  线程   线程是cpu调度的基本单位 不同线程可以共享进程的资源 不同线程通过共享内存等线程间通信方式进行通信  协程   协程调度由用户程序提供,不直接受操作系统调度 协程调度器按照调度策略把协程调度到线程中执行  协程的优势 过多的线程会导致上下文切换的开销变大,而工作在用户态的协程则能大大减少上下文切换的开销 协程调度器把可运行的协程逐个调度到线程中执行,同时及时把阻塞的协程调度出线程 有效地避免了线程的频繁切换 实现了使用少量线程实现高并发的效果
-多个协程分享操作系统分给线程的时间片 协程调度器决定了协程运行的顺序 线程运行调度器指派的协程,每一时刻只能运行一个协程
-调度模型  线程模型 线程可分为用户线程和内核线程 用户线程由用户创建、同步合销毁 根据用户线程管理方式的不同,分为三种线程模型:   N:1模型 N个用户线程运行在1个内核线程中,上下文切换较快 1:1模型 每个用户线程对应一个内核线程,上下文切换较慢 M:N模型 充分利用cpu且上下文切换较快,但调度算法较为复杂  Go GPM模型 G: goroutine,Go协程,每个go关键字都会创建一个goroutine P: processor,处理器(Go定义的一个概念,不是指cpu),包含运行Go代码的必要资源,也有调度goroutine的能力 M: machine,工作线程,由操作系统调度  M必须持有P才能运行代码 M会被系统调用阻塞
-P的个数在程序启动时决定,默认等于CPU的核数,可以使用环境变量GOMAXPROCS或在程序中使用runtime.GOMAXPROCS()方法指定P的个数
-export GOMAXPROC=80 runtime.GOMAXPROCS(80) M的个数通常稍大于P的个数,因为除了运行Go代码,还有其他内置任务需要处理.
-调度策略   队列轮转 每个处理器P维护着一个协程G的队列, 处理器P依次将协程G调度到M中执行 P会周期性地查看全局队列中是否有G待运行,防止“饥饿” 全局队列中的G主要来自从系统调用中恢复的G
-  系统调用">
-<meta property="og:url" content="https://xujiajiadexiaokeai.github.io/posts/go-goroutine/">
+<meta property="og:title" content="Goroutine">
+<meta property="og:description" content="Go Memory">
+<meta property="og:url" content="https://xujiajiadexiaokeai.github.io/2022-07-13/go-goroutine/">
 <meta property="og:site_name" content="xujiajiadexiaokeai">
 <meta property="og:image" content="https://xujiajiadexiaokeai.github.io/favicon.ico">
 <meta property="og:image:width" content="2048">
 <meta property="og:image:height" content="1024">
+<meta property="article:published_time" content="2022-07-13 10:16:17 +0800 +0800">
 </head>
 <body class=orange>
 <div class="container center headings--one-size">
@@ -60,10 +49,17 @@ RTSC && RTFM
 <div class=content>
 <div class=post>
 <h1 class=post-title>
-<a href=https://xujiajiadexiaokeai.github.io/posts/go-goroutine/>goroutine</a></h1>
+<a href=https://xujiajiadexiaokeai.github.io/2022-07-13/go-goroutine/>Goroutine</a></h1>
 <div class=post-meta>
+<span class=post-date>
+2022-07-13
+</span>
+<span class=post-author>:: Wenhao Jiang</span>
 <span class=post-reading-time>:: 1 min read (71 words)</span>
 </div>
+<span class=post-tags>
+#<a href=https://xujiajiadexiaokeai.github.io/tags/go/>Go</a>&nbsp;
+</span>
 <div class=table-of-contents>
 <h2>
 Table of Contents
@@ -167,14 +163,14 @@ P会周期性地查看全局队列中是否有G待运行,防止“饥饿”
 </div>
 <div class=pagination__buttons>
 <span class="button previous">
-<a href=https://xujiajiadexiaokeai.github.io/posts/go-memory/>
+<a href=https://xujiajiadexiaokeai.github.io/2022-08-01/algorithm-notes/>
 <span class=button__icon>←</span>
-<span class=button__text>go-memory</span>
+<span class=button__text>算法笔记</span>
 </a>
 </span>
 <span class="button next">
-<a href=https://xujiajiadexiaokeai.github.io/posts/go-select/>
-<span class=button__text>为什么select仅能作用于管道?</span>
+<a href=https://xujiajiadexiaokeai.github.io/2022-07-13/go-memory/>
+<span class=button__text>Go Memory</span>
 <span class=button__icon>→</span>
 </a>
 </span>
