@@ -472,7 +472,64 @@ B[0] = A[0],对于i&amp;gt;=1,则B[i] = B[i-1] + A[i]
 &lt;p>组合数也被称为「二项式系数」,$\displaystyle \binom{n}{m}$ 读作「n选m」&lt;/p>
 &lt;p>$$\displaystyle \mathrm C_n^m = \binom{n}{m}$$&lt;/p>
 &lt;p>特别地,规定当m &amp;gt; n时, $\mathrm A_n^m = \mathrm C_n^m = 0$&lt;/p>
-&lt;h1 id="单调栈">单调栈&lt;/h1></content></item><item><title>Goroutine</title><link>https://xujiajiadexiaokeai.github.io/2022-07-13/go-goroutine/</link><pubDate>Wed, 13 Jul 2022 10:16:17 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2022-07-13/go-goroutine/</guid><description>基本概念 进程 进程是应用程序的启动实例 有独立的内存空间 不同进程通过进程间通信的方式进行通信 线程 线程是cpu调度的基本单位 不同线程可以共享进程的资源 不同线程通过共享内存等线程间通信方式进行通信 协程 协程调度由用户程序提供,不直接受操作系统调度 协程调度器按照调度策略把协程调度到线程中执行 协程的优势 过多的线程会导致上下文切换的开销变大,而工作在用户态的协程则能大大减少上下文切换的开销 协程调度器把可运行的协程逐个调度到线程中执行,同时及时把阻塞的协程调度出线程 有效地避免了线程的频繁切换 实现了使用少量线程实现高并发的效果
+&lt;h1 id="单调栈">单调栈&lt;/h1></content></item><item><title>gRPC concepts</title><link>https://xujiajiadexiaokeai.github.io/2022-07-13/grpc-concepts/</link><pubDate>Wed, 13 Jul 2022 19:15:17 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2022-07-13/grpc-concepts/</guid><description>Interface Definition Language(IDL) protocol buffers
+Synchronous vs. asynchronous application-specific
+RPC life cycle Unary RPC client -&amp;gt; server metadata method name deadline if applicable server -&amp;gt; client send back its own initial metadata (which must be sent before any response) straight away or wait for the client’s request message which happens first, is application-specific optional trailing metadata Server streaming RPC like unary RPC
+Client streaming RPC like unary RPC</description><content>&lt;h1 id="interface-definition-languageidl">Interface Definition Language(IDL)&lt;/h1>
+&lt;p>protocol buffers&lt;/p>
+&lt;h1 id="synchronous-vs-asynchronous">Synchronous vs. asynchronous&lt;/h1>
+&lt;p>&lt;strong>application-specific&lt;/strong>&lt;/p>
+&lt;h1 id="rpc-life-cycle">RPC life cycle&lt;/h1>
+&lt;h2 id="unary-rpc">Unary RPC&lt;/h2>
+&lt;ol>
+&lt;li>client -&amp;gt; server&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>metadata&lt;/li>
+&lt;li>method name&lt;/li>
+&lt;li>deadline if applicable&lt;/li>
+&lt;/ul>
+&lt;ol start="2">
+&lt;li>server -&amp;gt; client&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>send back its own initial metadata (which must be sent before any response) straight away&lt;/li>
+&lt;li>or wait for the client’s request message&lt;/li>
+&lt;li>which happens first, is &lt;strong>application-specific&lt;/strong>&lt;/li>
+&lt;li>optional trailing metadata&lt;/li>
+&lt;/ul>
+&lt;h2 id="server-streaming-rpc">Server streaming RPC&lt;/h2>
+&lt;p>like unary RPC&lt;/p>
+&lt;h2 id="client-streaming-rpc">Client streaming RPC&lt;/h2>
+&lt;p>like unary RPC&lt;/p>
+&lt;h2 id="bidirectional-streaming-rpc">Bidirectional streaming RPC&lt;/h2>
+&lt;ul>
+&lt;li>the call is initiated by the client invoking the method and the server receiving the client metadata, method name, and deadline&lt;/li>
+&lt;li>server can choose to send back its initial metadata or wait for the client to start streaming messages&lt;/li>
+&lt;li>processing is application specific&lt;/li>
+&lt;li>two streams are independent&lt;/li>
+&lt;/ul>
+&lt;h1 id="deadlinestimeouts">Deadlines/Timeouts&lt;/h1>
+&lt;ul>
+&lt;li>clients to specify&lt;/li>
+&lt;li>server can query&lt;/li>
+&lt;li>specifying a deadline or timeout &lt;strong>is language specific&lt;/strong>&lt;/li>
+&lt;/ul>
+&lt;h1 id="rpc-termination">RPC termination&lt;/h1>
+&lt;p>both the client and server make &lt;strong>independent&lt;/strong> and local determinations of the success of the call, and their conclusions may not match&lt;/p>
+&lt;h1 id="cancelling-an-rpc">Cancelling an RPC&lt;/h1>
+&lt;ul>
+&lt;li>client and server either can cancel at any time&lt;/li>
+&lt;li>changes made before a cancellation are not rolled back.&lt;/li>
+&lt;/ul>
+&lt;h1 id="metadata">Metadata&lt;/h1>
+&lt;h1 id="channels">Channels&lt;/h1>
+&lt;ul>
+&lt;li>clients can specify channel arguments to modify gRPC’s default behavior(such as message compression)&lt;/li>
+&lt;li>channels has state, including &lt;strong>connected&lt;/strong> and &lt;strong>idle&lt;/strong>&lt;/li>
+&lt;li>closing a channel is &lt;strong>language dependent&lt;/strong>&lt;/li>
+&lt;li>Some languages also permit querying channel state&lt;/li>
+&lt;/ul></content></item><item><title>Goroutine</title><link>https://xujiajiadexiaokeai.github.io/2022-07-13/go-goroutine/</link><pubDate>Wed, 13 Jul 2022 10:16:17 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2022-07-13/go-goroutine/</guid><description>基本概念 进程 进程是应用程序的启动实例 有独立的内存空间 不同进程通过进程间通信的方式进行通信 线程 线程是cpu调度的基本单位 不同线程可以共享进程的资源 不同线程通过共享内存等线程间通信方式进行通信 协程 协程调度由用户程序提供,不直接受操作系统调度 协程调度器按照调度策略把协程调度到线程中执行 协程的优势 过多的线程会导致上下文切换的开销变大,而工作在用户态的协程则能大大减少上下文切换的开销 协程调度器把可运行的协程逐个调度到线程中执行,同时及时把阻塞的协程调度出线程 有效地避免了线程的频繁切换 实现了使用少量线程实现高并发的效果
 多个协程分享操作系统分给线程的时间片 协程调度器决定了协程运行的顺序 线程运行调度器指派的协程,每一时刻只能运行一个协程
 调度模型 线程模型 线程可分为用户线程和内核线程 用户线程由用户创建、同步合销毁 根据用户线程管理方式的不同,分为三种线程模型: N:1模型 N个用户线程运行在1个内核线程中,上下文切换较快 1:1模型 每个用户线程对应一个内核线程,上下文切换较慢 M:N模型 充分利用cpu且上下文切换较快,但调度算法较为复杂 Go GPM模型 G: goroutine,Go协程,每个go关键字都会创建一个goroutine P: processor,处理器(Go定义的一个概念,不是指cpu),包含运行Go代码的必要资源,也有调度goroutine的能力 M: machine,工作线程,由操作系统调度 M必须持有P才能运行代码 M会被系统调用阻塞
 P的个数在程序启动时决定,默认等于CPU的核数,可以使用环境变量GOMAXPROCS或在程序中使用runtime.GOMAXPROCS()方法指定P的个数

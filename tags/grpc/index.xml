@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>gRPC on xujiajiadexiaokeai</title><link>https://xujiajiadexiaokeai.github.io/tags/grpc/</link><description>Recent content in gRPC on xujiajiadexiaokeai</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>© 2021-2022 xujiajiadexiaokeai</copyright><lastBuildDate>Wed, 13 Jul 2022 19:15:17 +0800</lastBuildDate><atom:link href="https://xujiajiadexiaokeai.github.io/tags/grpc/index.xml" rel="self" type="application/rss+xml"/><item><title>gRPC concepts</title><link>https://xujiajiadexiaokeai.github.io/2022-07-13/grpc-concepts/</link><pubDate>Wed, 13 Jul 2022 19:15:17 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2022-07-13/grpc-concepts/</guid><description>Interface Definition Language(IDL) protocol buffers
+Synchronous vs. asynchronous application-specific
+RPC life cycle Unary RPC client -&amp;gt; server metadata method name deadline if applicable server -&amp;gt; client send back its own initial metadata (which must be sent before any response) straight away or wait for the client’s request message which happens first, is application-specific optional trailing metadata Server streaming RPC like unary RPC
+Client streaming RPC like unary RPC</description><content>&lt;h1 id="interface-definition-languageidl">Interface Definition Language(IDL)&lt;/h1>
+&lt;p>protocol buffers&lt;/p>
+&lt;h1 id="synchronous-vs-asynchronous">Synchronous vs. asynchronous&lt;/h1>
+&lt;p>&lt;strong>application-specific&lt;/strong>&lt;/p>
+&lt;h1 id="rpc-life-cycle">RPC life cycle&lt;/h1>
+&lt;h2 id="unary-rpc">Unary RPC&lt;/h2>
+&lt;ol>
+&lt;li>client -&amp;gt; server&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>metadata&lt;/li>
+&lt;li>method name&lt;/li>
+&lt;li>deadline if applicable&lt;/li>
+&lt;/ul>
+&lt;ol start="2">
+&lt;li>server -&amp;gt; client&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>send back its own initial metadata (which must be sent before any response) straight away&lt;/li>
+&lt;li>or wait for the client’s request message&lt;/li>
+&lt;li>which happens first, is &lt;strong>application-specific&lt;/strong>&lt;/li>
+&lt;li>optional trailing metadata&lt;/li>
+&lt;/ul>
+&lt;h2 id="server-streaming-rpc">Server streaming RPC&lt;/h2>
+&lt;p>like unary RPC&lt;/p>
+&lt;h2 id="client-streaming-rpc">Client streaming RPC&lt;/h2>
+&lt;p>like unary RPC&lt;/p>
+&lt;h2 id="bidirectional-streaming-rpc">Bidirectional streaming RPC&lt;/h2>
+&lt;ul>
+&lt;li>the call is initiated by the client invoking the method and the server receiving the client metadata, method name, and deadline&lt;/li>
+&lt;li>server can choose to send back its initial metadata or wait for the client to start streaming messages&lt;/li>
+&lt;li>processing is application specific&lt;/li>
+&lt;li>two streams are independent&lt;/li>
+&lt;/ul>
+&lt;h1 id="deadlinestimeouts">Deadlines/Timeouts&lt;/h1>
+&lt;ul>
+&lt;li>clients to specify&lt;/li>
+&lt;li>server can query&lt;/li>
+&lt;li>specifying a deadline or timeout &lt;strong>is language specific&lt;/strong>&lt;/li>
+&lt;/ul>
+&lt;h1 id="rpc-termination">RPC termination&lt;/h1>
+&lt;p>both the client and server make &lt;strong>independent&lt;/strong> and local determinations of the success of the call, and their conclusions may not match&lt;/p>
+&lt;h1 id="cancelling-an-rpc">Cancelling an RPC&lt;/h1>
+&lt;ul>
+&lt;li>client and server either can cancel at any time&lt;/li>
+&lt;li>changes made before a cancellation are not rolled back.&lt;/li>
+&lt;/ul>
+&lt;h1 id="metadata">Metadata&lt;/h1>
+&lt;h1 id="channels">Channels&lt;/h1>
+&lt;ul>
+&lt;li>clients can specify channel arguments to modify gRPC’s default behavior(such as message compression)&lt;/li>
+&lt;li>channels has state, including &lt;strong>connected&lt;/strong> and &lt;strong>idle&lt;/strong>&lt;/li>
+&lt;li>closing a channel is &lt;strong>language dependent&lt;/strong>&lt;/li>
+&lt;li>Some languages also permit querying channel state&lt;/li>
+&lt;/ul></content></item></channel></rss>
