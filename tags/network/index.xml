@@ -55,4 +55,211 @@ Client streaming RPC like unary RPC</description><content>&lt;h1 id="interface-d
 &lt;li>channels has state, including &lt;strong>connected&lt;/strong> and &lt;strong>idle&lt;/strong>&lt;/li>
 &lt;li>closing a channel is &lt;strong>language dependent&lt;/strong>&lt;/li>
 &lt;li>Some languages also permit querying channel state&lt;/li>
-&lt;/ul></content></item></channel></rss>
+&lt;/ul></content></item><item><title>data-link-layer Notes</title><link>https://xujiajiadexiaokeai.github.io/2021-11-23/data-link-layer/</link><pubDate>Tue, 23 Nov 2021 15:49:30 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2021-11-23/data-link-layer/</guid><description>数据链路层将比特合成帧为单位进行传输 可以在出错时只重发出错的帧,而不用重发全部数据,提高了效率
+组帧: 封装成帧 主要解决 帧定界、帧同步、帧传输
+组帧要加首部、尾部 网络中以帧为最小单位进行传输,而分组(即IP数据报)仅仅是包含在帧的数据部分,不需要尾部
+字符计数法(脆弱) 在帧头部使用一个计数字段来标明帧内字符数,可以确定帧结束位置 计数字段的字节数包含自身
+如果计数字段出错,则后续将无法确认帧结束位和开始位
+字符填充的首尾定界符法(复杂 不兼容) 开始: DLE STX
+结束: DLE ETX
+如果在数据段出现DLE字符,发送方在每个DLE字符前再插入一个DLE,接收方会自己删除DLE,数据仍不变
+比特填充的首尾标志法 01111110 来标识一帧的开始与结束
+发送方 每5个连续的1会自动在后面插入一个0
+接收方 每5个连续的1会删除后面的0
+容易用硬件实现 性能优于字符填充
+违规编码法 曼彻斯特编码法: 1 : 高-低电平 0: 低-高电平
+高-高 低-低是违规编码 可以用于标识首尾 局域网IEEE 802采用这种方法编码
+不采用任何填充技术
+只适用采用冗余编码的特殊编码环境
+差错控制 传输中的差错都是由噪声引起的.
+噪声分成两类: 信道固有的,持续存在的热噪声: 可通过提高信噪比来减少或避免
+外界特定原因所造成的冲击噪声: 需要利用编码技术来进行差错控制
+差错控制: 自动重传请求(ARQ)-检错编码、前向纠错(FEC)-纠错编码 ARQ: 接收端通知发送端重发,直到正确 FEC: 接收端发现差错,并可以确定错误位置,加以纠正 检错编码 奇偶校验码
+通过增加冗余位来使码字中 1 的个数保持为奇数或偶数的编码方法.
+只能发现奇数个比特的错误
+循环冗余校验码
+假设一个帧有m位,其对应的多项式为G(x),则计算冗余码的步骤如下:
+加0: 假设G(x)的阶为r,在帧的低位端加上r个0
+模2除: 利用模2除法,用G(x)对应的数据串去除1)中计算出的数据串,得到的余数为冗余码(共r位,前导0不可去除)</description><content>&lt;h1 id="数据链路层将比特合成帧为单位进行传输">数据链路层将比特合成帧为单位进行传输&lt;/h1>
+&lt;p>可以在出错时只重发出错的帧,而不用重发全部数据,提高了效率&lt;/p>
+&lt;p>组帧: 封装成帧 主要解决 帧定界、帧同步、帧传输&lt;/p>
+&lt;h2 id="组帧要加首部尾部">组帧要加首部、尾部&lt;/h2>
+&lt;p>网络中以帧为最小单位进行传输,而分组(即IP数据报)仅仅是包含在帧的数据部分,不需要尾部&lt;/p>
+&lt;h3 id="字符计数法脆弱">字符计数法(脆弱)&lt;/h3>
+&lt;p>在帧头部使用一个计数字段来标明帧内字符数,可以确定帧结束位置 计数字段的字节数包含自身&lt;/p>
+&lt;p>如果计数字段出错,则后续将无法确认帧结束位和开始位&lt;/p>
+&lt;h3 id="字符填充的首尾定界符法复杂-不兼容">字符填充的首尾定界符法(复杂 不兼容)&lt;/h3>
+&lt;p>开始: DLE STX&lt;/p>
+&lt;p>结束: DLE ETX&lt;/p>
+&lt;p>如果在数据段出现DLE字符,发送方在每个DLE字符前再插入一个DLE,接收方会自己删除DLE,数据仍不变&lt;/p>
+&lt;h3 id="比特填充的首尾标志法">比特填充的首尾标志法&lt;/h3>
+&lt;p>01111110 来标识一帧的开始与结束&lt;/p>
+&lt;p>发送方 每5个连续的1会自动在后面插入一个0&lt;/p>
+&lt;p>接收方 每5个连续的1会删除后面的0&lt;/p>
+&lt;p>容易用硬件实现 性能优于字符填充&lt;/p>
+&lt;h3 id="违规编码法">违规编码法&lt;/h3>
+&lt;p>曼彻斯特编码法: 1 : 高-低电平 0: 低-高电平&lt;/p>
+&lt;p>高-高 低-低是违规编码 可以用于标识首尾 局域网IEEE 802采用这种方法编码&lt;/p>
+&lt;p>不采用任何填充技术&lt;/p>
+&lt;p>只适用采用冗余编码的特殊编码环境&lt;/p>
+&lt;h1 id="差错控制">差错控制&lt;/h1>
+&lt;p>传输中的差错都是由噪声引起的.&lt;/p>
+&lt;h3 id="噪声分成两类">噪声分成两类:&lt;/h3>
+&lt;p>信道固有的,持续存在的热噪声: 可通过提高信噪比来减少或避免&lt;/p>
+&lt;p>外界特定原因所造成的冲击噪声: 需要利用编码技术来进行差错控制&lt;/p>
+&lt;h3 id="差错控制-自动重传请求arq-检错编码前向纠错fec-纠错编码">差错控制: 自动重传请求(ARQ)-检错编码、前向纠错(FEC)-纠错编码&lt;/h3>
+&lt;h3 id="arq-接收端通知发送端重发直到正确">ARQ: 接收端通知发送端重发,直到正确&lt;/h3>
+&lt;h3 id="fec-接收端发现差错并可以确定错误位置加以纠正">FEC: 接收端发现差错,并可以确定错误位置,加以纠正&lt;/h3>
+&lt;h2 id="检错编码">检错编码&lt;/h2>
+&lt;p>奇偶校验码&lt;/p>
+&lt;p>通过增加冗余位来使码字中 1 的个数保持为奇数或偶数的编码方法.&lt;/p>
+&lt;p>只能发现奇数个比特的错误&lt;/p>
+&lt;p>循环冗余校验码&lt;/p>
+&lt;p>假设一个帧有m位,其对应的多项式为G(x),则计算冗余码的步骤如下:&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>加0: 假设G(x)的阶为r,在帧的低位端加上r个0&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>模2除: 利用模2除法,用G(x)对应的数据串去除1)中计算出的数据串,得到的余数为冗余码(共r位,前导0不可去除)&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>多项式为模2运算. 加法不进位,减法不借位(其实就是异或操作)&lt;/p>
+&lt;h2 id="纠错编码">纠错编码&lt;/h2>
+&lt;p>m个信息位插入r个校验位组成m+r个码字,必须满足2^r&amp;gt;=m+r+1&lt;/p>
+&lt;p>海明码&lt;/p>
+&lt;p>可发现双比特错,纠正单比特错&lt;/p>
+&lt;p>纠错d位 需要码距为2d+1的编码方案 检错d位 只需要d+1位&lt;/p>
+&lt;h1 id="流量控制与可靠传输">流量控制与可靠传输&lt;/h1>
+&lt;h2 id="流量控制">流量控制&lt;/h2>
+&lt;p>使接收方有足够的缓冲空间来接收帧&lt;/p>
+&lt;p>基本方法: 由接收方来控制发送方发送数据的速率&lt;/p></content></item><item><title>HTTP1.x/2/3的区别</title><link>https://xujiajiadexiaokeai.github.io/2021-10-28/the-difference-between-http1.x-and-http2-and-http3</link><pubDate>Thu, 28 Oct 2021 22:40:30 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2021-10-28/the-difference-between-http1.x-and-http2-and-http3</guid><description>HTTP/1.x缺陷 连接无法复用
+HTTP/1.0 每次都需要重新建立连接，增加延迟
+HTTP/1.1 虽然加入keep-alive可以复用一部分连接，但域名分片等情况下仍然需要建立多个connection，耗费资源，给服务器带来性能压力
+HOLB(Head-Of-Line-Blocking)：导致带宽无法被充分利用，以及后续健康请求被阻塞 HOLB是指一系列包（package）因为第一个包被阻塞；当页面中需要请求很多资源的时候，HOLB（队头阻塞）会导致在达到最大请求数量时，剩余的资源需要等待其他资源请求完成后才能发起请求。
+HTTP 1.0：下个请求必须在前一个请求返回后才能发出，request-response对按序发生。显然，如果某个请求长时间没有返回，那么接下来的请求就全部阻塞了。
+HTTP 1.1：尝试使用 pipeling 来解决，即浏览器可以一次性发出多个请求（同个域名，同一条 TCP 链接）。但 pipeling 要求返回是按序的，那么前一个请求如果很耗时（比如处理大图片），那么后面的请求即使服务器已经处理完，仍会等待前面的请求处理完才开始按序返回。所以，pipeling 只部分解决了 HOLB。
+协议开销大： HTTP1.x 在使用时，header 里携带的内容过大，在一定程度上增加了传输的成本，并且每次请求 header 基本不怎么变化，尤其在移动端增加用户流量。
+安全因素：HTTP1.x 在传输数据时，所有传输的内容都是明文，客户端和服务器端都无法验证对方的身份，这在一定程度上无法保证数据的安全性
+SPDY协议 HTTP/2新特性 二进制传输 HTTP/2将请求和响应数据分割为更小的帧，并且它们采用二进制编码。
+重要概念：
+流： 流是连接中的一个虚拟信道，可以承载双向的消息；每个流都有一个唯一的整数标识符；
+消息：是指逻辑上的HTTP消息，比如请求、响应等，由一个或多个帧组成。
+帧： HTTP/2 通信的最小单位，每个帧包含帧首部，至少也会标识出当前帧所属的流，承载着特定类型的数据，如HTTP首部、负荷，等等
+HTTP/2 中，同域名下所有通信都在耽搁连接上完成，该连接可以承载任意数量的双向数据流。每个数据流都以消息的形式发送，而消息又由一个或多个帧组成。多个帧之间可以乱序发送，根据帧首部的流标识可以重新组装。
+多路复用
+Header 压缩
+在HTTP/1 中，我们使用文本的形式传输header，在header携带cookie的情况下，可能每次都需要重复传输几百到几千的字节。</description><content>&lt;h1 id="http1x缺陷">HTTP/1.x缺陷&lt;/h1>
+&lt;ul>
+&lt;li>
+&lt;p>连接无法复用&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>HTTP/1.0 每次都需要重新建立连接，增加延迟&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>HTTP/1.1 虽然加入keep-alive可以复用一部分连接，但域名分片等情况下仍然需要建立多个connection，耗费资源，给服务器带来性能压力&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>HOLB(Head-Of-Line-Blocking)：导致带宽无法被充分利用，以及后续健康请求被阻塞 &lt;a href="http://stackoverflow.com/questions/25221954/spdy-head-of-line-blocking">HOLB&lt;/a>是指一系列包（package）因为第一个包被阻塞；当页面中需要请求很多资源的时候，HOLB（队头阻塞）会导致在达到最大请求数量时，剩余的资源需要等待其他资源请求完成后才能发起请求。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>HTTP 1.0：下个请求必须在前一个请求返回后才能发出，&lt;code>request-response&lt;/code>对按序发生。显然，如果某个请求长时间没有返回，那么接下来的请求就全部阻塞了。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>HTTP 1.1：尝试使用 pipeling 来解决，即浏览器可以一次性发出多个请求（同个域名，同一条 TCP 链接）。但 pipeling 要求返回是按序的，那么前一个请求如果很耗时（比如处理大图片），那么后面的请求即使服务器已经处理完，仍会等待前面的请求处理完才开始按序返回。所以，pipeling 只部分解决了 HOLB。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>协议开销大&lt;/strong>： HTTP1.x 在使用时，header 里携带的内容过大，在一定程度上增加了传输的成本，并且每次请求 header 基本不怎么变化，尤其在移动端增加用户流量。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>安全因素&lt;/strong>：HTTP1.x 在传输数据时，所有传输的内容都是明文，客户端和服务器端都无法验证对方的身份，这在一定程度上无法保证数据的安全性&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h1 id="spdy协议">SPDY协议&lt;/h1>
+&lt;h1 id="http2新特性">HTTP/2新特性&lt;/h1>
+&lt;ol>
+&lt;li>二进制传输&lt;/li>
+&lt;/ol>
+&lt;p>HTTP/2将请求和响应数据分割为更小的帧，并且它们采用二进制编码。&lt;/p>
+&lt;p>重要概念：&lt;/p>
+&lt;p>流： 流是连接中的一个虚拟信道，可以承载双向的消息；每个流都有一个唯一的整数标识符；&lt;/p>
+&lt;p>消息：是指逻辑上的HTTP消息，比如请求、响应等，由一个或多个帧组成。&lt;/p>
+&lt;p>帧： HTTP/2 通信的最小单位，每个帧包含帧首部，至少也会标识出当前帧所属的流，承载着特定类型的数据，如HTTP首部、负荷，等等&lt;/p>
+&lt;p>HTTP/2 中，同域名下所有通信都在耽搁连接上完成，该连接可以承载任意数量的双向数据流。每个数据流都以消息的形式发送，而消息又由一个或多个帧组成。多个帧之间可以乱序发送，根据帧首部的流标识可以重新组装。&lt;/p>
+&lt;ol start="2">
+&lt;li>
+&lt;p>多路复用&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Header 压缩&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>在HTTP/1 中，我们使用文本的形式传输header，在header携带cookie的情况下，可能每次都需要重复传输几百到几千的字节。&lt;/p>
+&lt;p>HTTP/2 采用了首部压缩策略&lt;/p>
+&lt;p>HTTP/2 在 client和server use header table 来跟踪和存储之前发送的k-v pair&lt;/p>
+&lt;p>对于same data 不再通过每次 req和 resp 发送&lt;/p>
+&lt;p>header table 在 HTTP/2 连接存续阶段 始终存在，由client和server共同更新&lt;/p>
+&lt;p>every new k-v pair will change the old value or 追加到当前表的末尾&lt;/p>
+&lt;p>&lt;img src="https://tcs.teambition.net/storage/312b415fc4315f725c7a4706d75023480258?Signature=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBcHBJRCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9hcHBJZCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9vcmdhbml6YXRpb25JZCI6IiIsImV4cCI6MTY3NzgyNDk4NywiaWF0IjoxNjc3MjIwMTg3LCJyZXNvdXJjZSI6Ii9zdG9yYWdlLzMxMmI0MTVmYzQzMTVmNzI1YzdhNDcwNmQ3NTAyMzQ4MDI1OCJ9.Dc5c7rlcDtwnJjhr9tphWlah5puyezMOV9pFPF3SOdA&amp;amp;download=image.png" alt="" title="">&lt;/p>
+&lt;ol start="4">
+&lt;li>Server push&lt;/li>
+&lt;/ol>
+&lt;p>Server 可以通过 push的方式将client 需要的内容 预先push过去 “cache push”&lt;/p>
+&lt;p>prefetch 在browser兼容的情况下可以使用&lt;/p>
+&lt;p>server可以主动把js和css文件推送给client 而不需要client解析html时再发送请求&lt;/p>
+&lt;p>&lt;img src="https://tcs.teambition.net/storage/312b2a39c864e2d11eb862a8aea2f49b3e38?Signature=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBcHBJRCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9hcHBJZCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9vcmdhbml6YXRpb25JZCI6IiIsImV4cCI6MTY3NzgyNDk4NywiaWF0IjoxNjc3MjIwMTg3LCJyZXNvdXJjZSI6Ii9zdG9yYWdlLzMxMmIyYTM5Yzg2NGUyZDExZWI4NjJhOGFlYTJmNDliM2UzOCJ9.hT3eTkH20BhE7Y_FL77JIcMY7bjo9rdniJH8fcHuyBQ&amp;amp;download=image.png" alt="" title="">&lt;/p>
+&lt;p>服务端可以主动推送，客户端也有权利选择是否接收。如果服务端推送的资源已经被浏览器缓存过，浏览器可以通过发送 RST_STREAM 帧来拒收。主动推送也遵守同源策略，换句话说，服务器不能随便将第三方资源推送给客户端，而必须是经过双方确认才行。&lt;/p>
+&lt;h1 id="http3新特性">HTTP/3新特性&lt;/h1>
+&lt;p>HTTP/3 简介&lt;/p>
+&lt;p>HTTP/2 使用了多路复用，一般来说同一域名下只需要使用一个 TCP 连接。但当这个连接中出现了丢包的情况，那就会导致 HTTP/2 的表现情况反倒不如 HTTP/1 了。&lt;/p>
+&lt;p>因为在出现丢包的情况下，整个 TCP 都要开始等待重传，也就导致了后面的所有数据都被阻塞了。但是对于 HTTP/1.1 来说，可以开启多个 TCP 连接，出现这种情况反到只会影响其中一个连接，剩余的 TCP 连接还可以正常传输数据&lt;/p>
+&lt;p>google 基于UDP的QUIC协议&lt;/p>
+&lt;p>QUIC新功能&lt;/p>
+&lt;p>0-RTT&lt;/p>
+&lt;p>通过类时TCP快速打开的技术，缓存当前会话的上下文，在下次恢复会话的时候，只需要将之前的缓存传递给服务端验证就可以进行传输了&lt;/p>
+&lt;p>0RTT建连可以说是QUIC相比HTTP2最大的性能优势&lt;/p>
+&lt;p>传输层0RTT就能建立连接&lt;/p>
+&lt;p>加密层0RTT就能建立加密连接&lt;/p>
+&lt;p>&lt;img src="https://tcs.teambition.net/storage/312b26df030e3e1fa86cd5c725a8c9629db0?Signature=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBcHBJRCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9hcHBJZCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9vcmdhbml6YXRpb25JZCI6IiIsImV4cCI6MTY3NzgyNDk4NywiaWF0IjoxNjc3MjIwMTg3LCJyZXNvdXJjZSI6Ii9zdG9yYWdlLzMxMmIyNmRmMDMwZTNlMWZhODZjZDVjNzI1YThjOTYyOWRiMCJ9.BK7mKP8rP_WmQzOBKceNalxUoaHidrJtw-9Qb4M1wjM&amp;amp;download=image.png" alt="" title="">&lt;/p>
+&lt;p>多路复用&lt;/p>
+&lt;p>QUIC原生实现了多路复用，并且在传输的单个数据流可以保证有序交付且不会影响其他的数据流&lt;/p>
+&lt;p>同一条QUIC连接上可以创建多个stream 且stream间互不依赖(因为基于UDP)&lt;/p>
+&lt;p>不存在TCP队头阻塞&lt;/p>
+&lt;p>通过ID去识别连接 在移动端的表现好&lt;/p>
+&lt;p>加密认证的报文&lt;/p>
+&lt;p>TCP协议头部没有经过加密和认证 在传输过程中容易被中间网络设备篡改、注入和窃听&lt;/p>
+&lt;p>QUIC除了个别报文 PUBLIC_RESET 和 CHLO 都是经过认证的 Body都是经过加密的&lt;/p>
+&lt;p>&lt;img src="https://tcs.teambition.net/storage/312ba211fd4c9e4fa575565151ba23396ad6?Signature=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBcHBJRCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9hcHBJZCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9vcmdhbml6YXRpb25JZCI6IiIsImV4cCI6MTY3NzgyNDk4NywiaWF0IjoxNjc3MjIwMTg3LCJyZXNvdXJjZSI6Ii9zdG9yYWdlLzMxMmJhMjExZmQ0YzllNGZhNTc1NTY1MTUxYmEyMzM5NmFkNiJ9.JVDJalaMiDT6NSv76IQi7v-XW0wU-ommIVZ1QR5bqnc&amp;amp;download=image.png" alt="" title="">&lt;/p>
+&lt;p>向前纠错(FEC) Forward Error Correction&lt;/p>
+&lt;p>每个数据包除了它本身 还包括了部分其他数据包的数据&lt;/p>
+&lt;p>少量的丢包可以通过其他包的冗余数据直接组装&lt;/p>
+&lt;h1 id="总结">总结&lt;/h1>
+&lt;ul>
+&lt;li>
+&lt;p>HTTP/1.x 有连接无法复用、队头阻塞、协议开销大和安全因素等多个缺陷&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>HTTP/2 通过多路复用、二进制流、Header 压缩等等技术，极大地提高了性能，但是还是存在着问题的&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>QUIC 基于 UDP 实现，是 HTTP/3 中的底层支撑协议，该协议基于 UDP，又取了 TCP 中的精华，实现了即快又可靠的协议&lt;/p>
+&lt;/li>
+&lt;/ul></content></item><item><title>Linux Network Notes</title><link>https://xujiajiadexiaokeai.github.io/2021-10-16/linux-network-notes/</link><pubDate>Sat, 16 Oct 2021 15:51:30 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2021-10-16/linux-network-notes/</guid><description>I/O模型 阻塞I/O Blocking I/O
+非阻塞I/O Nonblocking I/O
+Linux 下,我们可以通过 fcntl 系统调用来设置 O_NONBLOCK 标志位,从而把 socket 设置成 Non-blocking。
+当用户进程发出 read 操作时,如果 kernel 中的数据还没有准备好,那么它并不会 block 用户进程,而是立刻返回一个 EAGAIN error。从用户进程角度讲 ,它发起一个 read 操作后,并不需要等待,而是马上就得到了一个结果。用户进程判断结果是一个 error 时,它就知道数据还没有准备好,于是它可以再次发送 read 操作。一旦 kernel 中的数据准备好了,并且又再次收到了用户进程的 system call,那么它马上就将数据拷贝到了用户内存,然后返回。
+所以,Non-blocking I/O 的特点是用户进程需要不断的主动询问 kernel 数据好了没有
+I/O多路复用 I/O multiplexing I/O多路复用就是 select/poll/epoll 等多路选择器：支持单一线程同时监听多个文件描述符,阻塞等待,并在其中某个文件描述符文可读写时收到通知。
+本质上复用的是线程,让一个thread of control能够处理多个连接(I/O事件)
+信号驱动I/O Signal drivern I/O 异步I/O Asynchronous I/O</description><content>&lt;h3 id="io模型">I/O模型&lt;/h3>
+&lt;p>阻塞I/O Blocking I/O&lt;/p>
+&lt;p>非阻塞I/O Nonblocking I/O&lt;/p>
+&lt;p>Linux 下,我们可以通过 &lt;code>fcntl&lt;/code> 系统调用来设置 &lt;code>O_NONBLOCK&lt;/code> 标志位,从而把 socket 设置成 Non-blocking。&lt;/p>
+&lt;p>当用户进程发出 read 操作时,如果 kernel 中的数据还没有准备好,那么它并不会 block 用户进程,而是立刻返回一个 EAGAIN error。从用户进程角度讲 ,它发起一个 read 操作后,并不需要等待,而是马上就得到了一个结果。用户进程判断结果是一个 error 时,它就知道数据还没有准备好,于是它可以再次发送 read 操作。一旦 kernel 中的数据准备好了,并且又再次收到了用户进程的 system call,那么它马上就将数据拷贝到了用户内存,然后返回。&lt;/p>
+&lt;p>&lt;strong>所以,Non-blocking I/O 的特点是用户进程需要不断的主动询问 kernel 数据好了没有&lt;/strong>&lt;/p>
+&lt;h3 id="io多路复用-io-multiplexing">I/O多路复用 I/O multiplexing&lt;/h3>
+&lt;p>I/O多路复用就是 select/poll/epoll 等多路选择器：支持单一线程同时监听多个文件描述符,阻塞等待,并在其中某个文件描述符文可读写时收到通知。&lt;/p>
+&lt;p>本质上复用的是线程,让一个thread of control能够处理多个连接(I/O事件)&lt;/p>
+&lt;h3 id="信号驱动io-signal-drivern-io">信号驱动I/O Signal drivern I/O&lt;/h3>
+&lt;h3 id="异步io-asynchronous-io">异步I/O Asynchronous I/O&lt;/h3></content></item></channel></rss>

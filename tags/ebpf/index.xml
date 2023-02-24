@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>eBPF on xujiajiadexiaokeai</title><link>https://xujiajiadexiaokeai.github.io/tags/ebpf/</link><description>Recent content in eBPF on xujiajiadexiaokeai</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>© 2021-2022 xujiajiadexiaokeai</copyright><lastBuildDate>Sun, 06 Mar 2022 20:41:30 +0800</lastBuildDate><atom:link href="https://xujiajiadexiaokeai.github.io/tags/ebpf/index.xml" rel="self" type="application/rss+xml"/><item><title>MacOS用户快速上手Cilium eBPF</title><link>https://xujiajiadexiaokeai.github.io/2022-03-06/cilium-ebpf-quick-tutorial/</link><pubDate>Sun, 06 Mar 2022 20:41:30 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2022-03-06/cilium-ebpf-quick-tutorial/</guid><description>机器: Macbook Pro 13inch 2015款
+系统: macOS Mojave 10.14.6
+安装虚拟机 首先需要一个linux发行版,选择安装一个虚拟机来装Ubuntu,找到了multipass.
+multipass是Ubuntu旗下一款虚拟机产品,适用个各个平台,可以在本地快速的开启一个虚拟机
+Multipass orchestrates virtual Ubuntu instances
+版本: 1.8.1+mac
+multipass version 安装完成后,指定VirtualBox为vm driver
+sudo multipass set local.driver=virtualbox Using VirtualBox in Multipass on macOS | Multipass documentation
+快速启动一台当前最新LTS版的Ubuntu虚拟机并等待启动完成
+$ multipass launch --name ubuntu 配置ssh 这一步主要是为了能够使用开发机上vscode来连接到虚拟机进行coding,毕竟如果不是很熟悉使用vim的开发者,在terminal内编程还是有点困难
+multipass启动的虚拟机默认开放22端口,也内置了ssh server.但是,因为处于不同网段,如果想要公开这个端口供开发机连接,需要使用VirtualBox的端口转发功能,将22端口映射到宿主机的某个端口,这样就提供了外部访问的能力.在终端输入:
+sudo VBoxManage controlvm &amp;#34;ubuntu&amp;#34; natpf1 &amp;#34;myservice,tcp,,22,,2222&amp;#34; 该命令为ubuntu实例(也就是虚拟机)在natpf1网卡上添加了一条转发规则,规则名叫做&amp;quot;myservice&amp;quot;,tcp协议,将所有到达宿主机2222端口的流量转发到实例的22端口上
+局域网记得锁定ip
+安装go sudo snap install go --classic 克隆cilium/ebpf项目 git clone https://github.com/cilium/ebpf.git 运行example cd ebpf/examples/ go run -exec sudo .</description><content>&lt;p>机器: Macbook Pro 13inch 2015款&lt;/p>
+&lt;p>系统: macOS Mojave 10.14.6&lt;/p>
+&lt;h1 id="安装虚拟机">安装虚拟机&lt;/h1>
+&lt;p>首先需要一个linux发行版,选择安装一个虚拟机来装Ubuntu,找到了multipass.&lt;/p>
+&lt;p>multipass是Ubuntu旗下一款虚拟机产品,适用个各个平台,可以在本地快速的开启一个虚拟机&lt;/p>
+&lt;p>&lt;a href="https://multipass.run/">Multipass orchestrates virtual Ubuntu instances&lt;/a>&lt;/p>
+&lt;p>版本: 1.8.1+mac&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-text" data-lang="text">multipass version
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>安装完成后,指定VirtualBox为vm driver&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-text" data-lang="text">sudo multipass set local.driver=virtualbox
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;a href="https://multipass.run/docs/using-virtualbox-in-multipass-macos">Using VirtualBox in Multipass on macOS | Multipass documentation&lt;/a>&lt;/p>
+&lt;p>快速启动一台当前最新LTS版的Ubuntu虚拟机并等待启动完成&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-text" data-lang="text">$ multipass launch --name ubuntu
+&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="配置ssh">配置ssh&lt;/h1>
+&lt;p>这一步主要是为了能够使用开发机上vscode来连接到虚拟机进行coding,毕竟如果不是很熟悉使用vim的开发者,在terminal内编程还是有点困难&lt;/p>
+&lt;p>multipass启动的虚拟机默认开放22端口,也内置了ssh server.但是,因为处于不同网段,如果想要公开这个端口供开发机连接,需要使用&lt;a href="https://www.virtualbox.org/manual/ch06.html#natforward">&lt;strong>VirtualBox的端口转发&lt;/strong>&lt;/a>功能,将22端口映射到宿主机的某个端口,这样就提供了外部访问的能力.在终端输入:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-text" data-lang="text">sudo VBoxManage controlvm &amp;#34;ubuntu&amp;#34; natpf1 &amp;#34;myservice,tcp,,22,,2222&amp;#34;
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>该命令为ubuntu实例(也就是虚拟机)在natpf1网卡上添加了一条转发规则,规则名叫做&amp;quot;myservice&amp;quot;,tcp协议,将所有到达宿主机2222端口的流量转发到实例的22端口上&lt;/p>
+&lt;p>局域网记得锁定ip&lt;/p>
+&lt;h1 id="安装go">安装go&lt;/h1>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-text" data-lang="text">sudo snap install go --classic
+&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="克隆ciliumebpf项目">克隆cilium/ebpf项目&lt;/h1>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-text" data-lang="text">git clone https://github.com/cilium/ebpf.git
+&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="运行example">运行example&lt;/h1>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-text" data-lang="text">cd ebpf/examples/
+go run -exec sudo ./kprobe
+&lt;/code>&lt;/pre>&lt;/div></content></item></channel></rss>

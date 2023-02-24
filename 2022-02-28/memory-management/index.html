@@ -1,0 +1,146 @@
+<!doctype html><html lang=en>
+<head>
+<title>memory-management Notes :: xujiajiadexiaokeai</title>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=description content="内存管理 笔记">
+<meta name=keywords content>
+<meta name=robots content="noodp">
+<link rel=canonical href=https://xujiajiadexiaokeai.github.io/2022-02-28/memory-management/>
+<link rel=stylesheet href=https://xujiajiadexiaokeai.github.io/assets/style.css>
+<link rel=apple-touch-icon href=https://xujiajiadexiaokeai.github.io/img/apple-touch-icon-192x192.png>
+<link rel="shortcut icon" href=https://xujiajiadexiaokeai.github.io/favicon.ico>
+<meta name=twitter:card content="summary">
+<meta property="og:locale" content="en">
+<meta property="og:type" content="article">
+<meta property="og:title" content="memory-management Notes">
+<meta property="og:description" content="内存管理 笔记">
+<meta property="og:url" content="https://xujiajiadexiaokeai.github.io/2022-02-28/memory-management/">
+<meta property="og:site_name" content="xujiajiadexiaokeai">
+<meta property="og:image" content="https://xujiajiadexiaokeai.github.io/favicon.ico">
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+<meta property="article:published_time" content="2022-02-28 17:07:30 +0800 +0800">
+</head>
+<body class=orange>
+<div class="container center headings--one-size">
+<header class=header>
+<div class=header__inner>
+<div class=header__logo>
+<a href=/>
+<div class=logo>
+RTSC && RTFM
+</div>
+</a>
+</div>
+<div class=menu-trigger>menu</div>
+</div>
+<nav class=menu>
+<ul class="menu__inner menu__inner--desktop">
+<li><a href=/about>About</a></li>
+<li><a href=/archive>Archive</a></li>
+</ul>
+<ul class="menu__inner menu__inner--mobile">
+<li><a href=/about>About</a></li>
+<li><a href=/archive>Archive</a></li>
+</ul>
+</nav>
+</header>
+<div class=content>
+<div class=post>
+<h1 class=post-title>
+<a href=https://xujiajiadexiaokeai.github.io/2022-02-28/memory-management/>memory-management Notes</a></h1>
+<div class=post-meta>
+<span class=post-date>
+2022-02-28
+</span>
+<span class=post-author>:: Wenhao Jiang</span>
+<span class=post-reading-time>:: 1 min read (54 words)</span>
+</div>
+<span class=post-tags>
+#<a href=https://xujiajiadexiaokeai.github.io/tags/system/>System</a>&nbsp;
+</span>
+<div class=post-content><div>
+<p>虚拟内存->物理内存</p>
+<p>虚拟存储器</p>
+<p>虚拟存储器解决了三个根本需求:</p>
+<p>确保可以运行存储空间需求比实际内存空间大的用户进程</p>
+<p>确保为用户程序分配的内存空间是连续的</p>
+<p>确保多个用户程序之间的内存空间互相隔离</p>
+<p>虚拟存储器能力:</p>
+<p><strong>隔离性</strong>和<strong>连续性</strong></p>
+<p><strong>内-外存空间交换能力</strong></p>
+<p>基于局部性原理实现的内-外存交换技术</p>
+<p>时间局部性</p>
+<p>空间局部性</p>
+<p>是一种时间换空间策略</p>
+<p>Swap交换分区</p>
+<p><strong>虚拟地址空间编址能力</strong></p>
+<p><strong>虚拟地址空间隔离能力</strong></p>
+<p>页式管理</p>
+<p>页不是程序独立模块对应的逻辑实体,所以处理、保护和共享都不及段来的方便.同时因为页要比段小的多,在进行交换时,不会出现段交换那般卡顿.所以页式存储管理方式会更加的收到欢迎,</p>
+<p>页式存储在加载程序时,不需要一次性加载完全部程序,由操作系统调度.当CPU要读取特定的页,但却发现页的内容没有加载,会触发来自CPU的缺页错误.然后找到对应的页并加载到内存中.</p>
+<p>通过这种方式可以运行远大于实例物理内存的程序,但相对的执行效率会下降</p>
+<p>页表管理机制中有两个重要概念:</p>
+<h3 id=快表tlb>快表(TLB)<a href=#快表tlb class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>目的: 为了解决虚拟地址到物理地址的转换速度.</p>
+<p>流程:</p>
+<pre><code>1. 根据虚拟地址中的页号查快表
+
+1. 如果该页在快表中,直接从快表中读取相应的物理地址
+
+1. 如果该页不再快表中,就访问内存中的页表,再从页表中得到物理地址,同时将页表中的该映射表项添加到快表中
+
+1. 当快表填满后,又要登记新页时, 就按照一定的淘汰掉快表中的一个页
+</code></pre>
+<h3 id=多级页表>多级页表<a href=#多级页表 class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>目的: 为了避免把全部页表一直放在内存中占用过多空间</p>
+<p>分页与分段的异同:</p>
+<p>共同点:</p>
+<p>分页和分段都是为了提高内存利用率,较少内存碎片</p>
+<p>页和段都是离散存储的,所以两者都是离散分配内存的方式.但是每个页和段中的内存是连续的</p>
+<p>区别:</p>
+<p>页的大小是固定的,由操作系统决定;而段的大小不固定,取决于当前运行的程序</p>
+<p>分页仅仅是为了满足操作系统内存管理的需求,而段是逻辑信息的单位,在程序中可以体现为代码段,数据段,能够更好满足用户的需要.</p>
+<p><img src="https://tcs.teambition.net/storage/312f5c40cf69de4112c2471cf710bd622426?Signature=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBcHBJRCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9hcHBJZCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9vcmdhbml6YXRpb25JZCI6IiIsImV4cCI6MTY3NzgyNTE1OSwiaWF0IjoxNjc3MjIwMzU5LCJyZXNvdXJjZSI6Ii9zdG9yYWdlLzMxMmY1YzQwY2Y2OWRlNDExMmMyNDcxY2Y3MTBiZDYyMjQyNiJ9.cQU2BY-HE-NC92QSshNfxpwF6YiCbXhK3p_gSVbUbCU&download=image.png" alt title></p>
+<p>因为操作系统的虚拟地址空间大小都是一定的，整片虚拟地址空间被均匀分成了 N 个大小相同的内存页，所以内存页的大小最终会决定每个进程中页表项的层级结构和具体数量，虚拟页的大小越小，单个进程中的页表项和虚拟页也就越多。</p>
+<p>一个完整的页表翻译和查找的过程叫作页表查询(Translation Table Walk), 页表查询的过程由硬件自动完成,但是页表的维护需要软件来完成</p>
+<p>基于页表的虚实地址转换原理</p>
+<h1 id=段式管理>段式管理<a href=#段式管理 class=hanchor arialabel=Anchor>&#8983;</a> </h1>
+<h1 id=段页式管理>段页式管理<a href=#段页式管理 class=hanchor arialabel=Anchor>&#8983;</a> </h1>
+</div></div>
+<div class=pagination>
+<div class=pagination__title>
+<span class=pagination__title-h>Read other posts</span>
+<hr>
+</div>
+<div class=pagination__buttons>
+<span class="button previous">
+<a href=https://xujiajiadexiaokeai.github.io/2022-03-06/cilium-ebpf-quick-tutorial/>
+<span class=button__icon>←</span>
+<span class=button__text>MacOS用户快速上手Cilium eBPF</span>
+</a>
+</span>
+<span class="button next">
+<a href=https://xujiajiadexiaokeai.github.io/2022-01-15/design-patterns/>
+<span class=button__text>Design Patterns Notes</span>
+<span class=button__icon>→</span>
+</a>
+</span>
+</div>
+</div>
+</div>
+</div>
+<footer class=footer>
+<div class=footer__inner>
+<div class="copyright copyright--user">
+<span>© 2021-2022 xujiajiadexiaokeai</span>
+<span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span>
+</div>
+</div>
+</footer>
+<script src=https://xujiajiadexiaokeai.github.io/assets/main.js></script>
+<script src=https://xujiajiadexiaokeai.github.io/assets/prism.js></script>
+</div>
+</body>
+</html>

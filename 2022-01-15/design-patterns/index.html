@@ -1,0 +1,926 @@
+<!doctype html><html lang=en>
+<head>
+<title>Design Patterns Notes :: xujiajiadexiaokeai</title>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=description content="设计模式笔记">
+<meta name=keywords content>
+<meta name=robots content="noodp">
+<link rel=canonical href=https://xujiajiadexiaokeai.github.io/2022-01-15/design-patterns/>
+<link rel=stylesheet href=https://xujiajiadexiaokeai.github.io/assets/style.css>
+<link rel=apple-touch-icon href=https://xujiajiadexiaokeai.github.io/img/apple-touch-icon-192x192.png>
+<link rel="shortcut icon" href=https://xujiajiadexiaokeai.github.io/favicon.ico>
+<meta name=twitter:card content="summary">
+<meta property="og:locale" content="en">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Design Patterns Notes">
+<meta property="og:description" content="设计模式笔记">
+<meta property="og:url" content="https://xujiajiadexiaokeai.github.io/2022-01-15/design-patterns/">
+<meta property="og:site_name" content="xujiajiadexiaokeai">
+<meta property="og:image" content="https://xujiajiadexiaokeai.github.io/favicon.ico">
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+<meta property="article:published_time" content="2022-01-15 03:06:30 +0800 +0800">
+</head>
+<body class=orange>
+<div class="container center headings--one-size">
+<header class=header>
+<div class=header__inner>
+<div class=header__logo>
+<a href=/>
+<div class=logo>
+RTSC && RTFM
+</div>
+</a>
+</div>
+<div class=menu-trigger>menu</div>
+</div>
+<nav class=menu>
+<ul class="menu__inner menu__inner--desktop">
+<li><a href=/about>About</a></li>
+<li><a href=/archive>Archive</a></li>
+</ul>
+<ul class="menu__inner menu__inner--mobile">
+<li><a href=/about>About</a></li>
+<li><a href=/archive>Archive</a></li>
+</ul>
+</nav>
+</header>
+<div class=content>
+<div class=post>
+<h1 class=post-title>
+<a href=https://xujiajiadexiaokeai.github.io/2022-01-15/design-patterns/>Design Patterns Notes</a></h1>
+<div class=post-meta>
+<span class=post-date>
+2022-01-15
+</span>
+<span class=post-author>:: Wenhao Jiang</span>
+<span class=post-reading-time>:: 10 min read (1936 words)</span>
+</div>
+<span class=post-tags>
+#<a href=https://xujiajiadexiaokeai.github.io/tags/design-pattern/>design-pattern</a>&nbsp;
+</span>
+<div class=post-content><div>
+<h1 id=创建型模式creational-pattern>创建型模式(Creational Pattern)<a href=#创建型模式creational-pattern class=hanchor arialabel=Anchor>&#8983;</a> </h1>
+<h3 id=单例模式singleton-pattern>单例模式(Singleton Pattern)<a href=#单例模式singleton-pattern class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>主要用于保证一个类仅有一个实例,并提供一个访问它的全局访问点</p>
+<p>(1) 限制调用者直接实例化该对象</p>
+<p>(2) 为该对象的单例提供一个全局唯一的访问方法</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>msgpool</span>
+<span style=color:#f92672>...</span>
+<span style=color:#75715e>// 消息池
+</span><span style=color:#75715e></span><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>messagePool</span> <span style=color:#66d9ef>struct</span> {
+	<span style=color:#a6e22e>pool</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>sync</span>.<span style=color:#a6e22e>Pool</span>
+}
+<span style=color:#75715e>// 消息池单例
+</span><span style=color:#75715e></span><span style=color:#66d9ef>var</span> <span style=color:#a6e22e>msgPool</span> = <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>messagePool</span> {
+	<span style=color:#75715e>// 如果消息池里没有消息,则新建一个Count值为0的Message实例
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>pool</span>: <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>sync</span>.<span style=color:#a6e22e>Pool</span>{<span style=color:#a6e22e>New</span>: <span style=color:#66d9ef>func</span>() <span style=color:#66d9ef>interface</span>{} { <span style=color:#66d9ef>return</span> <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>Message</span>{<span style=color:#a6e22e>Count</span>: <span style=color:#ae81ff>0</span>}},
+}
+<span style=color:#75715e>// 访问消息池单例的唯一方法
+</span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>Instence</span>() <span style=color:#f92672>*</span><span style=color:#a6e22e>messagePool</span> {
+	<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>msgPool</span>
+}
+<span style=color:#75715e>// 向消息池里添加消息
+</span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>m</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>messagePool</span>) <span style=color:#a6e22e>AddMsg</span>(<span style=color:#a6e22e>msg</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>Message</span>) {
+	<span style=color:#a6e22e>m</span>.<span style=color:#a6e22e>pool</span>.<span style=color:#a6e22e>Put</span>(<span style=color:#a6e22e>msg</span>)
+}
+<span style=color:#75715e>// 从消息池里获取消息
+</span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>m</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>messagePool</span>) <span style=color:#a6e22e>GetMsg</span>() <span style=color:#f92672>*</span><span style=color:#a6e22e>Message</span> {
+	<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>m</span>.<span style=color:#a6e22e>pool</span>.<span style=color:#a6e22e>Get</span>().(<span style=color:#f92672>*</span><span style=color:#a6e22e>Message</span>)
+}
+<span style=color:#f92672>...</span>
+</code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>test</span>
+<span style=color:#f92672>...</span>
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>TestMessagePool</span>(<span style=color:#a6e22e>t</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>testing</span>.<span style=color:#a6e22e>T</span>) {
+	<span style=color:#a6e22e>msg0</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>msgpool</span>.<span style=color:#a6e22e>Instance</span>().<span style=color:#a6e22e>GetMsg</span>()
+	<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>msg0</span>.<span style=color:#a6e22e>Count</span> <span style=color:#f92672>!=</span> <span style=color:#ae81ff>0</span> {
+		<span style=color:#a6e22e>t</span>.<span style=color:#a6e22e>Errorf</span>(<span style=color:#e6db74>&#34;expect msg count %d, but actual %d.&#34;</span>, <span style=color:#ae81ff>0</span>, <span style=color:#a6e22e>msg0</span>.<span style=color:#a6e22e>Count</span>)
+	}
+	<span style=color:#a6e22e>msg0</span>.<span style=color:#a6e22e>Count</span> = <span style=color:#ae81ff>1</span>
+	<span style=color:#a6e22e>msgpool</span>.<span style=color:#a6e22e>Instance</span>().<span style=color:#a6e22e>AddMsg</span>(<span style=color:#a6e22e>msg0</span>)
+	<span style=color:#a6e22e>msg1</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>msgpool</span>.<span style=color:#a6e22e>Instance</span>().<span style=color:#a6e22e>GetMsg</span>()
+	<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>msg1</span>.<span style=color:#a6e22e>Count</span> <span style=color:#f92672>!=</span> <span style=color:#ae81ff>1</span> {
+		<span style=color:#a6e22e>t</span>.<span style=color:#a6e22e>Errorf</span>(<span style=color:#e6db74>&#34;expect msg count %d, but actual %d.&#34;</span>, <span style=color:#ae81ff>1</span>, <span style=color:#a6e22e>msg1</span>.<span style=color:#a6e22e>Count</span>)
+	}
+}
+</code></pre></div><p>饿汉模式与懒汉模式</p>
+<p>懒汉模式会带来线程安全问题,可以通过普通加锁,或者双重检验锁来优化</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#75715e>// 单例模式的“懒汉模式”实现
+</span><span style=color:#75715e></span><span style=color:#f92672>package</span> <span style=color:#a6e22e>msgpool</span>
+<span style=color:#f92672>...</span>
+<span style=color:#66d9ef>var</span> <span style=color:#a6e22e>once</span> = <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>sync</span>.<span style=color:#a6e22e>Once</span>{}
+<span style=color:#66d9ef>var</span> <span style=color:#a6e22e>msgPool</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>messagePool</span>
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>Instance</span>() <span style=color:#f92672>*</span><span style=color:#a6e22e>messagePool</span> {
+	<span style=color:#75715e>// 在匿名函数中实现初始化逻辑,Go语言保证只会调用一次
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>once</span>.<span style=color:#a6e22e>Do</span>(<span style=color:#66d9ef>func</span>() {
+		<span style=color:#a6e22e>msgPool</span> = <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>messagePool</span>{
+			<span style=color:#75715e>// 如果消息池里没有消息, 则新建一个Count值为0的Message实例
+</span><span style=color:#75715e></span>			<span style=color:#a6e22e>pool</span>:<span style=color:#f92672>&amp;</span><span style=color:#a6e22e>sync</span>.<span style=color:#a6e22e>Poll</span>{<span style=color:#a6e22e>New</span>: <span style=color:#66d9ef>func</span>() <span style=color:#66d9ef>interface</span>{} {<span style=color:#66d9ef>return</span> <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>Message</span>{<span style=color:#a6e22e>Count</span>:<span style=color:#ae81ff>0</span>} }},
+		}
+	})
+	<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>msgPool</span>
+}
+<span style=color:#f92672>...</span>
+</code></pre></div><h3 id=建造者模式builder-pattern>建造者模式(Builder Pattern)<a href=#建造者模式builder-pattern class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>(1) 封装复杂对象的创建过程,使对象使用者不感知复杂的创建逻辑</p>
+<p>(2) 可以一步步按照顺序对成员进行赋值,或者创建嵌套对象,并最终完成目标对象的创建</p>
+<p>(3) 对多个对象复用同样的对象创建逻辑</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>msg</span>
+<span style=color:#f92672>...</span>
+<span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Message</span> <span style=color:#66d9ef>struct</span> {
+	<span style=color:#a6e22e>Header</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>Header</span>
+	<span style=color:#a6e22e>Body</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>Body</span>
+}
+
+<span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Header</span> <span style=color:#66d9ef>struct</span> {
+	<span style=color:#a6e22e>SrcAddr</span> <span style=color:#66d9ef>string</span>
+	<span style=color:#a6e22e>SrcPort</span> <span style=color:#66d9ef>uint64</span>
+	<span style=color:#a6e22e>DestAddr</span> <span style=color:#66d9ef>string</span>
+	<span style=color:#a6e22e>DestPort</span> <span style=color:#66d9ef>uint64</span>
+	<span style=color:#a6e22e>Items</span> <span style=color:#66d9ef>map</span>[<span style=color:#66d9ef>string</span>] <span style=color:#66d9ef>string</span>
+}
+<span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Body</span> <span style=color:#66d9ef>struct</span> {
+	<span style=color:#a6e22e>Item</span> []<span style=color:#66d9ef>string</span>
+}
+<span style=color:#f92672>...</span>
+</code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>msg</span>
+<span style=color:#f92672>...</span>
+<span style=color:#75715e>// Message对象的Builder对象
+</span><span style=color:#75715e></span><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>builder</span> <span style=color:#66d9ef>struct</span> {
+	<span style=color:#a6e22e>once</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>sync</span>.<span style=color:#a6e22e>Once</span>
+	<span style=color:#a6e22e>msg</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>Message</span>
+}
+<span style=color:#75715e>// 返回Builder对象
+</span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>Builder</span>() <span style=color:#f92672>*</span><span style=color:#a6e22e>builder</span> {
+	<span style=color:#66d9ef>return</span> <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>builder</span>{
+		<span style=color:#a6e22e>once</span>: <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>sync</span>.<span style=color:#a6e22e>Once</span>{},
+		<span style=color:#a6e22e>msg</span>: <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>Message</span>{<span style=color:#a6e22e>Header</span>: <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>Header</span>{}, <span style=color:#a6e22e>Body</span>: <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>Body</span>{}},
+	}
+}
+
+<span style=color:#75715e>// 以下是对Message成员的构建方法
+</span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>b</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>builder</span>) <span style=color:#a6e22e>WithSrcAddr</span>(<span style=color:#a6e22e>srcAddr</span> <span style=color:#66d9ef>string</span>) <span style=color:#f92672>*</span><span style=color:#a6e22e>builder</span> {
+	<span style=color:#a6e22e>b</span>.<span style=color:#a6e22e>msg</span>.<span style=color:#a6e22e>Header</span>.<span style=color:#a6e22e>SrcAddr</span> = <span style=color:#a6e22e>srcAddr</span>
+	<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>b</span>
+}
+<span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>b</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>builder</span>) <span style=color:#a6e22e>WithSrcPort</span>(<span style=color:#a6e22e>srcPort</span> <span style=color:#66d9ef>uint64</span>) <span style=color:#f92672>*</span><span style=color:#a6e22e>builder</span> {
+	<span style=color:#a6e22e>b</span>.<span style=color:#a6e22e>msg</span>.<span style=color:#a6e22e>Header</span>.<span style=color:#a6e22e>SrcPort</span> = <span style=color:#a6e22e>srcPort</span>
+	<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>b</span>
+}
+<span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>b</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>builder</span>) <span style=color:#a6e22e>WithDestAddr</span>(<span style=color:#a6e22e>destAddr</span> <span style=color:#66d9ef>string</span>) <span style=color:#f92672>*</span><span style=color:#a6e22e>builder</span> {
+	<span style=color:#a6e22e>b</span>.<span style=color:#a6e22e>msg</span>.<span style=color:#a6e22e>Header</span>.<span style=color:#a6e22e>DestAddr</span> = <span style=color:#a6e22e>destAddr</span>
+	<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>b</span>
+}
+<span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>b</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>builder</span>) <span style=color:#a6e22e>WithHeaderItem</span>(<span style=color:#a6e22e>key</span>, <span style=color:#a6e22e>value</span>, <span style=color:#66d9ef>string</span>) <span style=color:#f92672>*</span><span style=color:#a6e22e>builder</span> {
+	<span style=color:#75715e>// 保证map只初始化一次
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>b</span>.<span style=color:#a6e22e>once</span>.<span style=color:#a6e22e>Do</span>(<span style=color:#66d9ef>func</span>() {
+		<span style=color:#a6e22e>b</span>.<span style=color:#a6e22e>msg</span>.<span style=color:#a6e22e>Header</span>.<span style=color:#a6e22e>Items</span> = make(<span style=color:#66d9ef>map</span>[<span style=color:#66d9ef>string</span>]<span style=color:#66d9ef>string</span>)
+	})
+	<span style=color:#a6e22e>b</span>.<span style=color:#a6e22e>msg</span>.<span style=color:#a6e22e>Header</span>.<span style=color:#a6e22e>Items</span>[<span style=color:#a6e22e>key</span>] = <span style=color:#a6e22e>value</span>
+	<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>b</span>
+}
+<span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>b</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>builder</span>) <span style=color:#a6e22e>WithBodyItem</span>(<span style=color:#a6e22e>record</span> <span style=color:#66d9ef>string</span>) <span style=color:#f92672>*</span><span style=color:#a6e22e>builder</span> {
+	<span style=color:#a6e22e>b</span>.<span style=color:#a6e22e>msg</span>.<span style=color:#a6e22e>Body</span>.<span style=color:#a6e22e>Items</span> = append(<span style=color:#a6e22e>b</span>.<span style=color:#a6e22e>msg</span>.<span style=color:#a6e22e>Body</span>.<span style=color:#a6e22e>Items</span>, <span style=color:#a6e22e>record</span>)
+	<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>b</span>
+}
+<span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>b</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>builder</span>) <span style=color:#a6e22e>Build</span>() <span style=color:#f92672>*</span><span style=color:#a6e22e>Message</span> {
+	<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>b</span>.<span style=color:#a6e22e>msg</span>
+}
+</code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>test</span>
+<span style=color:#f92672>...</span>
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>TestMessageBuilder</span>(<span style=color:#a6e22e>t</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>testing</span>.<span style=color:#a6e22e>T</span>) {
+	<span style=color:#75715e>// 使用消息建造者进行对象创建
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>message</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>msg</span>.<span style=color:#a6e22e>Builder</span>().
+		<span style=color:#a6e22e>WithSrcAddr</span>(<span style=color:#e6db74>&#34;192.168.0.1&#34;</span>).
+		<span style=color:#a6e22e>WithSrcPost</span>(<span style=color:#ae81ff>1234</span>).
+		<span style=color:#f92672>...</span>
+		<span style=color:#a6e22e>Build</span>()
+	<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>message</span>.<span style=color:#a6e22e>Header</span>.<span style=color:#a6e22e>SrcAddr</span> <span style=color:#f92672>!=</span> <span style=color:#e6db74>&#34;192.168.0.1&#34;</span> {
+		<span style=color:#a6e22e>t</span>.<span style=color:#a6e22e>Errorf</span>(<span style=color:#e6db74>&#34;expect src address 192.168.0.1, but actual %d.&#34;</span>, <span style=color:#a6e22e>message</span>.<span style=color:#a6e22e>Header</span>.<span style=color:#a6e22e>SrcAddr</span>)
+	<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>message</span>.<span style=color:#a6e22e>Body</span>.<span style=color:#a6e22e>Items</span>[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>!=</span> <span style=color:#e6db74>&#34;record1&#34;</span> {
+		<span style=color:#a6e22e>t</span>.<span style=color:#a6e22e>Errorf</span>(<span style=color:#e6db74>&#34;expect body item0 record1, but actual %s.&#34;</span>,<span style=color:#a6e22e>message</span>.<span style=color:#a6e22e>Body</span>.<span style=color:#a6e22e>Items</span>[<span style=color:#ae81ff>0</span>])
+	}
+}
+</code></pre></div><h3 id=工厂方法模式factory-method-pattern>工厂方法模式(Factory Method Pattern)<a href=#工厂方法模式factory-method-pattern class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>event</span>
+<span style=color:#f92672>...</span>
+<span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Type</span> <span style=color:#66d9ef>uint8</span>
+<span style=color:#75715e>// 事件类型定义
+</span><span style=color:#75715e></span><span style=color:#66d9ef>const</span> (
+	<span style=color:#a6e22e>Start</span> <span style=color:#a6e22e>Type</span> = <span style=color:#66d9ef>iota</span>
+	<span style=color:#a6e22e>End</span>
+)
+<span style=color:#75715e>// 事件抽象接口
+</span><span style=color:#75715e></span><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Event</span> <span style=color:#66d9ef>interface</span> {
+	<span style=color:#a6e22e>EventType</span>() <span style=color:#a6e22e>Type</span>
+	<span style=color:#a6e22e>Content</span>() <span style=color:#66d9ef>string</span>
+}
+<span style=color:#75715e>// 开始事件,实现了Event接口
+</span><span style=color:#75715e></span><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>StartEvent</span> <span style=color:#66d9ef>struct</span>{
+	<span style=color:#a6e22e>content</span> <span style=color:#66d9ef>string</span>
+}
+<span style=color:#f92672>...</span>
+<span style=color:#75715e>// 结束事件,实现了Event接口
+</span><span style=color:#75715e></span><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>EndEvent</span> <span style=color:#66d9ef>struct</span>{
+	<span style=color:#a6e22e>content</span> <span style=color:#66d9ef>string</span>
+}
+<span style=color:#f92672>...</span>
+</code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>event</span>
+<span style=color:#f92672>...</span>
+<span style=color:#75715e>// 事件工厂对象
+</span><span style=color:#75715e></span><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Factory</span> <span style=color:#66d9ef>struct</span>{}
+<span style=color:#75715e>// 根据事件类型创建具体事件
+</span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>e</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>Factory</span>) <span style=color:#a6e22e>Create</span>(<span style=color:#a6e22e>etype</span> <span style=color:#a6e22e>Type</span>) <span style=color:#a6e22e>Event</span> {
+	<span style=color:#66d9ef>switch</span> <span style=color:#a6e22e>etype</span> {
+	<span style=color:#66d9ef>case</span> <span style=color:#a6e22e>Start</span>:
+		<span style=color:#66d9ef>return</span> <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>StartEvent</span>{
+			<span style=color:#a6e22e>content</span>: <span style=color:#e6db74>&#34;this is start event&#34;</span>,
+		}
+	<span style=color:#66d9ef>case</span> <span style=color:#a6e22e>End</span>:
+		<span style=color:#66d9ef>return</span> <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>EndEvent</span>{
+			<span style=color:#a6e22e>content</span>: <span style=color:#e6db74>&#34;this is end event&#34;</span>,
+		}
+	<span style=color:#66d9ef>default</span>:
+		<span style=color:#66d9ef>return</span> <span style=color:#66d9ef>nil</span>
+	}
+}
+</code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>event</span> 
+<span style=color:#f92672>...</span>
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>TestEvent</span>(<span style=color:#a6e22e>t</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>testing</span>.<span style=color:#a6e22e>T</span>) {
+	<span style=color:#a6e22e>e</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>event</span>.<span style=color:#a6e22e>OfStart</span>()
+	<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>e</span>.<span style=color:#a6e22e>EventType</span>() <span style=color:#f92672>!=</span> <span style=color:#a6e22e>event</span>.<span style=color:#a6e22e>Start</span> {
+		<span style=color:#a6e22e>t</span>.<span style=color:#a6e22e>Errorf</span>(<span style=color:#e6db74>&#34;expect event.Start, but actual %v.&#34;</span>, <span style=color:#a6e22e>e</span>.<span style=color:#a6e22e>EventType</span>())
+	}
+	<span style=color:#a6e22e>e</span> = <span style=color:#a6e22e>factory</span>.<span style=color:#a6e22e>Create</span>(<span style=color:#a6e22e>event</span>.<span style=color:#a6e22e>End</span>)
+	<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>e</span>.<span style=color:#a6e22e>EventType</span>() <span style=color:#f92672>!=</span> <span style=color:#a6e22e>event</span>.<span style=color:#a6e22e>End</span> {
+		<span style=color:#a6e22e>t</span>.<span style=color:#a6e22e>Errorf</span>(<span style=color:#e6db74>&#34;expect event.End, but actual %v.&#34;</span>, <span style=color:#a6e22e>e</span>.<span style=color:#a6e22e>EventType</span>())
+	}
+}
+</code></pre></div><h3 id=抽象工厂模式abstract-factory-pattern>抽象工厂模式(Abstract Factory Pattern)<a href=#抽象工厂模式abstract-factory-pattern class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p><img src="https://tcs.teambition.net/storage/312dac721ae2e5db5dfd73d0091ddfb92a9e?Signature=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBcHBJRCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9hcHBJZCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9vcmdhbml6YXRpb25JZCI6IiIsImV4cCI6MTY3NzgyNTE0NCwiaWF0IjoxNjc3MjIwMzQ0LCJyZXNvdXJjZSI6Ii9zdG9yYWdlLzMxMmRhYzcyMWFlMmU1ZGI1ZGZkNzNkMDA5MWRkZmI5MmE5ZSJ9.hS5QO-KPxmoLc1gElEZACQdg8Z29DkGOyKs6l7Cnk0U&download=image.png" alt title></p>
+<p><img src="https://tcs.teambition.net/storage/312d15f97489776c7f78378dcfecc2069f7e?Signature=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBcHBJRCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9hcHBJZCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9vcmdhbml6YXRpb25JZCI6IiIsImV4cCI6MTY3NzgyNTE0NCwiaWF0IjoxNjc3MjIwMzQ0LCJyZXNvdXJjZSI6Ii9zdG9yYWdlLzMxMmQxNWY5NzQ4OTc3NmM3Zjc4Mzc4ZGNmZWNjMjA2OWY3ZSJ9.kv-n_k3L1VhlA53YDLWF9IscPVfEJTmkmoU15NILWe0&download=image.png" alt title></p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>plugin</span>
+<span style=color:#f92672>...</span>
+<span style=color:#75715e>// 插件抽象接口定义
+</span><span style=color:#75715e></span><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Plugin</span> <span style=color:#66d9ef>interface</span>{}
+<span style=color:#75715e>// 输入插件,用于接收消息
+</span><span style=color:#75715e></span><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Input</span> <span style=color:#66d9ef>interface</span> {
+	<span style=color:#a6e22e>Plugin</span>
+	<span style=color:#a6e22e>Receive</span>() <span style=color:#66d9ef>string</span>
+}
+<span style=color:#75715e>// 过滤插件,用于处理消息
+</span><span style=color:#75715e></span><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Fliter</span> <span style=color:#66d9ef>interface</span> {
+	<span style=color:#a6e22e>Plugin</span>
+	<span style=color:#a6e22e>Process</span>(<span style=color:#a6e22e>msg</span> <span style=color:#66d9ef>string</span>) <span style=color:#66d9ef>string</span>
+}
+<span style=color:#75715e>// 输出插件,用于发送消息
+</span><span style=color:#75715e></span><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Output</span> <span style=color:#66d9ef>interface</span> {
+	<span style=color:#a6e22e>Plugin</span>
+	<span style=color:#a6e22e>Send</span>(<span style=color:#a6e22e>msg</span> <span style=color:#66d9ef>string</span>)
+}
+
+<span style=color:#f92672>package</span> <span style=color:#a6e22e>pipeline</span>
+<span style=color:#f92672>...</span>
+<span style=color:#75715e>// 消息管道的定义
+</span><span style=color:#75715e></span><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Pipeline</span> <span style=color:#66d9ef>struct</span> {
+	<span style=color:#a6e22e>input</span> <span style=color:#a6e22e>plugin</span>.<span style=color:#a6e22e>Input</span>
+	<span style=color:#a6e22e>filter</span> <span style=color:#a6e22e>plugin</span>.<span style=color:#a6e22e>Filter</span>
+	<span style=color:#a6e22e>output</span> <span style=color:#a6e22e>plugin</span>.<span style=color:#a6e22e>Output</span>
+}
+<span style=color:#75715e>// 一个消息的处理流程为 input -&gt; filter -&gt; output
+</span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>p</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>Pipeline</span>) <span style=color:#a6e22e>Exec</span>() {
+	<span style=color:#a6e22e>msg</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>p</span>.<span style=color:#a6e22e>intput</span>.<span style=color:#a6e22e>Receive</span>()
+	<span style=color:#a6e22e>msg</span> = <span style=color:#a6e22e>p</span>.<span style=color:#a6e22e>filter</span>.<span style=color:#a6e22e>Process</span>(<span style=color:#a6e22e>msg</span>)
+	<span style=color:#a6e22e>p</span>.<span style=color:#a6e22e>output</span>.<span style=color:#a6e22e>Send</span>(<span style=color:#a6e22e>msg</span>)
+}
+</code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>plugin</span>
+<span style=color:#f92672>...</span>
+<span style=color:#75715e>// input插件名称与类型的映射关系,主要用于通过反射创建input对象
+</span><span style=color:#75715e></span><span style=color:#66d9ef>var</span> <span style=color:#a6e22e>inputNames</span> = make(<span style=color:#66d9ef>map</span>[<span style=color:#66d9ef>string</span>]<span style=color:#a6e22e>reflect</span>.<span style=color:#a6e22e>Type</span>)
+<span style=color:#75715e>// Hello input插件,接收”Hello World“消息
+</span><span style=color:#75715e></span><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>HelloInput</span> <span style=color:#66d9ef>struct</span> {}
+
+ <span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>h</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>HelloInput</span>) <span style=color:#a6e22e>Receive</span>() <span style=color:#66d9ef>string</span> {
+	<span style=color:#66d9ef>return</span> <span style=color:#e6db74>&#34;Hello World&#34;</span>
+}
+<span style=color:#75715e>// 初始化input插件映射关系表
+</span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>init</span>() {
+	<span style=color:#a6e22e>inputNames</span>[<span style=color:#e6db74>&#34;hello&#34;</span>] = <span style=color:#a6e22e>reflect</span>.<span style=color:#a6e22e>TypeOf</span>(<span style=color:#a6e22e>HelloInput</span>{})
+}
+
+<span style=color:#f92672>package</span> <span style=color:#a6e22e>plugin</span>
+<span style=color:#f92672>...</span>
+<span style=color:#75715e>// filter插件名称与类型的映射关系.主要用于通过反射创建filter对象
+</span><span style=color:#75715e></span><span style=color:#66d9ef>var</span> <span style=color:#a6e22e>filterNames</span> = make(<span style=color:#66d9ef>map</span>[<span style=color:#66d9ef>string</span>]<span style=color:#a6e22e>reflect</span>.<span style=color:#a6e22e>Type</span>)
+<span style=color:#75715e>// Upper filter插件,将消息全部字母转成大写
+</span><span style=color:#75715e></span><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>UpperFilter</span> <span style=color:#66d9ef>struct</span> {}
+
+<span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>u</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>UpperFilter</span>) <span style=color:#a6e22e>Process</span>(<span style=color:#a6e22e>msg</span> <span style=color:#66d9ef>string</span>) <span style=color:#66d9ef>string</span> {
+	<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>strings</span>.<span style=color:#a6e22e>ToUpper</span>(<span style=color:#a6e22e>msg</span>)
+}
+<span style=color:#75715e>// 初始化filter插件映射关系表
+</span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>init</span>() {
+	<span style=color:#a6e22e>filterNames</span>[<span style=color:#e6db74>&#34;upper&#34;</span>] = <span style=color:#a6e22e>reflect</span>.<span style=color:#a6e22e>TypeOf</span>(<span style=color:#a6e22e>UpperFilter</span>{})
+}
+
+<span style=color:#f92672>package</span> <span style=color:#a6e22e>plugin</span>
+<span style=color:#f92672>...</span>
+<span style=color:#75715e>// output插件名称与类型的映射关系,主要用于通过反射创建output对象
+</span><span style=color:#75715e></span><span style=color:#66d9ef>var</span> <span style=color:#a6e22e>outputNames</span> = make(<span style=color:#66d9ef>map</span>[<span style=color:#66d9ef>string</span>]<span style=color:#a6e22e>reflect</span>.<span style=color:#a6e22e>Type</span>)
+<span style=color:#75715e>// Console output插件,将消息输出到控制台上
+</span><span style=color:#75715e></span><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>ConsoleOutput</span> <span style=color:#66d9ef>struct</span> {}
+
+<span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>c</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>ConsoleOutput</span>) <span style=color:#a6e22e>Send</span>(<span style=color:#a6e22e>msg</span> <span style=color:#66d9ef>string</span>) {
+	<span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Println</span>(<span style=color:#a6e22e>msg</span>)
+}
+<span style=color:#75715e>// 初始化output插件映射关系表
+</span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>init</span>() {
+	<span style=color:#a6e22e>outputNames</span>[<span style=color:#e6db74>&#34;console&#34;</span>] = <span style=color:#a6e22e>reflect</span>.<span style=color:#a6e22e>TypeOf</span>(<span style=color:#a6e22e>ConsoleOutput</span>{})
+}
+
+</code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>plugin</span>
+<span style=color:#f92672>...</span>
+<span style=color:#75715e>// 插件工厂接口
+</span><span style=color:#75715e></span><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Factory</span> <span style=color:#66d9ef>interface</span> {
+	<span style=color:#a6e22e>Create</span>(<span style=color:#a6e22e>conf</span> <span style=color:#a6e22e>Config</span>) <span style=color:#a6e22e>Plugin</span>
+}
+<span style=color:#75715e>// input插件工厂对象,实现Factory接口
+</span><span style=color:#75715e></span><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>InputFactory</span> <span style=color:#66d9ef>struct</span>{}
+<span style=color:#75715e>// 读取配置,通过反射机制进行对象实例化
+</span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>i</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>InputFactory</span>) <span style=color:#a6e22e>Create</span>(<span style=color:#a6e22e>conf</span> <span style=color:#a6e22e>Config</span>) <span style=color:#a6e22e>Plugin</span> {
+	<span style=color:#a6e22e>t</span>, <span style=color:#a6e22e>_</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>inputNames</span>[<span style=color:#a6e22e>conf</span>.<span style=color:#a6e22e>Name</span>]
+	<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>reflect</span>.<span style=color:#a6e22e>New</span>(<span style=color:#a6e22e>t</span>).<span style=color:#a6e22e>Interface</span>().(<span style=color:#a6e22e>Plugin</span>)
+}
+<span style=color:#75715e>// filter和output插件工厂实现类似
+</span><span style=color:#75715e></span><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>FilterFactory</span> <span style=color:#66d9ef>struct</span>{}
+<span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>f</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>FilterFactory</span>) <span style=color:#a6e22e>Create</span>(<span style=color:#a6e22e>conf</span> <span style=color:#a6e22e>Config</span>) <span style=color:#a6e22e>Plugin</span> {
+	<span style=color:#a6e22e>t</span>, <span style=color:#a6e22e>_</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>filterNames</span>[<span style=color:#a6e22e>conf</span>.<span style=color:#a6e22e>Name</span>]
+	<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>reflect</span>.<span style=color:#a6e22e>New</span>(<span style=color:#a6e22e>t</span>).<span style=color:#a6e22e>Interface</span>().(<span style=color:#a6e22e>Plugin</span>)
+}
+<span style=color:#66d9ef>type</span> <span style=color:#a6e22e>OutputFactory</span> <span style=color:#66d9ef>struct</span>{}
+<span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>o</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>OutputFactory</span>) <span style=color:#a6e22e>Create</span>(<span style=color:#a6e22e>conf</span> <span style=color:#a6e22e>Config</span>) <span style=color:#a6e22e>Plugin</span> {
+	<span style=color:#a6e22e>r</span>, <span style=color:#a6e22e>_</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>outputNames</span>[<span style=color:#a6e22e>conf</span>.<span style=color:#a6e22e>Name</span>]
+	<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>reflect</span>.<span style=color:#a6e22e>New</span>(<span style=color:#a6e22e>t</span>).<span style=color:#a6e22e>Interface</span>().(<span style=color:#a6e22e>Plugin</span>)
+}
+
+</code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>pipeline</span>
+<span style=color:#f92672>...</span>
+<span style=color:#75715e>// 保存用于创建Plugin的工厂实例,其中map的key为插件类型,value为抽象工厂接口
+</span><span style=color:#75715e></span><span style=color:#66d9ef>var</span> <span style=color:#a6e22e>pluginFactories</span> = make(<span style=color:#66d9ef>map</span>[<span style=color:#a6e22e>plugin</span>.<span style=color:#a6e22e>Type</span>]<span style=color:#a6e22e>plugin</span>.<span style=color:#a6e22e>Factory</span>)
+<span style=color:#75715e>// 根据plugin.Type返回对应Plugin类型的工厂实例
+</span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>factoryOf</span>(<span style=color:#a6e22e>t</span> <span style=color:#a6e22e>plugin</span>.<span style=color:#a6e22e>Type</span>) <span style=color:#a6e22e>plugin</span>.<span style=color:#a6e22e>Factory</span> {
+	<span style=color:#a6e22e>factory</span>, <span style=color:#a6e22e>_</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>pluginFactories</span>[<span style=color:#a6e22e>t</span>]
+	<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>factory</span>
+}
+<span style=color:#75715e>// pipeline工厂方法,根据配置创建一个Pipeline实例
+</span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>Of</span>(<span style=color:#a6e22e>conf</span> <span style=color:#a6e22e>Config</span>) <span style=color:#f92672>*</span><span style=color:#a6e22e>Pipeline</span> {
+	<span style=color:#a6e22e>p</span> <span style=color:#f92672>:=</span> <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>Pipeline</span>{}
+	<span style=color:#a6e22e>p</span>.<span style=color:#a6e22e>intput</span> = <span style=color:#a6e22e>factoryOf</span>(<span style=color:#a6e22e>plugin</span>.<span style=color:#a6e22e>InputType</span>).<span style=color:#a6e22e>Create</span>(<span style=color:#a6e22e>conf</span>.<span style=color:#a6e22e>Input</span>).(<span style=color:#a6e22e>plugin</span>.<span style=color:#a6e22e>Input</span>)
+	<span style=color:#a6e22e>p</span>.<span style=color:#a6e22e>filter</span> = <span style=color:#a6e22e>factoryOf</span>(<span style=color:#a6e22e>plugin</span>.<span style=color:#a6e22e>FilterType</span>).<span style=color:#a6e22e>Create</span>(<span style=color:#a6e22e>conf</span>.<span style=color:#a6e22e>Filter</span>).(<span style=color:#a6e22e>pulgin</span>.<span style=color:#a6e22e>Filter</span>)
+	<span style=color:#a6e22e>p</span>.<span style=color:#a6e22e>output</span> = <span style=color:#a6e22e>factoryOf</span>(<span style=color:#a6e22e>plugin</span>.<span style=color:#a6e22e>OutputType</span>).<span style=color:#a6e22e>Create</span>(<span style=color:#a6e22e>conf</span>.<span style=color:#a6e22e>Output</span>).(<span style=color:#a6e22e>plugin</span>.<span style=color:#a6e22e>Output</span>)
+	<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>p</span>	
+)
+<span style=color:#75715e>// 初始化插件工厂对象
+</span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>init</span>() {
+	<span style=color:#a6e22e>pluginFactories</span>[<span style=color:#a6e22e>plugin</span>.<span style=color:#a6e22e>InputType</span>] = <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>plugin</span>.<span style=color:#a6e22e>InputFactory</span>{}
+	<span style=color:#a6e22e>pluginFactories</span>[<span style=color:#a6e22e>plugin</span>.<span style=color:#a6e22e>FilterType</span>] = <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>plugin</span>.<span style=color:#a6e22e>FilterFactory</span>{}
+	<span style=color:#a6e22e>pluginFactories</span>[<span style=color:#a6e22e>plugin</span>.<span style=color:#a6e22e>OutputType</span>] = <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>plugin</span>.<span style=color:#a6e22e>OutputFactory</span>{}
+}
+
+</code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>test</span>
+<span style=color:#f92672>...</span>
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>TestPipeline</span>(<span style=color:#a6e22e>t</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>testing</span>.<span style=color:#a6e22e>T</span>) {
+	<span style=color:#75715e>// 其中pipeline.DefaultConfig()的配置内容见[抽象工厂模式示例图]
+</span><span style=color:#75715e></span>	<span style=color:#75715e>// 消息处理流程为 HelloInput -&gt; UpperFilter -&gt; ConsoleOutput
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>p</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>pipeline</span>.<span style=color:#a6e22e>Of</span>(<span style=color:#a6e22e>pipeline</span>.<span style=color:#a6e22e>Deafult</span>.<span style=color:#a6e22e>Config</span>())
+	<span style=color:#a6e22e>p</span>.<span style=color:#a6e22e>Exec</span>()
+}
+</code></pre></div><h3 id=原型模式prototype-pattern>原型模式(Prototype Pattern)<a href=#原型模式prototype-pattern class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>prototype</span>
+<span style=color:#f92672>...</span>
+<span style=color:#75715e>// 原型复制抽象接口
+</span><span style=color:#75715e></span><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Prototype</span> <span style=color:#66d9ef>interface</span> {
+ <span style=color:#a6e22e>clone</span>() <span style=color:#a6e22e>Prototype</span>
+}
+
+<span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Message</span> <span style=color:#66d9ef>struct</span> {
+	<span style=color:#a6e22e>Header</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>Header</span>
+	<span style=color:#a6e22e>Body</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>Body</span>
+}
+
+<span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>m</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>Message</span>) <span style=color:#a6e22e>clone</span>() <span style=color:#a6e22e>Prototype</span> {
+	<span style=color:#a6e22e>msg</span> <span style=color:#f92672>:=</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>m</span>
+	<span style=color:#66d9ef>return</span> <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>msg</span>
+}
+</code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>test</span>
+<span style=color:#f92672>...</span>
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>TestPrototype</span>(<span style=color:#a6e22e>t</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>testing</span>.<span style=color:#a6e22e>T</span>) {
+	<span style=color:#a6e22e>message</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>msg</span>.<span style=color:#a6e22e>Builder</span>().
+		<span style=color:#a6e22e>WithSrcAddr</span>(<span style=color:#e6db74>&#34;192.168.0.1&#34;</span>).
+		<span style=color:#a6e22e>WithSrcPort</span>(<span style=color:#ae81ff>1234</span>).
+		<span style=color:#a6e22e>WithDestAddr</span>(<span style=color:#e6db74>&#34;192.168.0.2&#34;</span>).
+		<span style=color:#a6e22e>WithDestPort</span>(<span style=color:#ae81ff>8080</span>).
+		<span style=color:#a6e22e>WithHeaderItem</span>(<span style=color:#e6db74>&#34;contents&#34;</span>,<span style=color:#e6db74>&#34;application/json&#34;</span>).
+		<span style=color:#a6e22e>WithBodyItem</span>(<span style=color:#e6db74>&#34;record1&#34;</span>).
+		<span style=color:#a6e22e>WithBodyItem</span>(<span style=color:#e6db74>&#34;record2&#34;</span>).
+		<span style=color:#a6e22e>Build</span>()
+	<span style=color:#75715e>// 复制一份消息
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>newMessage</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>message</span>.<span style=color:#a6e22e>Clone</span>().(<span style=color:#f92672>*</span><span style=color:#a6e22e>msg</span>.<span style=color:#a6e22e>Message</span>)
+	<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>newMessage</span>.<span style=color:#a6e22e>Header</span>.<span style=color:#a6e22e>SrcAddr</span> <span style=color:#f92672>!=</span> <span style=color:#a6e22e>message</span>.<span style=color:#a6e22e>Header</span>.<span style=color:#a6e22e>SrcAddr</span> {
+		<span style=color:#a6e22e>t</span>.<span style=color:#a6e22e>Errorf</span>(<span style=color:#e6db74>&#34;Clone Message failed.&#34;</span>)
+	}
+	<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>newMessage</span>.<span style=color:#a6e22e>Body</span>.<span style=color:#a6e22e>Items</span>[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>!=</span> <span style=color:#a6e22e>message</span>.<span style=color:#a6e22e>Body</span>.<span style=color:#a6e22e>Items</span>[<span style=color:#ae81ff>0</span>] {
+		<span style=color:#a6e22e>t</span>.<span style=color:#a6e22e>Errorf</span>(<span style=color:#e6db74>&#34;Clone Message failed.&#34;</span>)
+	}
+</code></pre></div><h1 id=结构型模式structural-pattern>结构型模式(Structural Pattern)<a href=#结构型模式structural-pattern class=hanchor arialabel=Anchor>&#8983;</a> </h1>
+<h3 id=组合模式composite-pattern>组合模式(Composite Pattern)<a href=#组合模式composite-pattern class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>Go实现组合模式的方式有两种</p>
+<p>直接组合(Direct Composition)</p>
+<p>嵌入组合(Embedding Composition)</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Message</span> <span style=color:#66d9ef>struct</span> {
+	<span style=color:#a6e22e>Header</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>Header</span>
+	<span style=color:#a6e22e>Body</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>Body</span>
+}
+</code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>plugin</span>
+<span style=color:#f92672>...</span>
+<span style=color:#75715e>// 插件运行状态
+</span><span style=color:#75715e></span><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Status</span> <span style=color:#66d9ef>uint8</span>
+
+<span style=color:#66d9ef>const</span> (
+	<span style=color:#a6e22e>Stopped</span> <span style=color:#a6e22e>Status</span> = <span style=color:#66d9ef>iota</span>
+	<span style=color:#a6e22e>Started</span>
+)
+
+<span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Plugin</span> <span style=color:#66d9ef>interface</span> {
+	<span style=color:#75715e>// 启动插件
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>Start</span>()
+	<span style=color:#75715e>// 停止插件
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>Stop</span>()
+	<span style=color:#75715e>// 返回插件当前的运行状态
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>Status</span>() <span style=color:#a6e22e>Status</span>
+}
+<span style=color:#75715e>// 这里使用Message结构体替代了原来的string,使语义更清晰
+</span><span style=color:#75715e></span><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Input</span> <span style=color:#66d9ef>interface</span> {
+	<span style=color:#a6e22e>Plugin</span>
+	<span style=color:#a6e22e>Receive</span>() <span style=color:#f92672>*</span><span style=color:#a6e22e>msg</span>.<span style=color:#a6e22e>Message</span>
+}
+
+<span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Filter</span> <span style=color:#66d9ef>interface</span> {
+	<span style=color:#a6e22e>Plugin</span>
+	<span style=color:#a6e22e>Process</span>(<span style=color:#a6e22e>msg</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>msg</span>.<span style=color:#a6e22e>Message</span>) <span style=color:#f92672>*</span><span style=color:#a6e22e>msg</span>.<span style=color:#a6e22e>Message</span>
+}
+
+<span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Output</span> <span style=color:#66d9ef>interface</span> {
+	<span style=color:#a6e22e>Plugin</span>
+	<span style=color:#a6e22e>Send</span>(<span style=color:#a6e22e>msg</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>msg</span>.<span style=color:#a6e22e>Message</span>)
+}
+</code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>pipeline</span>
+<span style=color:#f92672>...</span>
+<span style=color:#75715e>// 一个Pipeline由input filter output三个Plugin组成
+</span><span style=color:#75715e></span><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Pipeline</span> <span style=color:#66d9ef>struct</span> {
+	<span style=color:#a6e22e>status</span> <span style=color:#a6e22e>plugin</span>.<span style=color:#a6e22e>Status</span>
+	<span style=color:#a6e22e>input</span> <span style=color:#a6e22e>plugin</span>.<span style=color:#a6e22e>Input</span>
+	<span style=color:#a6e22e>filter</span> <span style=color:#a6e22e>plugin</span>.<span style=color:#a6e22e>Filter</span>
+	<span style=color:#a6e22e>output</span> <span style=color:#a6e22e>plugin</span>.<span style=color:#a6e22e>Output</span>
+}
+
+<span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>p</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>Pipeline</span>) <span style=color:#a6e22e>Exec</span>() {
+	<span style=color:#a6e22e>msg</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>p</span>.<span style=color:#a6e22e>input</span>.<span style=color:#a6e22e>Receive</span>()
+	<span style=color:#a6e22e>msg</span> = <span style=color:#a6e22e>p</span>.<span style=color:#a6e22e>filter</span>.<span style=color:#a6e22e>Process</span>(<span style=color:#a6e22e>msg</span>)
+	<span style=color:#a6e22e>p</span>.<span style=color:#a6e22e>output</span>.<span style=color:#a6e22e>Send</span>(<span style=color:#a6e22e>msg</span>)
+}
+<span style=color:#75715e>// 启动的顺序 output -&gt; filter -&gt; input
+</span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>p</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>Pipeline</span>) <span style=color:#a6e22e>Start</span>() {
+	<span style=color:#a6e22e>p</span>.<span style=color:#a6e22e>output</span>.<span style=color:#a6e22e>Start</span>()
+	<span style=color:#a6e22e>p</span>.<span style=color:#a6e22e>filter</span>.<span style=color:#a6e22e>Start</span>()
+	<span style=color:#a6e22e>p</span>.<span style=color:#a6e22e>input</span>.<span style=color:#a6e22e>Start</span>()
+	<span style=color:#a6e22e>p</span>.<span style=color:#a6e22e>status</span> = <span style=color:#a6e22e>plugin</span>.<span style=color:#a6e22e>Started</span>
+	<span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Println</span>(<span style=color:#e6db74>&#34;Hello input plugin started.&#34;</span>)
+}
+<span style=color:#75715e>// 停止的顺序 input -&gt; filter -&gt; output
+</span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>p</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>Pipeline</span>) <span style=color:#a6e22e>Stop</span>() {
+	<span style=color:#a6e22e>p</span>.<span style=color:#a6e22e>input</span>.<span style=color:#a6e22e>Stop</span>()
+	<span style=color:#a6e22e>p</span>.<span style=color:#a6e22e>filter</span>.<span style=color:#a6e22e>Stop</span>()
+	<span style=color:#a6e22e>p</span>.<span style=color:#a6e22e>output</span>.<span style=color:#a6e22e>Stop</span>()
+	<span style=color:#a6e22e>p</span>.<span style=color:#a6e22e>status</span> = <span style=color:#a6e22e>plugin</span>.<span style=color:#a6e22e>Stopped</span>
+	<span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Println</span>(<span style=color:#e6db74>&#34;Hello input plugin stopped.&#34;</span>)
+}
+
+<span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>p</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>Pipeline</span>) <span style=color:#a6e22e>Status</span>() <span style=color:#a6e22e>plugin</span>.<span style=color:#a6e22e>Status</span> {
+	<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>p</span>.<span style=color:#a6e22e>status</span>
+}
+</code></pre></div><p>一个<code>Pipeline</code>由<code>Input</code>、<code>Filter</code>、<code>Output</code>三类插件组成，形成了“部分-整体”的关系，而且它们都实现了<code>Plugin</code>接口，这就是一个典型的组合模式的实现。Client无需显式地启动和停止<code>Input</code>、<code>Filter</code>和<code>Output</code>插件，在调用<code>Pipeline</code>对象的<code>Start</code>和<code>Stop</code>方法时，<code>Pipeline</code>就已经帮你按顺序完成对应插件的启动和停止。</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>plugin</span>
+<span style=color:#f92672>...</span>
+<span style=color:#66d9ef>type</span> <span style=color:#a6e22e>HelloInput</span> <span style=color:#66d9ef>struct</span> {
+	<span style=color:#a6e22e>status</span> <span style=color:#a6e22e>Status</span>
+}
+
+<span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>h</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>HelloInput</span>) <span style=color:#a6e22e>Receive</span>() <span style=color:#f92672>*</span><span style=color:#a6e22e>msg</span>.<span style=color:#a6e22e>Message</span> {
+	<span style=color:#75715e>// 如果插件未启动,则返回nil
+</span><span style=color:#75715e></span>	<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>h</span>.<span style=color:#a6e22e>status</span> <span style=color:#f92672>!=</span> <span style=color:#a6e22e>Started</span> {
+		<span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Println</span>(<span style=color:#e6db74>&#34;Hello input plugin is not running, input nothing.&#34;</span>)
+		<span style=color:#66d9ef>return</span> <span style=color:#66d9ef>nil</span>
+	}
+	<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>msg</span>.<span style=color:#a6e22e>Builder</span>().
+		<span style=color:#a6e22e>WithHeaderItem</span>(<span style=color:#e6db74>&#34;content&#34;</span>, <span style=color:#e6db74>&#34;text&#34;</span>).
+		<span style=color:#a6e22e>WithBodyItem</span>(<span style=color:#e6db74>&#34;Hello World&#34;</span>).
+		<span style=color:#a6e22e>Build</span>()
+}
+
+<span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>h</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>HelloInput</span>) <span style=color:#a6e22e>start</span>()  {
+	<span style=color:#a6e22e>h</span>.<span style=color:#a6e22e>status</span> = <span style=color:#a6e22e>Started</span>
+	<span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Println</span>(<span style=color:#e6db74>&#34;Hello input plugin started.&#34;</span>)
+}
+
+<span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>h</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>HelloInput</span>) <span style=color:#a6e22e>Stop</span>() {
+	<span style=color:#a6e22e>h</span>.<span style=color:#a6e22e>status</span> = <span style=color:#a6e22e>Stopped</span>
+	<span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Println</span>(<span style=color:#e6db74>&#34;Hello input plugin stopped.&#34;</span>)
+}
+
+<span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>h</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>HelloInput</span>) <span style=color:#a6e22e>Status</span> {
+	<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>h</span>.<span style=color:#a6e22e>status</span>
+}
+
+<span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>u</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>UpperFilter</span>) <span style=color:#a6e22e>Process</span>(<span style=color:#a6e22e>msg</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>msg</span>.<span style=color:#a6e22e>Message</span>) <span style=color:#f92672>*</span><span style=color:#a6e22e>msg</span>.<span style=color:#a6e22e>Message</span> {
+	<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>u</span>.<span style=color:#a6e22e>status</span> <span style=color:#f92672>!=</span> <span style=color:#a6e22e>Started</span> {
+	<span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Println</span>(<span style=color:#e6db74>&#34;Upper filter plugin is not running, filter nothing.&#34;</span>)
+	<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>msg</span>
+	}
+	<span style=color:#66d9ef>for</span> <span style=color:#a6e22e>i</span>, <span style=color:#a6e22e>val</span> <span style=color:#f92672>:=</span> <span style=color:#66d9ef>range</span> <span style=color:#a6e22e>msg</span>.<span style=color:#a6e22e>Body</span>.<span style=color:#a6e22e>Items</span> {
+		<span style=color:#a6e22e>msg</span>.<span style=color:#a6e22e>Body</span>.<span style=color:#a6e22e>Items</span>[<span style=color:#a6e22e>i</span>] = <span style=color:#a6e22e>strings</span>.<span style=color:#a6e22e>ToUpper</span>(<span style=color:#a6e22e>val</span>)
+	}
+	<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>msg</span>
+}
+
+<span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>u</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>UpperFilter</span>) <span style=color:#a6e22e>Start</span>() {
+	<span style=color:#a6e22e>u</span>.<span style=color:#a6e22e>status</span> = <span style=color:#a6e22e>Started</span>
+	<span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Println</span>(<span style=color:#e6db74>&#34;Upper filter plugin started.&#34;</span>)
+}
+
+<span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>u</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>UpperFilter</span>) <span style=color:#a6e22e>Stop</span>() {
+	<span style=color:#a6e22e>u</span>.<span style=color:#a6e22e>status</span> = <span style=color:#a6e22e>Stopped</span>
+	<span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Println</span>(<span style=color:#e6db74>&#34;Upper filter plugin stopped.&#34;</span>)
+}
+
+<span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>u</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>UpperFilter</span>) <span style=color:#a6e22e>Status</span>() <span style=color:#a6e22e>Status</span> {
+	<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>u</span>.<span style=color:#a6e22e>status</span>
+}
+
+<span style=color:#f92672>package</span> <span style=color:#a6e22e>plugin</span>
+<span style=color:#f92672>...</span>
+<span style=color:#66d9ef>type</span> <span style=color:#a6e22e>ConsoleOutput</span> <span style=color:#66d9ef>struct</span> {
+	<span style=color:#a6e22e>status</span> <span style=color:#a6e22e>Status</span>
+}
+
+<span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>c</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>ConsoleOutput</span>) <span style=color:#a6e22e>Send</span>(<span style=color:#a6e22e>msg</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>msg</span>.<span style=color:#a6e22e>Message</span>) {
+	<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>c</span>.<span style=color:#a6e22e>status</span> <span style=color:#f92672>!=</span> <span style=color:#a6e22e>Started</span> {
+		<span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Println</span>(<span style=color:#e6db74>&#34;Console output is not running, output nothing.&#34;</span>)
+		<span style=color:#66d9ef>return</span>
+	}
+	<span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Printf</span>(<span style=color:#e6db74>&#34;Output:\n\tHeader:%+v, Body:%+v\n&#34;</span>, <span style=color:#a6e22e>msg</span>.<span style=color:#a6e22e>Header</span>.<span style=color:#a6e22e>Items</span>, <span style=color:#a6e22e>msg</span>.<span style=color:#a6e22e>Body</span>.<span style=color:#a6e22e>Items</span>)
+}
+
+<span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>c</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>ConsoleOutput</span>) <span style=color:#a6e22e>Start</span>() {
+	<span style=color:#a6e22e>c</span>.<span style=color:#a6e22e>status</span> = <span style=color:#a6e22e>Started</span>
+	<span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Println</span>(<span style=color:#e6db74>&#34;Console output plugin started.&#34;</span>)
+}
+
+<span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>c</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>ConsoleOutput</span>) <span style=color:#a6e22e>Stop</span>() {
+	<span style=color:#a6e22e>c</span>.<span style=color:#a6e22e>status</span> = <span style=color:#a6e22e>Stopped</span>
+	<span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Println</span>(<span style=color:#e6db74>&#34;Console output plugin stopped.&#34;</span>)
+}
+
+<span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>c</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>ConsoleOutput</span>) <span style=color:#a6e22e>Status</span>() <span style=color:#a6e22e>Status</span> {
+	<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>c</span>.<span style=color:#a6e22e>status</span>
+}
+
+</code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>test</span>
+<span style=color:#f92672>...</span>
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>TestPipeline</span>(<span style=color:#a6e22e>t</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>testing</span>.<span style=color:#a6e22e>T</span>) {
+	<span style=color:#a6e22e>p</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>pipeline</span>.<span style=color:#a6e22e>Of</span>(<span style=color:#a6e22e>pipeline</span>.<span style=color:#a6e22e>DefaultConfig</span>())
+	<span style=color:#a6e22e>p</span>.<span style=color:#a6e22e>Start</span>()
+	<span style=color:#a6e22e>p</span>.<span style=color:#a6e22e>Exec</span>()
+	<span style=color:#a6e22e>p</span>.<span style=color:#a6e22e>Stop</span>()
+}
+
+</code></pre></div><p>组合模式的另一种实现,嵌入组合(Embedding Composition),是利用了Go的匿名成员特性,本质上跟直接组合是一致的</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Message</span> <span style=color:#66d9ef>struct</span> {
+	<span style=color:#a6e22e>Header</span>
+	<span style=color:#a6e22e>Body</span>
+}
+<span style=color:#75715e>// 使用时,Message可以引用Header和Body的成员属性
+</span><span style=color:#75715e></span><span style=color:#a6e22e>msg</span> <span style=color:#f92672>:=</span> <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>Message</span>{}
+<span style=color:#a6e22e>msg</span>.<span style=color:#a6e22e>SrcAddr</span> = <span style=color:#e6db74>&#34;192.168.0.1&#34;</span>
+</code></pre></div><h3 id=适配器模式adapter-pattern>适配器模式(Adapter Pattern)<a href=#适配器模式adapter-pattern class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>适配器模式是最常用的结构型模式之一,它让原本因为接口不匹配而无法一起工作的两个对象能够一起工作.适配器模式所做的就是将一个接口Adaptee,通过适配器Adapter转换成Client所期望的另一个接口Target来使用,实现原理也很简单,就是Adapter通过实现Target接口,并在对应的方法中调用Adaptee的接口实现</p>
+<p>一个典型的应用场景是,系统中一个老的接口已经过时即将废弃,但因为历史包袱没法立即将老接口全部替换为新接口.可以新增一个适配器,将老的接口适配成新的接口来使用.适配器模式很好的践行了面向对象设计里的开闭原则(open/closed principle),新增一个接口时也无需修改老接口,只需多加一个适配器即可.</p>
+<p>假设需要给系统新增从kafka 消息队列中接收数据的功能,其中Kafka消费者的接口如下</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>kafka</span>
+<span style=color:#f92672>...</span>
+<span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Records</span> <span style=color:#66d9ef>struct</span> {
+	<span style=color:#a6e22e>Items</span> []<span style=color:#66d9ef>string</span>
+}
+
+<span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Consumer</span> <span style=color:#66d9ef>interface</span> {
+	<span style=color:#a6e22e>Poll</span>() <span style=color:#a6e22e>Records</span>
+}
+</code></pre></div><p>由于当前Pipeline设计时通过plugin.Input接口来进行数据接收,因此kafka.Consumer并不能直接集成到系统中.</p>
+<p>所以需要使用适配器模式</p>
+<p>为了能让Pipeline能够使用kafka.Consumer接口,我们需要定义一个适配器:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>plugin</span>
+<span style=color:#f92672>...</span>
+<span style=color:#66d9ef>type</span> <span style=color:#a6e22e>KafkaInput</span> <span style=color:#66d9ef>struct</span> {
+	<span style=color:#a6e22e>status</span> <span style=color:#a6e22e>Status</span>
+	<span style=color:#a6e22e>consumer</span> <span style=color:#a6e22e>kafka</span>.<span style=color:#a6e22e>Consumer</span>
+}
+
+<span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>k</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>KafkaInput</span>) <span style=color:#a6e22e>Receive</span>() <span style=color:#f92672>*</span><span style=color:#a6e22e>msg</span>.<span style=color:#a6e22e>Message</span> {
+	<span style=color:#a6e22e>records</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>k</span>.<span style=color:#a6e22e>consumer</span>.<span style=color:#a6e22e>Poll</span>()
+	<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>k</span>.<span style=color:#a6e22e>status</span> <span style=color:#f92672>!=</span> <span style=color:#a6e22e>Started</span> {
+		<span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Println</span>(<span style=color:#e6db74>&#34;Kafka input plugin is not running, input nothing.&#34;</span>)
+		<span style=color:#66d9ef>return</span> <span style=color:#66d9ef>nil</span>
+	}
+	<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>msg</span>.<span style=color:#a6e22e>Builder</span>().
+		<span style=color:#a6e22e>WithHeaderItem</span>(<span style=color:#e6db74>&#34;content&#34;</span>, <span style=color:#e6db74>&#34;kafka&#34;</span>).
+		<span style=color:#a6e22e>WithBodyItem</span>(<span style=color:#a6e22e>records</span>.<span style=color:#a6e22e>Item</span>).
+		<span style=color:#a6e22e>Build</span>()
+}
+
+<span style=color:#75715e>// 在输入插件映射关系中加入kafka,用于通过反射创建input对象
+</span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>init</span>() {
+	<span style=color:#a6e22e>inputNames</span>[<span style=color:#e6db74>&#34;hello&#34;</span>] = <span style=color:#a6e22e>reflect</span>.<span style=color:#a6e22e>TypeOf</span>(<span style=color:#a6e22e>HelloInput</span>{})
+	<span style=color:#a6e22e>inputNames</span>[<span style=color:#e6db74>&#34;kafka&#34;</span>] = <span style=color:#a6e22e>reflect</span>.<span style=color:#a6e22e>TypeOf</span>(<span style=color:#a6e22e>KafkaInput</span>{})
+}
+</code></pre></div><p>因为Go语言没有构造函数,如果按照抽象工厂模式来创建KafkaInput,那么得到的实例中的consumer成员因为没有被初始化而会是nil.因此,需要给Plugin接口新增一个Init方法,用户定义插件的一些初始化操作,并在工厂返回实例前调用.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>plugin</span>
+<span style=color:#f92672>...</span>
+<span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Plugin</span> <span style=color:#66d9ef>interface</span> {
+	<span style=color:#a6e22e>Start</span>()
+	<span style=color:#a6e22e>Stop</span>()
+	<span style=color:#a6e22e>Status</span>() <span style=color:#a6e22e>Status</span>
+	<span style=color:#75715e>// 新增初始化方法,在插件Init函数,完成相关初始化方法
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>Init</span>()
+}
+
+<span style=color:#75715e>// 修改后的插件工厂实现如下
+</span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>i</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>InputFactory</span>) <span style=color:#a6e22e>Create</span>(<span style=color:#a6e22e>conf</span> <span style=color:#a6e22e>Config</span>) <span style=color:#a6e22e>Plugin</span> {
+	<span style=color:#a6e22e>t</span>, <span style=color:#a6e22e>_</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>inputNames</span>[<span style=color:#a6e22e>conf</span>.<span style=color:#a6e22e>Name</span>]
+	<span style=color:#a6e22e>p</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>reflect</span>.<span style=color:#a6e22e>New</span>(<span style=color:#a6e22e>t</span>).<span style=color:#a6e22e>Interface</span>().(<span style=color:#a6e22e>Plugin</span>)
+	<span style=color:#a6e22e>p</span>.<span style=color:#a6e22e>Init</span>()
+	<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>p</span>
+}
+
+<span style=color:#75715e>// KafkaInput的Init函数实现
+</span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>k</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>KafkaInput</span>) <span style=color:#a6e22e>Init</span>() {
+	<span style=color:#a6e22e>k</span>.<span style=color:#a6e22e>consumer</span> = <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>kafka</span>.<span style=color:#a6e22e>MockConsumer</span>{}
+}
+
+</code></pre></div><p>上述代码中的kafka.MockConsumer为我们模拟Kafka消费者的一个实现,</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>kafka</span>
+<span style=color:#f92672>...</span>
+<span style=color:#66d9ef>type</span> <span style=color:#a6e22e>MockConsumer</span> <span style=color:#66d9ef>struct</span> {}
+
+<span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>m</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>MockConsumer</span>) <span style=color:#a6e22e>Poll</span>() <span style=color:#f92672>*</span><span style=color:#a6e22e>Records</span> {
+	<span style=color:#a6e22e>records</span> <span style=color:#f92672>:=</span> <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>Records</span>{}
+	<span style=color:#a6e22e>records</span>.<span style=color:#a6e22e>Items</span> = append(<span style=color:#a6e22e>records</span>.<span style=color:#a6e22e>Items</span>, <span style=color:#e6db74>&#34;i am mock consumer.&#34;</span>)
+	<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>records</span>
+}
+
+</code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>test</span>
+<span style=color:#f92672>...</span>
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>TestKafkaInputPipeline</span>(<span style=color:#a6e22e>t</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>testing</span>.<span style=color:#a6e22e>T</span>) {
+	<span style=color:#a6e22e>config</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>pipeline</span>.<span style=color:#a6e22e>Config</span>{
+		<span style=color:#a6e22e>Name</span>: <span style=color:#e6db74>&#34;pipeline2&#34;</span>,
+		<span style=color:#a6e22e>Input</span>: <span style=color:#a6e22e>plugin</span>.<span style=color:#a6e22e>Config</span>{
+			<span style=color:#a6e22e>PluginType</span>: <span style=color:#a6e22e>plugin</span>.<span style=color:#a6e22e>InputType</span>,
+			<span style=color:#a6e22e>Name</span>: <span style=color:#e6db74>&#34;kafka&#34;</span>,
+		},
+		<span style=color:#a6e22e>Filter</span>: <span style=color:#a6e22e>plugin</span>.<span style=color:#a6e22e>Config</span>{
+			<span style=color:#a6e22e>PluginType</span>: <span style=color:#a6e22e>plugiin</span>.<span style=color:#a6e22e>FilterType</span>,
+			<span style=color:#a6e22e>Name</span>: <span style=color:#e6db74>&#34;upper&#34;</span>,
+		},
+		<span style=color:#a6e22e>Output</span>: <span style=color:#a6e22e>plugin</span>.<span style=color:#a6e22e>Config</span>{
+			<span style=color:#a6e22e>PluginType</span>: <span style=color:#a6e22e>plugin</span>.<span style=color:#a6e22e>OutputType</span>,
+			<span style=color:#a6e22e>Name</span>: <span style=color:#e6db74>&#34;console&#34;</span>,
+		},
+	}
+	<span style=color:#a6e22e>p</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>pipeline</span>.<span style=color:#a6e22e>Of</span>(<span style=color:#a6e22e>config</span>)
+	<span style=color:#a6e22e>p</span>.<span style=color:#a6e22e>Start</span>()
+	<span style=color:#a6e22e>p</span>.<span style=color:#a6e22e>Exec</span>()
+	<span style=color:#a6e22e>p</span>.<span style=color:#a6e22e>Stop</span>()
+}
+</code></pre></div><h3 id=桥接模式bridge-pattern>桥接模式(Bridge Pattern)<a href=#桥接模式bridge-pattern class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p><img src="https://tcs.teambition.net/storage/312e6caaa50934bbfe2d273c2a6bc5be4942?Signature=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBcHBJRCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9hcHBJZCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9vcmdhbml6YXRpb25JZCI6IiIsImV4cCI6MTY3NzgyNTE0NCwiaWF0IjoxNjc3MjIwMzQ0LCJyZXNvdXJjZSI6Ii9zdG9yYWdlLzMxMmU2Y2FhYTUwOTM0YmJmZTJkMjczYzJhNmJjNWJlNDk0MiJ9.smGJmZZGv_HRw2QeywW6rpZCvL5nszKjkFvhjHM-M80&download=image.png" alt title></p>
+<p>桥接模式主要用于将抽象部分和实现部分进行解耦,使得它们能够各自往独立的方向变化.</p>
+<p><img src="https://tcs.teambition.net/storage/312e7779775d739bfcb2507aff8539a09920?Signature=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBcHBJRCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9hcHBJZCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9vcmdhbml6YXRpb25JZCI6IiIsImV4cCI6MTY3NzgyNTE0NCwiaWF0IjoxNjc3MjIwMzQ0LCJyZXNvdXJjZSI6Ii9zdG9yYWdlLzMxMmU3Nzc5Nzc1ZDczOWJmY2IyNTA3YWZmODUzOWEwOTkyMCJ9.JYF6QyIagvBAxw4E3Y1apqCeglSjUK85gmycYHO1aXE&download=image.png" alt title></p>
+<p>这个例子中,我们通过将形状和颜色抽象为一个接口,使产品不再依赖于具体的形状和颜色细节,从而达到了解耦的目的.桥接模式本质上就是面向接口编程,可以给系统带来很好的灵活性和可扩展性.如果一个对象存在多个变化的方向,而且每个变化方向都需要扩展,那么使用桥街模式进行设计比较合适.</p>
+<p>回到消息处理系统的例子,一个Pipeline对象主要由Input、Filter、Output三类插件组成(3个特征),因为是插件化的系统,不可避免的就要求支持多种Input、Filter、Output的实现,并能够灵活组合(有多个变化的方向).显然,Pipeline就非常适合使用桥街模式进行设计,实际上我们也这么做了.我们将Input、Filter、Output分别设计成一个抽象的接口,它们按照各自的方向去扩展.Pipeline只依赖的这3个抽象接口,并不感知具体实现的细节.</p>
+<p><img src="https://tcs.teambition.net/storage/312e5f292fba5d2a22c27489b1801ce8cd44?Signature=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBcHBJRCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9hcHBJZCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9vcmdhbml6YXRpb25JZCI6IiIsImV4cCI6MTY3NzgyNTE0NCwiaWF0IjoxNjc3MjIwMzQ0LCJyZXNvdXJjZSI6Ii9zdG9yYWdlLzMxMmU1ZjI5MmZiYTVkMmEyMmMyNzQ4OWIxODAxY2U4Y2Q0NCJ9.cQmR2A369OpQkwOoL_6-LQpwmaCHE9nJTiAmzu6AO8Q&download=image.png" alt title></p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>plugin</span>
+<span style=color:#f92672>...</span>
+<span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Input</span> <span style=color:#66d9ef>interface</span> {
+	<span style=color:#a6e22e>Plugin</span>
+	<span style=color:#a6e22e>Receive</span>() <span style=color:#f92672>*</span><span style=color:#a6e22e>msg</span>.<span style=color:#a6e22e>Message</span>
+}
+<span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Filter</span> <span style=color:#66d9ef>interface</span> {
+	<span style=color:#a6e22e>Plugin</span>
+	<span style=color:#a6e22e>Process</span>(<span style=color:#a6e22e>msg</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>msg</span>.<span style=color:#a6e22e>Message</span>) <span style=color:#f92672>*</span><span style=color:#a6e22e>msg</span>.<span style=color:#a6e22e>Message</span>
+}
+
+<span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Output</span> <span style=color:#66d9ef>interface</span> {
+	<span style=color:#a6e22e>Plugin</span>
+	<span style=color:#a6e22e>Send</span>(<span style=color:#a6e22e>msg</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>msg</span>.<span style=color:#a6e22e>Message</span>)
+}
+
+<span style=color:#f92672>package</span> <span style=color:#a6e22e>pipeline</span>
+<span style=color:#f92672>...</span>
+<span style=color:#75715e>// 一个Pipeline由input、filter、output三个Plugin组成
+</span><span style=color:#75715e></span><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Pipeline</span> <span style=color:#66d9ef>struct</span> {
+	<span style=color:#a6e22e>status</span> <span style=color:#a6e22e>plugin</span>.<span style=color:#a6e22e>Status</span>
+	<span style=color:#a6e22e>input</span> <span style=color:#a6e22e>plugin</span>.<span style=color:#a6e22e>Input</span>
+	<span style=color:#a6e22e>filter</span> <span style=color:#a6e22e>plugin</span>.<span style=color:#a6e22e>Filter</span>
+	<span style=color:#a6e22e>output</span> <span style=color:#a6e22e>plugin</span>.<span style=color:#a6e22e>Output</span>
+}
+<span style=color:#75715e>// 通过抽象接口来使用,看不到底层的实现细节
+</span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>p</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>Pipeline</span>) <span style=color:#a6e22e>Exec</span>() {
+	<span style=color:#a6e22e>msg</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>p</span>.<span style=color:#a6e22e>input</span>.<span style=color:#a6e22e>Receive</span>()
+	<span style=color:#a6e22e>msg</span> = <span style=color:#a6e22e>p</span>.<span style=color:#a6e22e>filter</span>.<span style=color:#a6e22e>Process</span>(<span style=color:#a6e22e>msg</span>)
+	<span style=color:#a6e22e>p</span>.<span style=color:#a6e22e>output</span>.<span style=color:#a6e22e>Send</span>(<span style=color:#a6e22e>msg</span>)
+}
+</code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>test</span>
+<span style=color:#f92672>...</span>
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>TestPipeline</span>(<span style=color:#a6e22e>t</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>testing</span>.<span style=color:#a6e22e>T</span>) {
+	<span style=color:#a6e22e>p</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>pipeline</span>.<span style=color:#a6e22e>Of</span>(<span style=color:#a6e22e>pipeline</span>.<span style=color:#a6e22e>DefaultConfig</span>())
+	<span style=color:#a6e22e>p</span>.<span style=color:#a6e22e>Start</span>()
+	<span style=color:#a6e22e>p</span>.<span style=color:#a6e22e>Exec</span>()
+	<span style=color:#a6e22e>p</span>.<span style=color:#a6e22e>Stop</span>()
+}
+
+</code></pre></div><p>本文主要介绍了结构型模式中的组合模式、适配器模式和桥接模式。<strong>组合模式</strong>主要解决代码复用的问题，相比于继承关系，组合模式可以避免继承层次过深导致的代码复杂问题，因此面向对象设计领域流传着<strong>组合优于继承</strong>的原则，而Go语言的设计也很好实践了该原则；<strong>适配器模式</strong>可以看作是两个不兼容接口之间的桥梁，可以将一个接口转换成client所希望的另外一个接口，解决了模块之间因为接口不兼容而无法一起工作的问题；<strong>桥接模式</strong>将模块的抽象部分和实现部分进行分离，让它们能够往各自的方向扩展，从而达到解耦的目的。</p>
+<h3 id=代理模式proxy-pattern>代理模式(Proxy Pattern)<a href=#代理模式proxy-pattern class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p><img src="https://tcs.teambition.net/storage/312e70565f8b57a77be711d582d86bc7de93?Signature=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBcHBJRCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9hcHBJZCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9vcmdhbml6YXRpb25JZCI6IiIsImV4cCI6MTY3NzgyNTE0NCwiaWF0IjoxNjc3MjIwMzQ0LCJyZXNvdXJjZSI6Ii9zdG9yYWdlLzMxMmU3MDU2NWY4YjU3YTc3YmU3MTFkNTgyZDg2YmM3ZGU5MyJ9.eFrV730KZWTn3ck9inoCnSlvJeJ5miaE1yezLMXyiWI&download=image.png" alt title></p>
+<p>代理模式为一个对象提供一种代理以控制对该对象的访问</p>
+<p>// 当Client不方便直接访问一个对象时,提供一个代理对象控制该对象的访问</p>
+<p>代理模式分以下几种:</p>
+<p><strong>远程代理(remote proxy)</strong>: 远程代理适用于提供服务的对象处在远程的机器上,通过普通的函数调用无法使用服务,需要经过远程代理来完成.因此并不能直接访问本体对象,所有远程代理对象通常不会直接持有本体对象的引用,而是持有远端机器的地址,通过网络协议去访问本体对象</p>
+<p><strong>虚拟代理(virtual proxy)</strong>:对一些重量级的服务对象,如果一直持有该对象实例回非常消耗系统资源,这时可以通过虚拟代理来对该对象进行延迟初始化.</p>
+<p><strong>保护代理(protection proxy)</strong>:保护代理用于控制对本体对象的访问,常用于需要给Client的访问加上权限验证的场景.</p>
+<p><strong>缓存代理(cache proxy)</strong>:缓存代理主要在Client与本体对象之间加上一层缓存,用于加速本体对象的访问,常见于连接数据库的场景.</p>
+<p><strong>智能引用(smart reference)</strong>:智能引用为本体对象的访问提供了额外的动作,常见的实现为C++中智能指针,为对象的访问提供了计数功能,当访问对象的计数为0时销毁该对象.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>db</span>
+<span style=color:#f92672>...</span>
+<span style=color:#75715e>// Key-Value数据库接口
+</span><span style=color:#75715e></span><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>KvDb</span> <span style=color:#66d9ef>interface</span> {
+	<span style=color:#75715e>// 存储数据
+</span><span style=color:#75715e></span>	<span style=color:#75715e>// 其中reply为操作结果,存储成功为true, 否则为false
+</span><span style=color:#75715e></span>	<span style=color:#75715e>// 当连接数据库失败时返回error,成功则返回nil
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>Save</span>(<span style=color:#a6e22e>record</span> <span style=color:#a6e22e>Record</span>, <span style=color:#a6e22e>reply</span> <span style=color:#f92672>*</span><span style=color:#66d9ef>bool</span>) <span style=color:#66d9ef>error</span>
+	<span style=color:#75715e>// 根据key获取value,其中value通过函数参数中指针类型返回
+</span><span style=color:#75715e></span>	<span style=color:#75715e>// 当连接数据库失败时返回error,成功则返回nil
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>Get</span>(<span style=color:#a6e22e>key</span> <span style=color:#66d9ef>string</span>, <span style=color:#a6e22e>value</span> <span style=color:#f92672>*</span><span style=color:#66d9ef>string</span>) <span style=color:#66d9ef>error</span>
+}
+
+<span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Record</span> <span style=color:#66d9ef>struct</span> {
+	<span style=color:#a6e22e>Key</span> <span style=color:#66d9ef>string</span>
+	<span style=color:#a6e22e>Value</span> <span style=color:#66d9ef>string</span>
+}
+</code></pre></div><p>数据库是一个Key-Value数据库,使用map存储数据,下面为数据库的服务端实现,<code>db.Server</code>实现了db.KvDb接口:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>db</span>
+<span style=color:#f92672>...</span>
+<span style=color:#75715e>// 数据库服务端实现
+</span><span style=color:#75715e></span><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Server</span> <span style=color:#66d9ef>struct</span> {
+	<span style=color:#75715e>// 采用map存储key-value数据
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>data</span> <span style=color:#66d9ef>map</span>[<span style=color:#66d9ef>string</span>]<span style=color:#66d9ef>string</span>
+}
+
+<span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>s</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>Server</span>) <span style=color:#a6e22e>Save</span>(<span style=color:#a6e22e>record</span> <span style=color:#a6e22e>Record</span>, <span style=color:#a6e22e>reply</span> <span style=color:#f92672>*</span><span style=color:#66d9ef>bool</span>) <span style=color:#66d9ef>error</span> {
+	<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>s</span>.<span style=color:#a6e22e>data</span> <span style=color:#f92672>==</span> <span style=color:#66d9ef>nil</span> {
+		<span style=color:#a6e22e>s</span>.<span style=color:#a6e22e>data</span> = make(<span style=color:#66d9ef>map</span>[<span style=color:#66d9ef>string</span>]<span style=color:#66d9ef>string</span>)
+	}
+	<span style=color:#a6e22e>s</span>.<span style=color:#a6e22e>data</span>[<span style=color:#a6e22e>record</span>.<span style=color:#a6e22e>Key</span>] = <span style=color:#a6e22e>record</span>.<span style=color:#a6e22e>Value</span>
+	<span style=color:#f92672>*</span><span style=color:#a6e22e>reply</span> = <span style=color:#66d9ef>true</span>
+	<span style=color:#66d9ef>return</span> <span style=color:#66d9ef>nil</span>
+}
+
+<span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>s</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>Server</span>) <span style=color:#a6e22e>Get</span>(<span style=color:#a6e22e>key</span> <span style=color:#66d9ef>string</span>, <span style=color:#a6e22e>reply</span> <span style=color:#f92672>*</span><span style=color:#66d9ef>string</span>) <span style=color:#66d9ef>error</span> {
+	<span style=color:#a6e22e>val</span>, <span style=color:#a6e22e>ok</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>s</span>.<span style=color:#a6e22e>data</span>[<span style=color:#a6e22e>key</span>]
+	<span style=color:#66d9ef>if</span> !<span style=color:#a6e22e>ok</span> {
+		<span style=color:#f92672>*</span><span style=color:#a6e22e>reply</span> = <span style=color:#e6db74>&#34;&#34;</span>
+		<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>errors</span>.<span style=color:#a6e22e>New</span>(<span style=color:#e6db74>&#34;Db has no key &#34;</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>key</span>)
+	}
+	<span style=color:#f92672>*</span><span style=color:#a6e22e>reply</span> = <span style=color:#a6e22e>val</span>
+	<span style=color:#66d9ef>return</span> <span style=color:#66d9ef>nil</span>
+}
+</code></pre></div><p>消息处理系统和数据库并不在同一台机器上,因此消息处理系统不能直接调用<code>db.Server</code>的方法进行数据存储,需要使用远程代理的方式</p>
+<p>在远程代理中,最常见的一种实现是远程过程调用(Remote Procedure Call)</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>db</span>
+<span style=color:#f92672>...</span>
+<span style=color:#75715e>// 启动数据库,对外提供RPC接口进行数据库的访问
+</span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>Start</span>() {
+	<span style=color:#a6e22e>rpcServer</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>rpc</span>.<span style=color:#a6e22e>NewServer</span>()
+	<span style=color:#a6e22e>server</span> <span style=color:#f92672>:=</span> <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>Server</span>{<span style=color:#a6e22e>data</span>: <span style=color:#a6e22e>make</span>[<span style=color:#66d9ef>string</span>]<span style=color:#66d9ef>string</span>}
+	<span style=color:#75715e>// 将数据库接口注册到RPC服务器上
+</span><span style=color:#75715e></span>	<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>rpc</span>.<span style=color:#a6e22e>Server</span>.<span style=color:#a6e22e>Register</span>(<span style=color:#a6e22e>server</span>); <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
+		<span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Printf</span>(<span style=color:#e6db74>&#34;Register Server to rpc failed, error: %v&#34;</span>, <span style=color:#a6e22e>err</span>)
+		<span style=color:#66d9ef>return</span>
+	}
+	<span style=color:#a6e22e>l</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>net</span>.<span style=color:#a6e22e>Listen</span>(<span style=color:#e6db74>&#34;tcp&#34;</span>, <span style=color:#e6db74>&#34;127.0.0.1:1234&#34;</span>)
+	<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
+		<span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Printf</span>(<span style=color:#e6db74>&#34;Listen tcp failed, error: %v&#34;</span>, <span style=color:#a6e22e>err</span>)
+		<span style=color:#66d9ef>return</span>	
+	}
+	<span style=color:#66d9ef>go</span> <span style=color:#a6e22e>rpcServer</span>.<span style=color:#a6e22e>Accept</span>(<span style=color:#a6e22e>l</span>)
+	<span style=color:#a6e22e>time</span>.<span style=color:#a6e22e>Sleep</span>(<span style=color:#ae81ff>1</span> <span style=color:#f92672>*</span> <span style=color:#a6e22e>time</span>.<span style=color:#a6e22e>Second</span>)
+	<span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Println</span>(<span style=color:#e6db74>&#34;RPC server start success.&#34;</span>)
+}
+</code></pre></div><p>上面已经为数据库提供了对外访问的方式.现在,需要一个远程代理来连接数据库服务端,并进行相关的数据库的操作.对消息处理系统而言,它不需要,也不应该知道远程代理与数据库服务端交互的底层细节,这样可以减轻系统之间的耦合.因此,远程代理需要实现<code>db.KvDb</code></p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>db</span>
+<span style=color:#f92672>...</span>
+<span style=color:#75715e>// 数据库服务端远程代理,实现db.KvDb接口
+</span><span style=color:#75715e></span><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Client</span> <span style=color:#66d9ef>struct</span> {
+	<span style=color:#75715e>// RPC客户端
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>cli</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>rpc</span>.<span style=color:#a6e22e>Client</span>
+}
+
+<span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>c</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>Client</span>) <span style=color:#a6e22e>Save</span>(<span style=color:#a6e22e>record</span> <span style=color:#a6e22e>Record</span>, <span style=color:#a6e22e>Reply</span> <span style=color:#f92672>*</span><span style=color:#66d9ef>bool</span>) <span style=color:#66d9ef>error</span> {
+	<span style=color:#66d9ef>var</span> <span style=color:#a6e22e>ret</span> <span style=color:#66d9ef>bool</span>
+	<span style=color:#75715e>// 通过RPC调用服务端的接口
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>c</span>.<span style=color:#a6e22e>cli</span>.<span style=color:#a6e22e>Call</span>(<span style=color:#e6db74>&#34;Server.Save&#34;</span>, <span style=color:#a6e22e>record</span>, <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>ret</span>)
+	<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
+		<span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Printf</span>(<span style=color:#e6db74>&#34;Call db Server.Save rpc failed, error: %v&#34;</span>, <span style=color:#a6e22e>err</span>)
+		<span style=color:#f92672>*</span><span style=color:#a6e22e>reply</span> = <span style=color:#66d9ef>false</span>
+		<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>err</span>
+	}
+	<span style=color:#f92672>*</span><span style=color:#a6e22e>reply</span> = <span style=color:#a6e22e>ret</span>
+	<span style=color:#66d9ef>return</span> <span style=color:#66d9ef>nil</span>
+}
+
+<span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>c</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>Client</span>) <span style=color:#a6e22e>Get</span>(<span style=color:#a6e22e>key</span> <span style=color:#66d9ef>string</span>, <span style=color:#a6e22e>reply</span> <span style=color:#f92672>*</span><span style=color:#66d9ef>string</span>) <span style=color:#66d9ef>error</span> {
+	<span style=color:#66d9ef>var</span> <span style=color:#a6e22e>ret</span> <span style=color:#66d9ef>string</span>
+	<span style=color:#75715e>// 通过RPC调用服务端的接口
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>c</span>.<span style=color:#a6e22e>cli</span>.<span style=color:#a6e22e>Call</span>(<span style=color:#e6db74>&#34;Server.Get&#34;</span>, <span style=color:#a6e22e>record</span>, <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>ret</span>)
+	<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
+		<span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Printf</span>(<span style=color:#e6db74>&#34;Call db Server.Get rpc failed, error: %v&#34;</span>, <span style=color:#a6e22e>err</span>)
+		<span style=color:#f92672>*</span><span style=color:#a6e22e>reply</span> = <span style=color:#66d9ef>false</span>
+		<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>err</span>
+	}
+	<span style=color:#f92672>*</span><span style=color:#a6e22e>reply</span> = <span style=color:#a6e22e>ret</span>
+	<span style=color:#66d9ef>return</span> <span style=color:#66d9ef>nil</span>
+}
+
+<span style=color:#75715e>// 工厂方法,返回远程代理实例
+</span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>CreateClient</span>() <span style=color:#f92672>*</span><span style=color:#a6e22e>Client</span> {
+	<span style=color:#a6e22e>rpcCli</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>rpc</span>.<span style=color:#a6e22e>Dial</span>(<span style=color:#e6db74>&#34;tcp&#34;</span>, <span style=color:#e6db74>&#34;127.0.0.1:1234&#34;</span>)
+	<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> {
+		<span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Printf</span>(<span style=color:#e6db74>&#34;Create rpc client failed, error: %v.&#34;</span>,<span style=color:#a6e22e>err</span>)
+		<span style=color:#66d9ef>return</span> <span style=color:#66d9ef>nil</span>
+	}
+	<span style=color:#66d9ef>return</span> <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>Client</span>{<span style=color:#a6e22e>cli</span>: <span style=color:#a6e22e>rpcCli</span>}
+}
+
+</code></pre></div><p>作为远程代理的db.Client并没有直接持有db.Server的引用,而是持有了它的<code>ip:port</code></p>
+<p>通过RPC客户端调用了它的方法</p>
+<h3 id=装饰模式decorator-pattern>装饰模式(Decorator Pattern)<a href=#装饰模式decorator-pattern class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p><img src="https://tcs.teambition.net/storage/312e9309f45180e9077336f18b2fe3f4bb44?Signature=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBcHBJRCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9hcHBJZCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9vcmdhbml6YXRpb25JZCI6IiIsImV4cCI6MTY3NzgyNTE0NCwiaWF0IjoxNjc3MjIwMzQ0LCJyZXNvdXJjZSI6Ii9zdG9yYWdlLzMxMmU5MzA5ZjQ1MTgwZTkwNzczMzZmMThiMmZlM2Y0YmI0NCJ9.Qv59p6umMZ66pWRG87aeRFDyybLoIrJHGLEpQS7ASIs&download=image.png" alt title></p>
+<p>装饰模式使用组合而非继承的方式,能够动态的为本体对象叠加新的行为</p>
+<p>装饰模式最经典的应用当属Java的I/O流体系,通过装饰模式,使用者可以动态地为原始的输入输出流添加功能,比如按照字符串输入输出,添加缓存等</p>
+<p>从结构上看,装饰模式和代理模式具有很高的相似性,但是两种所强调的点不一样.装饰模式强调的是为本体对象添加新的功能,代理模式强调的是对本体对象的访问控制</p>
+<p>行为型模式(Behavioral Pattern)</p>
+</div></div>
+<div class=pagination>
+<div class=pagination__title>
+<span class=pagination__title-h>Read other posts</span>
+<hr>
+</div>
+<div class=pagination__buttons>
+<span class="button previous">
+<a href=https://xujiajiadexiaokeai.github.io/2022-02-28/memory-management/>
+<span class=button__icon>←</span>
+<span class=button__text>memory-management Notes</span>
+</a>
+</span>
+<span class="button next">
+<a href=https://xujiajiadexiaokeai.github.io/2021-12-03/concurrency-control/>
+<span class=button__text>Concurrency Control</span>
+<span class=button__icon>→</span>
+</a>
+</span>
+</div>
+</div>
+</div>
+</div>
+<footer class=footer>
+<div class=footer__inner>
+<div class="copyright copyright--user">
+<span>© 2021-2022 xujiajiadexiaokeai</span>
+<span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span>
+</div>
+</div>
+</footer>
+<script src=https://xujiajiadexiaokeai.github.io/assets/main.js></script>
+<script src=https://xujiajiadexiaokeai.github.io/assets/prism.js></script>
+</div>
+</body>
+</html>

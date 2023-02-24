@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>etcd on xujiajiadexiaokeai</title><link>https://xujiajiadexiaokeai.github.io/tags/etcd/</link><description>Recent content in etcd on xujiajiadexiaokeai</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>© 2021-2022 xujiajiadexiaokeai</copyright><lastBuildDate>Thu, 28 Oct 2021 15:00:30 +0800</lastBuildDate><atom:link href="https://xujiajiadexiaokeai.github.io/tags/etcd/index.xml" rel="self" type="application/rss+xml"/><item><title>[译]Progress in etcd</title><link>https://xujiajiadexiaokeai.github.io/2021-10-28/progress-in-etcd/</link><pubDate>Thu, 28 Oct 2021 15:00:30 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2021-10-28/progress-in-etcd/</guid><description>From etcd Raft Design Doc
+Progress是etcd中leader保存的所有follower的progress的视图
+Leader维护着所有follower的progress，并根据follower的progress向follower发送 replication message
+replication message 是带着log entries信息的msgAppend 消息
+progress有两个属性： match 和 next
+match 是leader对该follower已确定日志(entry)中最高的index，如果leader对这个follower的日志复制情况(replication status)一无所知，match 则会被设置为0
+next 是leader将要发送给该follower的第一条日志(entry)的index,leader会将从next 开始到最新的entries放到下一条replication message 中
+一个follower的progress会处于以下三种状态： probe , replicate ,snapshot
++--------------------------------------------------------+ | send snapshot | | | +---------+----------+ +----------v---------+ +---&amp;gt; probe | | snapshot | | | max inflight = 1 &amp;lt;----------------------------------+ max inflight = 0 | | +---------+----------+ +--------------------+ | | 1. snapshot success | | (next=snapshot.</description><content>&lt;blockquote>
+&lt;p>From etcd Raft Design Doc&lt;/p>
+&lt;/blockquote>
+&lt;p>Progress是etcd中leader保存的所有follower的progress的视图&lt;/p>
+&lt;p>Leader维护着所有follower的progress，并根据follower的progress向follower发送 &lt;code>replication message&lt;/code>&lt;/p>
+&lt;p>&lt;code>replication message&lt;/code> 是带着log entries信息的&lt;code>msgAppend&lt;/code> 消息&lt;/p>
+&lt;p>progress有两个属性： &lt;code>match&lt;/code> 和 &lt;code>next&lt;/code>&lt;/p>
+&lt;p>&lt;code>match&lt;/code> 是leader对该follower已确定日志(entry)中最高的index，如果leader对这个follower的日志复制情况(replication status)一无所知，&lt;code>match&lt;/code> 则会被设置为0&lt;/p>
+&lt;p>&lt;code>next&lt;/code> 是leader将要发送给该follower的第一条日志(entry)的index,leader会将从&lt;code>next&lt;/code> 开始到最新的entries放到下一条&lt;code>replication message&lt;/code> 中&lt;/p>
+&lt;p>一个follower的progress会处于以下三种状态： &lt;code>probe&lt;/code> , &lt;code>replicate&lt;/code> ,&lt;code>snapshot&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-text" data-lang="text"> +--------------------------------------------------------+
+| send snapshot |
+| |
++---------+----------+ +----------v---------+
++---&amp;gt; probe | | snapshot |
+| | max inflight = 1 &amp;lt;----------------------------------+ max inflight = 0 |
+| +---------+----------+ +--------------------+
+| | 1. snapshot success
+| | (next=snapshot.index + 1)
+| | 2. snapshot failure
+| | (no change)
+| | 3. receives msgAppResp(rej=false&amp;amp;&amp;amp;index&amp;gt;lastsnap.index)
+| | (match=m.index,next=match+1)
+receives msgAppResp(rej=true)
+(next=match+1)| |
+| |
+| |
+| | receives msgAppResp(rej=false&amp;amp;&amp;amp;index&amp;gt;match)
+| | (match=m.index,next=match+1)
+| |
+| |
+| |
+| +---------v----------+
+| | replicate |
++---+ max inflight = n |
++--------------------+
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>probe&lt;/code> ：当follower处于待调查(probe)状态时，leader在一次心跳间隔(heartbeat interval)内最多向该follower发送一条&lt;code>replication message&lt;/code> 。leader慢慢向follower发送&lt;code>replication message&lt;/code> 并试探follower的实际复制进展(actual progress)。leader在收到&lt;code>msgHeartbeatResp&lt;/code> 或者&lt;code>msgAppResp&lt;/code> 的拒绝消息后会触发下一条&lt;code>replication message&lt;/code> 的发送。&lt;/p>
+&lt;p>&lt;code>replicate&lt;/code> ：当follower处于复制(replicate)状态时，leader在向该follower发送&lt;code>replication message&lt;/code> 时，会乐观地(optimistically)将&lt;code>next&lt;/code> 增加至最新的index。这是一个最优的状态(optimized state)，可以快速的将日志(log entries)复制给follower。&lt;/p>
+&lt;p>&lt;code>snapshot&lt;/code> ：当follower处于快照(snapshot)状态时，leader会停止向该follower发送&lt;code>replication message&lt;/code>&lt;/p>
+&lt;h1 id="状态流转">状态流转&lt;/h1>
+&lt;p>一个新选出的leader，会将所有follower的state设置为&lt;code>probe&lt;/code> 状态，&lt;code>match&lt;/code> 设置为0，&lt;code>next&lt;/code> 设置为自己最新的index。之后leader会缓慢的向各个follower发送&lt;code>replication message&lt;/code> (一次心跳最多一条)去试探他们的日志复制进展。&lt;/p>
+&lt;p>在收到follower&lt;code>reject&lt;/code> 为&lt;code>false&lt;/code> 的&lt;code>msgAppResp&lt;/code> 时，会将该follower的progress设置为&lt;code>replicate&lt;/code> 状态，这表明发送的index已经和follower目前的index匹配上了，可以进行后续日志快速的发送。当follower回复一条reject的&lt;code>msgAppResp&lt;/code> 或者连接层(link layer) 报告follower不可连接时，该follower的progress会回到&lt;code>probe&lt;/code> 状态。我们积极地将&lt;code>next&lt;/code> 重置为&lt;code>match&lt;/code> +1，因为如果我们很快收到任何&lt;code>msgAppResp&lt;/code> ，&lt;code>match&lt;/code> 和&lt;code>next&lt;/code> 将直接增加到&lt;code>msgAppResp&lt;/code> 中的index。（如果将&lt;code>next&lt;/code> 设置过低，我们可能会发送一些重复条目。请参阅开放性问题）&lt;/p>
+&lt;p>当follower远远落后并且需要快照(snapshot)时，该follower将从&lt;code>probe&lt;/code> 状态更改为&lt;code>snapshot&lt;/code> 状态。发送&lt;code>msgSnap&lt;/code> 后，leader将等待上一个快照发送成功、失败或中止。应用发送结果后，该follower的progress将返回到&lt;code>probe&lt;/code> 状态。&lt;/p>
+&lt;h1 id="流转控制">流转控制&lt;/h1>
+&lt;p>限制每条message发送的message最大大小。最大值应该是可配置的。降低探测状态的成本，因为我们限制每条消息的大小；如果下一步的罚分过低，则降低罚分&lt;/p>
+&lt;p>当处于复制状态时，限制飞行中消息的数量 &amp;lt; N N应该是可配置的。大多数实现将在其实际网络传输层（不阻塞raft节点）的顶部有一个发送缓冲区。我们希望确保raft不会使缓冲区溢出，这可能会导致消息丢失并触发大量不必要的重复重发。&lt;/p></content></item><item><title>Quorum in etcd</title><link>https://xujiajiadexiaokeai.github.io/2021-10-12/quorum-in-etcd/</link><pubDate>Tue, 12 Oct 2021 22:44:30 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2021-10-12/quorum-in-etcd/</guid><description>CAP 一致性(Consistency)、可用性(Availability)、分区容错性(Partition tolerance)
+WARO (Write All Read One)一种简单的副本控制协议。当Client请求向某副本写数据时,只有当所有的副本都更新成功后,才算写成功,否则都视为失败。
+WARO牺牲了更新服务的可用性,最大程度增强了读服务的可用性
+Quorum 一种权衡机制, 一种将“读写转化”的模型
+quorum是“抽屉原理”的一个应用。定义:假设有N个副本,更新操作wi在W个副本中更新成功后,才认为此次更新操作wi成功。称成功提交的更新操作对应的数据为“成功提交的数据”。对于读操作而言,至少需要读R个副本才能读到此次更新的数据。其中,W+R&amp;gt;N,即W和R有重叠。一般W+R=N+1
+Quorum机制分析 Quorum机制无法保证强一致性
+如何读取最新的数据:在已经知道最近成功提交的数据版本号的前提下,最多读R个副本就可以了
+如何确定 最高版本号 的数据是一个成功提交的数据: 继续读其他副本,直到读到了 W 次
+基于Quorum机制选primary
+中心节点读取R个副本,选择R个副本中版本号最高的副本作为新的Primary。
+新选出的primary不能立即提供服务,还需要与至少W个副本完成同步后,才能提供服务 &amp;mdash;&amp;ndash;&amp;gt; 为了保证Quorum的规则: W+R &amp;gt; N
+如何处理冲突？ (V2,V2,V1,V1,V1) R = 3
+如果读取的是(V1,V1,V1),则V2需要丢弃
+如果是(V2,V1,V1),则V1需要同步到V2
+Quorum 在etcd中的应用 Quorum在etcd中主要作用有两个,一个是计算已被多数节点接收(Match)的Index,二是在进行Leader选举时,计算选举结果。
+raft/quorum/quorum.go</description><content>&lt;h1 id="cap">CAP&lt;/h1>
+&lt;p>一致性(Consistency)、可用性(Availability)、分区容错性(Partition tolerance)&lt;/p>
+&lt;h1 id="waro">WARO&lt;/h1>
+&lt;p>(Write All Read One)一种简单的副本控制协议。当Client请求向某副本写数据时,只有当所有的副本都更新成功后,才算写成功,否则都视为失败。&lt;/p>
+&lt;p>WARO牺牲了更新服务的可用性,最大程度增强了读服务的可用性&lt;/p>
+&lt;h1 id="quorum">Quorum&lt;/h1>
+&lt;p>一种权衡机制, 一种将“读写转化”的模型&lt;/p>
+&lt;p>quorum是“抽屉原理”的一个应用。定义:假设有N个副本,更新操作wi在W个副本中更新成功后,才认为此次更新操作wi成功。称成功提交的更新操作对应的数据为“成功提交的数据”。对于读操作而言,至少需要读R个副本才能读到此次更新的数据。其中,W+R&amp;gt;N,即W和R有重叠。一般W+R=N+1&lt;/p>
+&lt;h2 id="quorum机制分析">Quorum机制分析&lt;/h2>
+&lt;p>&lt;strong>Quorum机制无法保证强一致性&lt;/strong>&lt;/p>
+&lt;p>如何读取最新的数据:在已经知道最近成功提交的数据版本号的前提下,最多读R个副本就可以了&lt;/p>
+&lt;p>如何确定 最高版本号 的数据是一个成功提交的数据: 继续读其他副本,直到读到了 W 次&lt;/p>
+&lt;p>基于Quorum机制选primary&lt;/p>
+&lt;p>中心节点读取R个副本,选择R个副本中版本号最高的副本作为新的Primary。&lt;/p>
+&lt;p>新选出的primary不能立即提供服务,还需要与至少W个副本完成同步后,才能提供服务 &amp;mdash;&amp;ndash;&amp;gt; 为了保证Quorum的规则: W+R &amp;gt; N&lt;/p>
+&lt;h3 id="如何处理冲突">如何处理冲突？&lt;/h3>
+&lt;p>(V2,V2,V1,V1,V1) R = 3&lt;/p>
+&lt;p>如果读取的是(V1,V1,V1),则V2需要丢弃&lt;/p>
+&lt;p>如果是(V2,V1,V1),则V1需要同步到V2&lt;/p>
+&lt;h2 id="quorum-在etcd中的应用">Quorum 在etcd中的应用&lt;/h2>
+&lt;p>Quorum在etcd中主要作用有两个,一个是计算已被多数节点接收(Match)的Index,二是在进行Leader选举时,计算选举结果。&lt;/p>
+&lt;p>raft/quorum/quorum.go&lt;/p></content></item></channel></rss>

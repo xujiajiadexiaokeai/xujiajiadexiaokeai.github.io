@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>shell on xujiajiadexiaokeai</title><link>https://xujiajiadexiaokeai.github.io/tags/shell/</link><description>Recent content in shell on xujiajiadexiaokeai</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>© 2021-2022 xujiajiadexiaokeai</copyright><lastBuildDate>Mon, 06 Jun 2022 11:03:30 +0800</lastBuildDate><atom:link href="https://xujiajiadexiaokeai.github.io/tags/shell/index.xml" rel="self" type="application/rss+xml"/><item><title>Linux Shell Notes</title><link>https://xujiajiadexiaokeai.github.io/2022-06-06/shell-notes/</link><pubDate>Mon, 06 Jun 2022 11:03:30 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2022-06-06/shell-notes/</guid><description>变量 变量名只能包含数字、字母、下划线
+Shell 提示符 要显示提示符的当前格式，可以使用 echo 输出 PS1 和 PS2
+echo $PS1 echo $PS2 下表展示了可以在 PS1 和 PS2 中使用的特殊字符。
+字符 描述 \a 铃声字符 \d 格式为“日 月 年”的日期 \e ASCII转义字符 \h 本地主机名 \H 完全合格的限定域主机名 \j shell当前管理的作业数 \1 shell终端设备名的基本名称 \n ASCII换行字符 \r ASCII回车 \s shell的名称 \t 格式为“小时:分钟:秒”的24小时制的当前时间 \T 格式为“小时:分钟:秒”的12小时制的当前时间 @ 格式为am/pm的12小时制的当前时间 \u 当前用户的用户名 \v bash shell的版本 \V bash shell的发布级别 \w 当前工作目录 \W 当前工作目录的基本名称 !</description><content>&lt;h1 id="变量">变量&lt;/h1>
+&lt;p>变量名只能包含数字、字母、下划线&lt;/p>
+&lt;h2 id="shell-提示符">Shell 提示符&lt;/h2>
+&lt;p>要显示提示符的当前格式，可以使用 echo 输出 PS1 和 PS2&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-text" data-lang="text">echo $PS1
+echo $PS2
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>下表展示了可以在 PS1 和 PS2 中使用的特殊字符。&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>字符&lt;/th>
+&lt;th>描述&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>\a&lt;/td>
+&lt;td>铃声字符&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>\d&lt;/td>
+&lt;td>格式为“日 月 年”的日期&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>\e&lt;/td>
+&lt;td>ASCII转义字符&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>\h&lt;/td>
+&lt;td>本地主机名&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>\H&lt;/td>
+&lt;td>完全合格的限定域主机名&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>\j&lt;/td>
+&lt;td>shell当前管理的作业数&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>\1&lt;/td>
+&lt;td>shell终端设备名的基本名称&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>\n&lt;/td>
+&lt;td>ASCII换行字符&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>\r&lt;/td>
+&lt;td>ASCII回车&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>\s&lt;/td>
+&lt;td>shell的名称&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>\t&lt;/td>
+&lt;td>格式为“小时:分钟:秒”的24小时制的当前时间&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>\T&lt;/td>
+&lt;td>格式为“小时:分钟:秒”的12小时制的当前时间&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>@&lt;/td>
+&lt;td>格式为am/pm的12小时制的当前时间&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>\u&lt;/td>
+&lt;td>当前用户的用户名&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>\v&lt;/td>
+&lt;td>bash shell的版本&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>\V&lt;/td>
+&lt;td>bash shell的发布级别&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>\w&lt;/td>
+&lt;td>当前工作目录&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>\W&lt;/td>
+&lt;td>当前工作目录的基本名称&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>!&lt;/td>
+&lt;td>该命令的bash shell历史数&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>#&lt;/td>
+&lt;td>该命令的命令数量&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>$&lt;/td>
+&lt;td>如果是普通用户，则为美元符号$；如果超级用户（root 用户），则为井号#。&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>\nnn&lt;/td>
+&lt;td>对应于八进制值 nnn 的字符&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>\&lt;/td>
+&lt;td>斜杠&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>[&lt;/td>
+&lt;td>控制码序列的开头&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>]&lt;/td>
+&lt;td>控制码序列的结尾&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>注意，所有的特殊字符均以反斜杠&lt;code>\&lt;/code>开头，目的是与普通字符区分开来。您可以在命令提示符中使用以上任何特殊字符的组合。&lt;/p>
+&lt;h2 id="赋值">赋值&lt;/h2>
+&lt;p>&lt;code>=&lt;/code> 周围不能有空格&lt;/p>
+&lt;p>variable=&amp;lsquo;value&amp;rsquo;&lt;/p>
+&lt;p>以单引号&lt;code>' '&lt;/code>包围变量的值时，单引号里面是什么就输出什么，即使内容中有变量和命令（命令需要反引起来）也会把它们原样输出。这种方式比较适合定义显示纯字符串的情况，即不希望解析变量、命令等的场景。&lt;/p>
+&lt;p>variable=&amp;ldquo;value&amp;rdquo;&lt;/p>
+&lt;p>以双引号&amp;quot; &amp;ldquo;包围变量的值时，输出时会先解析里面的变量和命令，而不是把双引号中的变量名和命令原样输出。这种方式比较适合字符串中附带有变量和命令并且想将其解析后再输出的变量定义。&lt;/p>
+&lt;h3 id="将命令的结果赋值给变量">将命令的结果赋值给变量&lt;/h3>
+&lt;p>variable=&lt;code>command&lt;/code>&lt;/p>
+&lt;p>variable=$(command) // 推荐使用这种&lt;/p>
+&lt;h2 id="只读变量">只读变量&lt;/h2>
+&lt;p>readonly a&lt;/p>
+&lt;h2 id="删除变量">删除变量&lt;/h2>
+&lt;p>unset a&lt;/p>
+&lt;h2 id="变量类型">变量类型&lt;/h2>
+&lt;ol>
+&lt;li>
+&lt;p>局部变量&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>环境变量&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>shell变量&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;h2 id="特殊变量">特殊变量&lt;/h2>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>变量&lt;/th>
+&lt;th>含义&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>$0&lt;/td>
+&lt;td>当前脚本的文件名&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>$n&lt;/td>
+&lt;td>传递给脚本或函数的参数。n 是一个数字，表示第几个参数。例如，第一个参数是$1，第二个参数是$2。&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>$#&lt;/td>
+&lt;td>传递给脚本或函数的参数个数。&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>$*&lt;/td>
+&lt;td>传递给脚本或函数的所有参数。&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>$@&lt;/td>
+&lt;td>传递给脚本或函数的所有参数。被双引号(&amp;rdquo; &amp;ldquo;)包含时，与 $* 稍有不同&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>$?&lt;/td>
+&lt;td>上个命令的退出状态，或函数的返回值。&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>$$&lt;/td>
+&lt;td>当前Shell进程ID。对于 Shell 脚本，就是这些脚本所在的进程ID。&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h1 id="命令替换">命令替换&lt;/h1>
+&lt;p>语法: &lt;code>command&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-text" data-lang="text">DATE=`date`
+echo &amp;#34;Date is $DATE&amp;#34;
+&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="变量替换">变量替换&lt;/h1>
+&lt;p>变量替换可以根据变量的状态（是否为空、是否定义等）来改变它的&lt;/p>
+&lt;p>可以使用的变量替换形式：&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>形式&lt;/th>
+&lt;th>说明&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>${var}&lt;/td>
+&lt;td>变量本来的值&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>${var:-word}&lt;/td>
+&lt;td>如果变量 var 为空或已被删除(unset)，那么返回 word，但不改变 var 的值。&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>${var:=word}&lt;/td>
+&lt;td>如果变量 var 为空或已被删除(unset)，那么返回 word，并将 var 的值设置为 word。&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>${var:?message}&lt;/td>
+&lt;td>如果变量 var 为空或已被删除(unset)，那么将消息 message 送到标准错误输出，可以用来检测变量 var 是否可以被正常赋值。若此替换出现在Shell脚本中，那么脚本将停止运行。&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>${var:+word}&lt;/td>
+&lt;td>如果变量 var 被定义，那么返回 word，但不改变 var 的值。&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h2 id="获取字符串长度">获取字符串长度&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-text" data-lang="text">string=&amp;#34;abcd&amp;#34;
+echo ${#string} #输出 4
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="提取子字符串">提取子字符串&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-text" data-lang="text">string=&amp;#34;alibaba is a great company&amp;#34;
+echo ${string:1:4} #输出liba
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="查找子字符串">查找子字符串&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-text" data-lang="text">string=&amp;#34;alibaba is a great company&amp;#34;
+echo `expr index &amp;#34;$string&amp;#34; is`
+&lt;/code>&lt;/pre>&lt;/div></content></item></channel></rss>
