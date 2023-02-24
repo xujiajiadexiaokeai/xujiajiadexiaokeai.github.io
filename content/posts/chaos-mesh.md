@@ -1,13 +1,13 @@
 ---
+title: "Chaos Mesh上手"
 date: 2022-09-21T09:20:17+08:00
-draft: false
-url: "/2022-09-21/consistent-hashing"
 layout: post
 description: "Chaos Mesh上手"
 author: "Wenhao Jiang"
+draft: false
 tags:
     - Chaos Mesh
-title: "Chaos Mesh上手"
+url: "/2022-09-21/chaos-mesh-quick-start"
 ---
 
 # 安装kind
@@ -42,6 +42,6 @@ create an authentication token(RBAC)
 kubectl port-forward -n chaos-mesh --address localhost,...ip svc/chaos-dashboard 2333:2333
 ```
 
-http://localhost:2333
+访问: http://localhost:2333
 
 

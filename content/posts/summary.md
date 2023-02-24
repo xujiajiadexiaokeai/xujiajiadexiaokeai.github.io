@@ -1,9 +1,9 @@
 ---
-title: "关于离职的这一年我做了什么"
+title: "关于离职后的这一年我做了什么"
 date: "2022-09-20T22:14:47+08:00"
 draft: false
 layout: post
-description: "关于离职的这一年我做了什么"
+description: "关于离职后的这一年我做了什么"
 author: "Wenhao Jiang"
 weight: 1
 tags:
