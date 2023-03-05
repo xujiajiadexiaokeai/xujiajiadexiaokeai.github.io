@@ -5,6 +5,7 @@ draft: false
 layout: post
 description: "算法笔记"
 author: "Wenhao Jiang"
+math: true
 tags:
     - Algorithm
 URL: "/2022-08-01/algorithm-notes"
