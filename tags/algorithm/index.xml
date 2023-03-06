@@ -195,7 +195,7 @@ $$\left|\bigcap_{i=1}^{n}S_i\right|=\sum_{m=1}^n(-1)^{m-1}\sum_{a_i&amp;lt;a_{i+
 组合数也被称为「二项式系数」,$\displaystyle \binom{n}{m}$ 读作「n选m」
 $$\displaystyle \mathrm C_n^m = \binom{n}{m}$$
 特别地,规定当m &amp;gt; n时, $\mathrm A_n^m = \mathrm C_n^m = 0$
-单调栈</description><content>&lt;h1 id="前缀和">前缀和&lt;/h1>
+单调栈 // TODO</description><content>&lt;h1 id="前缀和">前缀和&lt;/h1>
 &lt;blockquote>
 &lt;p>&lt;a href="https://oi-wiki.org/basic/prefix-sum">https://oi-wiki.org/basic/prefix-sum&lt;/a>&lt;/p>
 &lt;/blockquote>
@@ -228,4 +228,5 @@ B[0] = A[0],对于i&amp;gt;=1,则B[i] = B[i-1] + A[i]
 &lt;p>组合数也被称为「二项式系数」,$\displaystyle \binom{n}{m}$ 读作「n选m」&lt;/p>
 &lt;p>$$\displaystyle \mathrm C_n^m = \binom{n}{m}$$&lt;/p>
 &lt;p>特别地,规定当m &amp;gt; n时, $\mathrm A_n^m = \mathrm C_n^m = 0$&lt;/p>
-&lt;h1 id="单调栈">单调栈&lt;/h1></content></item></channel></rss>
+&lt;h1 id="单调栈">单调栈&lt;/h1>
+&lt;p>// TODO&lt;/p></content></item></channel></rss>

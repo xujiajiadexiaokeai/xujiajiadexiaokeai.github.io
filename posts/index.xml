@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on xujiajiadexiaokeai</title><link>https://xujiajiadexiaokeai.github.io/posts/</link><description>Recent content in Posts on xujiajiadexiaokeai</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>© 2021-2022 xujiajiadexiaokeai</copyright><lastBuildDate>Thu, 20 Oct 2022 09:20:17 +0800</lastBuildDate><atom:link href="https://xujiajiadexiaokeai.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>关于离职后的这一年我做了什么</title><link>https://xujiajiadexiaokeai.github.io/2022-09-20/summary/</link><pubDate>Tue, 20 Sep 2022 22:14:47 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2022-09-20/summary/</guid><description>关于离职的这一年我做了什么? 起子 其实这篇文章本可以叫做《未来的XX时间我要做什么》,用来指导关于技术上的学习计划. 可惜由于某些原因,我选择了离职来完成这部分学习计划. 也由于某些原因, 这部分计划的完成距我2021年8月20日离职至今已经近13个月的时间, 这大大超出了我的预期,对自己的生活也造成了一定的影响. 希望通过这篇文章对过去这13个月的时间进行总结和复盘.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on xujiajiadexiaokeai</title><link>https://xujiajiadexiaokeai.github.io/posts/</link><description>Recent content in Posts on xujiajiadexiaokeai</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>© 2021-2022 xujiajiadexiaokeai</copyright><lastBuildDate>Thu, 17 Nov 2022 19:15:45 +0800</lastBuildDate><atom:link href="https://xujiajiadexiaokeai.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>关于离职后的这一年我做了什么</title><link>https://xujiajiadexiaokeai.github.io/2022-09-20/summary/</link><pubDate>Tue, 20 Sep 2022 22:14:47 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2022-09-20/summary/</guid><description>关于离职的这一年我做了什么? 起子 其实这篇文章本可以叫做《未来的XX时间我要做什么》,用来指导关于技术上的学习计划. 可惜由于某些原因,我选择了离职来完成这部分学习计划. 也由于某些原因, 这部分计划的完成距我2021年8月20日离职至今已经近13个月的时间, 这大大超出了我的预期,对自己的生活也造成了一定的影响. 希望通过这篇文章对过去这13个月的时间进行总结和复盘.
 我想要做什么? 补全大学时期忽略的一些理论知识, 比如操作系统原理、计算机体系结构、编译原理、计算机网络等等 重新梳理知识结构,搭建知识框架,达到以理论指导实践 搭建自己的从“输入”到“输出”的知识管理工具体系 为什么要这么做? 对自己没有清晰的认知,对生活的掌握是失控的
 为什么离职? 大学时没有好好的学习基础,过于专注于业务实现 工作时感觉到困惑和恐惧 决定好好复习下基础知识 想当然,不知其所以然 这一年做了什么? 读完《DDIA》 读完《现代操作系统 原理与实现》 看了6.824 看了jyy的操作系统课 从头学了Golang 玩了PingCAP的tinyKV 写操作系统内核 写TCP协议 写编译器 写Raft算法 写Kubernetes Operator 玩Chaos Mesh 玩eBPF 剩下的任务 补全leetcode-diary.md 完成go的相关文章 完成ribbonfilter.md 完成paxos.md 写一个operator 看etcd-operator 看tidb-operator 看inference server 看nginx 看系统设计 系统调用的角度 syscall</description><content>&lt;h2 id="关于离职的这一年我做了什么">关于离职的这一年我做了什么?&lt;/h2>
 &lt;h1 id="起子">起子&lt;/h1>
@@ -51,14 +51,133 @@
 &lt;li>&lt;input disabled="" type="checkbox"> 看nginx&lt;/li>
 &lt;li>&lt;input checked="" disabled="" type="checkbox"> 看系统设计&lt;/li>
 &lt;li>&lt;input disabled="" type="checkbox"> 系统调用的角度 syscall&lt;/li>
-&lt;/ul></content></item><item><title>什么是mTLS</title><link>https://xujiajiadexiaokeai.github.io/2022-10-20/what-is-mtls/</link><pubDate>Thu, 20 Oct 2022 09:20:17 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2022-10-20/what-is-mtls/</guid><description>无密钥SSL 这可以防止或帮助阻止在没有身份验证时可能发生的多种攻击，例如： 在途攻击 DNS 劫持 BGP 劫持 域欺骗</description><content>&lt;ul>
-&lt;li>无密钥SSL&lt;/li>
+&lt;/ul></content></item><item><title>为什么select仅能作用于管道?</title><link>https://xujiajiadexiaokeai.github.io/2022-11-17/why-select-only-work-on-channel/</link><pubDate>Thu, 17 Nov 2022 19:15:45 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2022-11-17/why-select-only-work-on-channel/</guid><description>select的特性 case的执行 具体执行那个case,取决于函数传入的管道
+管道没有缓冲区 有缓冲区并且还可以塞数据 有缓冲区但缓冲区已满 有缓冲区且已有部分数据 返回值 可以在case中声明变量并赋值
+default default不能处理管道读写 当所有case被阻塞,执行default default是特殊的case
+使用案例 永久阻塞 使用select阻塞main函数
+func main() { server := webhooktesting.NewTestServer(nil) server.StartTLS() fmt.Println(&amp;#34;serving on&amp;#34;, server.URL) select {} // 没有case和default ,main()永久阻塞 } 快速检错 当使用管道来传输error时, 可以使用select快速检查管道中是否有error
+errCh := make(chan error, active) jm.deleteJobPods(&amp;amp;job, activePods, errCh) // 传入chan用于记录error select { case manageJobErr = &amp;lt;-errCh: if manageJobErr != nil { break } default: // 没有error, 结束 } 限时等待 当使用管道管理函数上下文时, 可以使用select创建具有时效性的管道
+func waitForStopOrTimeout(stopCh &amp;lt;-chan struct{}, timeout time.</description><content>&lt;h1 id="select的特性">select的特性&lt;/h1>
+&lt;h2 id="case的执行">case的执行&lt;/h2>
+&lt;p>具体执行那个case,取决于函数传入的管道&lt;/p>
+&lt;ul>
+&lt;li>管道没有缓冲区&lt;/li>
+&lt;li>有缓冲区并且还可以塞数据&lt;/li>
+&lt;li>有缓冲区但缓冲区已满&lt;/li>
+&lt;li>有缓冲区且已有部分数据&lt;/li>
 &lt;/ul>
-&lt;p>这可以防止或帮助阻止在没有身份验证时可能发生的多种攻击，例如：
-在途攻击
-DNS 劫持
-BGP 劫持
-域欺骗&lt;/p></content></item><item><title>Go Generic</title><link>https://xujiajiadexiaokeai.github.io/2022-10-01/go-goroutine/</link><pubDate>Sat, 01 Oct 2022 15:16:17 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2022-10-01/go-goroutine/</guid><description>什么是泛型 类型系统 类型内存布局 类型检查 强类型、弱类型 静态检查、动态检查 静态检查: 编译阶段 动态检查: 运行时阶段 Go的类型检查发生在编译阶段
+&lt;h2 id="返回值">返回值&lt;/h2>
+&lt;p>可以在case中声明变量并赋值&lt;/p>
+&lt;h2 id="default">default&lt;/h2>
+&lt;p>default不能处理管道读写
+当所有case被阻塞,执行default
+default是特殊的case&lt;/p>
+&lt;h1 id="使用案例">使用案例&lt;/h1>
+&lt;h2 id="永久阻塞">永久阻塞&lt;/h2>
+&lt;p>使用select阻塞main函数&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span>() {
+&lt;span style="color:#a6e22e">server&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">webhooktesting&lt;/span>.&lt;span style="color:#a6e22e">NewTestServer&lt;/span>(&lt;span style="color:#66d9ef">nil&lt;/span>)
+&lt;span style="color:#a6e22e">server&lt;/span>.&lt;span style="color:#a6e22e">StartTLS&lt;/span>()
+&lt;span style="color:#a6e22e">fmt&lt;/span>.&lt;span style="color:#a6e22e">Println&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;serving on&amp;#34;&lt;/span>, &lt;span style="color:#a6e22e">server&lt;/span>.&lt;span style="color:#a6e22e">URL&lt;/span>)
+&lt;span style="color:#66d9ef">select&lt;/span> {} &lt;span style="color:#75715e">// 没有case和default ,main()永久阻塞
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>}
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="快速检错">快速检错&lt;/h2>
+&lt;p>当使用管道来传输error时, 可以使用select快速检查管道中是否有error&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#a6e22e">errCh&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> make(&lt;span style="color:#66d9ef">chan&lt;/span> &lt;span style="color:#66d9ef">error&lt;/span>, &lt;span style="color:#a6e22e">active&lt;/span>)
+&lt;span style="color:#a6e22e">jm&lt;/span>.&lt;span style="color:#a6e22e">deleteJobPods&lt;/span>(&lt;span style="color:#f92672">&amp;amp;&lt;/span>&lt;span style="color:#a6e22e">job&lt;/span>, &lt;span style="color:#a6e22e">activePods&lt;/span>, &lt;span style="color:#a6e22e">errCh&lt;/span>) &lt;span style="color:#75715e">// 传入chan用于记录error
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">select&lt;/span> {
+&lt;span style="color:#66d9ef">case&lt;/span> &lt;span style="color:#a6e22e">manageJobErr&lt;/span> = &lt;span style="color:#f92672">&amp;lt;-&lt;/span>&lt;span style="color:#a6e22e">errCh&lt;/span>:
+&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">manageJobErr&lt;/span> &lt;span style="color:#f92672">!=&lt;/span> &lt;span style="color:#66d9ef">nil&lt;/span> {
+&lt;span style="color:#66d9ef">break&lt;/span>
+}
+&lt;span style="color:#66d9ef">default&lt;/span>: &lt;span style="color:#75715e">// 没有error, 结束
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>}
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="限时等待">限时等待&lt;/h2>
+&lt;p>当使用管道管理函数上下文时, 可以使用select创建具有时效性的管道&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">waitForStopOrTimeout&lt;/span>(&lt;span style="color:#a6e22e">stopCh&lt;/span> &lt;span style="color:#f92672">&amp;lt;-&lt;/span>&lt;span style="color:#66d9ef">chan&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span>{}, &lt;span style="color:#a6e22e">timeout&lt;/span> &lt;span style="color:#a6e22e">time&lt;/span>.&lt;span style="color:#a6e22e">Duration&lt;/span>) &lt;span style="color:#f92672">&amp;lt;-&lt;/span>&lt;span style="color:#66d9ef">chan&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span>{} {
+&lt;span style="color:#a6e22e">stopChWithTimeout&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> make(&lt;span style="color:#66d9ef">chan&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span>{})
+&lt;span style="color:#66d9ef">go&lt;/span> &lt;span style="color:#66d9ef">func&lt;/span>() {
+&lt;span style="color:#66d9ef">select&lt;/span> {
+&lt;span style="color:#66d9ef">case&lt;/span> &lt;span style="color:#f92672">&amp;lt;-&lt;/span>&lt;span style="color:#a6e22e">stopCh&lt;/span>:
+&lt;span style="color:#66d9ef">case&lt;/span> &lt;span style="color:#f92672">&amp;lt;-&lt;/span>&lt;span style="color:#a6e22e">time&lt;/span>.&lt;span style="color:#a6e22e">After&lt;/span>(&lt;span style="color:#a6e22e">timeout&lt;/span>): &lt;span style="color:#75715e">// 管道会在指定时间内关闭
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> }
+close(&lt;span style="color:#a6e22e">stopChWithTimeout&lt;/span>)
+}()
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">stopChWithTimeout&lt;/span>
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="实现原理">实现原理&lt;/h1>
+&lt;ul>
+&lt;li>为什么每个case语句只能处理一个管道?&lt;/li>
+&lt;li>为什么case语句执行顺序随机(多个case都就绪的情况下)?&lt;/li>
+&lt;li>为什么case语句向值为nil的管道中写数据不会触发panic?&lt;/li>
+&lt;/ul>
+&lt;h2 id="数据结构">数据结构&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">scase&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span> {
+&lt;span style="color:#a6e22e">c&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">hchan&lt;/span> &lt;span style="color:#75715e">// 操作的管道
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">kind&lt;/span> &lt;span style="color:#a6e22e">unit16&lt;/span> &lt;span style="color:#75715e">// case类型
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">elem&lt;/span> &lt;span style="color:#a6e22e">unsafe&lt;/span>.&lt;span style="color:#a6e22e">Pointer&lt;/span> &lt;span style="color:#75715e">// 指向数据存放位置的指针
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#f92672">...&lt;/span>
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;ol>
+&lt;li>管道
+因为每个scase中只有一个管道, 这决定了一个case只能处理一个管道
+编译器在处理case语句时,如果case语句中没有管道操作(不能处理成scase对象),则会给出编译错误:&lt;/li>
+&lt;/ol>
+&lt;pre tabindex="0">&lt;code>select case must be receive, send or assign recv
+&lt;/code>&lt;/pre>&lt;ol start="2">
+&lt;li>类型&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#66d9ef">const&lt;/span> (
+&lt;span style="color:#a6e22e">caseNil&lt;/span> = &lt;span style="color:#66d9ef">iota&lt;/span>
+&lt;span style="color:#a6e22e">caseRecv&lt;/span>
+&lt;span style="color:#a6e22e">caseSend&lt;/span>
+&lt;span style="color:#a6e22e">caseDefault&lt;/span>
+)
+&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
+&lt;li>caseNil: 表示其操作的管道值为nil, 由于nil管道既不可读,也不可写,所以永远不会命中
+所以在case语句中向值为nil的管道中写数据不会触发panic的原因&lt;/li>
+&lt;li>caseRecv: 从管道中读数据&lt;/li>
+&lt;li>caseSend: 向管道中写数据&lt;/li>
+&lt;li>caseDeafult: 不会操作管道,每个select中仅可存在一个, 可出现在任意位置&lt;/li>
+&lt;/ul>
+&lt;ol start="3">
+&lt;li>数据
+scase.elem表示数据存放的地址&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>caseRecv: 读出的数据存放的地址&lt;/li>
+&lt;li>caseSend: 将写入管道的数据存放的地址&lt;/li>
+&lt;/ul>
+&lt;h2 id="实现逻辑">实现逻辑&lt;/h2>
+&lt;p>&lt;code>selectgo()&lt;/code> 用于处理select语句&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">selectgo&lt;/span>(&lt;span style="color:#a6e22e">cas0&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">scase&lt;/span>, &lt;span style="color:#a6e22e">order0&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#66d9ef">uint16&lt;/span>, &lt;span style="color:#a6e22e">ncases&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>) (&lt;span style="color:#66d9ef">int&lt;/span>, &lt;span style="color:#66d9ef">bool&lt;/span>)
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>selectgo()&lt;/code>函数会从一组case中挑选一个case,并返回命中case的下标,对于caseRecv的case,还会返回是否读取成功
+当所有case都不可能就绪时,selectgo()陷入永久阻塞,此时函数不会返回&lt;/p>
+&lt;h3 id="cas0">cas0&lt;/h3>
+&lt;p>编译器会将select中的case语句存储在一个数组中,cas0保存这个数组的地址&lt;/p>
+&lt;h3 id="ncases">ncases&lt;/h3>
+&lt;p>ncases表示case的个数(包活default),即cas0数组的长度&lt;/p>
+&lt;h3 id="order0">order0&lt;/h3>
+&lt;p>order0 为一个整型数组的地址,其长度为case格式的2倍.
+order0数组是&lt;strong>case执行随机性的关键&lt;/strong>&lt;/p>
+&lt;p>order0数组被一分为二
+前半部分存放case的随机顺序(pollorder),selectgo()会将原始的case顺序打乱,这样在检查每个case是否就绪时就会表现出随机性
+后半部分存放管道加锁的顺序(lockorder),selectgo()会按照管道地址顺序对多个管道加锁,从而避免因重复加锁引发的死锁问题&lt;/p>
+&lt;h2 id="实现">实现&lt;/h2>
+&lt;p>selectgo()函数的实现包括以下要点:&lt;/p>
+&lt;ul>
+&lt;li>通过随机函数fastrandn()将原始的case顺序打乱,在遍历各个case时使用打乱后的顺序就会表现出随机性&lt;/li>
+&lt;li>循环遍历各个case时,如果发现某个case就绪,则直接跳出循环操作管道并返回&lt;/li>
+&lt;li>循环遍历各个case时,如果循环正常结束,说明所有case都没有就绪,有default直接跳default&lt;/li>
+&lt;li>如果都没有就绪且没有default,selectgo()将阻塞等待所有管道,任一管道就绪后,都将开始新的循环&lt;/li>
+&lt;/ul>
+&lt;h1 id="小结">小结&lt;/h1>
+&lt;ul>
+&lt;li>select仅能操作管道&lt;/li>
+&lt;li>每个case仅能处理一个管道,要么读要么写&lt;/li>
+&lt;li>多个case语句的执行顺序是随机的&lt;/li>
+&lt;li>存在default,则select不会阻塞&lt;/li>
+&lt;/ul></content></item><item><title>Go Generic</title><link>https://xujiajiadexiaokeai.github.io/2022-10-01/go-goroutine/</link><pubDate>Sat, 01 Oct 2022 15:16:17 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2022-10-01/go-goroutine/</guid><description>什么是泛型 类型系统 类型内存布局 类型检查 强类型、弱类型 静态检查、动态检查 静态检查: 编译阶段 动态检查: 运行时阶段 Go的类型检查发生在编译阶段
 类型推导 编译器来做类型推导
 非泛型突破类型的限制 手工复制 代码生成 genny
 需要一些集成的手段去使用这些库，可能让代码构建变的更复杂。 增加了编译时间。 增加了二进制包的体积。 类型断言 通过将函数中的参数类型转换为根类型(interface{}),然后对根类型进行期望的类型断言
@@ -439,7 +558,7 @@ $$\left|\bigcap_{i=1}^{n}S_i\right|=\sum_{m=1}^n(-1)^{m-1}\sum_{a_i&amp;lt;a_{i+
 组合数也被称为「二项式系数」,$\displaystyle \binom{n}{m}$ 读作「n选m」
 $$\displaystyle \mathrm C_n^m = \binom{n}{m}$$
 特别地,规定当m &amp;gt; n时, $\mathrm A_n^m = \mathrm C_n^m = 0$
-单调栈</description><content>&lt;h1 id="前缀和">前缀和&lt;/h1>
+单调栈 // TODO</description><content>&lt;h1 id="前缀和">前缀和&lt;/h1>
 &lt;blockquote>
 &lt;p>&lt;a href="https://oi-wiki.org/basic/prefix-sum">https://oi-wiki.org/basic/prefix-sum&lt;/a>&lt;/p>
 &lt;/blockquote>
@@ -472,7 +591,8 @@ B[0] = A[0],对于i&amp;gt;=1,则B[i] = B[i-1] + A[i]
 &lt;p>组合数也被称为「二项式系数」,$\displaystyle \binom{n}{m}$ 读作「n选m」&lt;/p>
 &lt;p>$$\displaystyle \mathrm C_n^m = \binom{n}{m}$$&lt;/p>
 &lt;p>特别地,规定当m &amp;gt; n时, $\mathrm A_n^m = \mathrm C_n^m = 0$&lt;/p>
-&lt;h1 id="单调栈">单调栈&lt;/h1></content></item><item><title>gRPC concepts</title><link>https://xujiajiadexiaokeai.github.io/2022-07-13/grpc-concepts/</link><pubDate>Wed, 13 Jul 2022 19:15:17 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2022-07-13/grpc-concepts/</guid><description>Interface Definition Language(IDL) protocol buffers
+&lt;h1 id="单调栈">单调栈&lt;/h1>
+&lt;p>// TODO&lt;/p></content></item><item><title>gRPC concepts</title><link>https://xujiajiadexiaokeai.github.io/2022-07-13/grpc-concepts/</link><pubDate>Wed, 13 Jul 2022 19:15:17 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2022-07-13/grpc-concepts/</guid><description>Interface Definition Language(IDL) protocol buffers
 Synchronous vs. asynchronous application-specific
 RPC life cycle Unary RPC client -&amp;gt; server metadata method name deadline if applicable server -&amp;gt; client send back its own initial metadata (which must be sent before any response) straight away or wait for the client’s request message which happens first, is application-specific optional trailing metadata Server streaming RPC like unary RPC
 Client streaming RPC like unary RPC</description><content>&lt;h1 id="interface-definition-languageidl">Interface Definition Language(IDL)&lt;/h1>
@@ -1118,81 +1238,7 @@ echo ${string:1:4} #输出liba
 &lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="查找子字符串">查找子字符串&lt;/h2>
 &lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-text" data-lang="text">string=&amp;#34;alibaba is a great company&amp;#34;
 echo `expr index &amp;#34;$string&amp;#34; is`
-&lt;/code>&lt;/pre>&lt;/div></content></item><item><title>Red Black Tree</title><link>https://xujiajiadexiaokeai.github.io/2022-03-25/red-black-tree/</link><pubDate>Fri, 25 Mar 2022 22:06:30 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2022-03-25/red-black-tree/</guid><description>23333</description><content>&lt;p>23333&lt;/p></content></item><item><title>AVLTree</title><link>https://xujiajiadexiaokeai.github.io/2022-03-25/avl-tree/</link><pubDate>Fri, 25 Mar 2022 20:32:48 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2022-03-25/avl-tree/</guid><description>特征 · 左右子树的高度差小于等于1
-· 每一个子树均为平衡二叉树
-原理 监督机制 监督指标: 平衡因子(Balance Factor): 某个节点的左子树高度-右子树高度的差值
-所以AVL树是一种所有节点的平衡因子的绝对值都不超过1的二叉树
-高度 type Node struct { Data int Height int left *Node right *Node } 计算节点高度
-func (n *Node) TreeHeight() int { if n == nil { return 0 } else { return max(treeHeight(n.left), treeHeight(n.right)) + 1 } } 在进行如下操作时,需要更新受影响的所有节点的高度
-在插入节点时, 沿插入的路径更新节点的高度值
-在删除节点时, 沿删除的路径更新节点的高度值
-计算平衡因子
-func (n *Node) treeBalanceFactor() { if n == nil { return 0 } else { return x.</description><content>&lt;h1 id="特征">特征&lt;/h1>
-&lt;p>· 左右子树的高度差小于等于1&lt;/p>
-&lt;p>· 每一个子树均为平衡二叉树&lt;/p>
-&lt;h1 id="原理">原理&lt;/h1>
-&lt;h2 id="监督机制">监督机制&lt;/h2>
-&lt;h3 id="监督指标">监督指标:&lt;/h3>
-&lt;p>&lt;strong>平衡因子&lt;/strong>(Balance Factor): 某个节点的左子树高度-右子树高度的差值&lt;/p>
-&lt;p>所以AVL树是一种所有节点的平衡因子的绝对值都不超过1的二叉树&lt;/p>
-&lt;h3 id="高度">高度&lt;/h3>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">Node&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span> {
-&lt;span style="color:#a6e22e">Data&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>
-&lt;span style="color:#a6e22e">Height&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>
-&lt;span style="color:#a6e22e">left&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Node&lt;/span>
-&lt;span style="color:#a6e22e">right&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Node&lt;/span>
-}
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>计算节点高度&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">n&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Node&lt;/span>) &lt;span style="color:#a6e22e">TreeHeight&lt;/span>() &lt;span style="color:#66d9ef">int&lt;/span> {
-&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">n&lt;/span> &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">nil&lt;/span> {
-&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>
-} &lt;span style="color:#66d9ef">else&lt;/span> {
-&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">max&lt;/span>(&lt;span style="color:#a6e22e">treeHeight&lt;/span>(&lt;span style="color:#a6e22e">n&lt;/span>.&lt;span style="color:#a6e22e">left&lt;/span>), &lt;span style="color:#a6e22e">treeHeight&lt;/span>(&lt;span style="color:#a6e22e">n&lt;/span>.&lt;span style="color:#a6e22e">right&lt;/span>)) &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>
-}
-}
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>在进行如下操作时,需要更新受影响的所有节点的高度&lt;/p>
-&lt;ol>
-&lt;li>
-&lt;p>在插入节点时, 沿插入的路径更新节点的高度值&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>在删除节点时, 沿删除的路径更新节点的高度值&lt;/p>
-&lt;/li>
-&lt;/ol>
-&lt;p>计算平衡因子&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">n&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Node&lt;/span>) &lt;span style="color:#a6e22e">treeBalanceFactor&lt;/span>() {
-&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">n&lt;/span> &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#66d9ef">nil&lt;/span> {
-&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>
-} &lt;span style="color:#66d9ef">else&lt;/span> {
-&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">x&lt;/span>.&lt;span style="color:#a6e22e">left&lt;/span>.&lt;span style="color:#a6e22e">height&lt;/span> &lt;span style="color:#f92672">-&lt;/span> &lt;span style="color:#a6e22e">x&lt;/span>.&lt;span style="color:#a6e22e">right&lt;/span>.&lt;span style="color:#a6e22e">height&lt;/span>
-}
-}
-&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="再平衡">再平衡&lt;/h2>
-&lt;p>左旋和右旋&lt;/p>
-&lt;p>在整个平衡化过程可能进行一次或多次,从失去平衡的最小子树根节点开始&lt;/p>
-&lt;p>右旋:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">n&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Node&lt;/span>) &lt;span style="color:#a6e22e">treeRotateRight&lt;/span>() {
-}
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>左旋&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#66d9ef">func&lt;/span> (&lt;span style="color:#a6e22e">n&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">Node&lt;/span>) &lt;span style="color:#a6e22e">treeRotateLeft&lt;/span>() {
-}
-&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="需要平衡的四种情况">需要平衡的四种情况&lt;/h3>
-&lt;ol>
-&lt;li>LL&lt;/li>
-&lt;/ol>
-&lt;p>&lt;img src="https://tcs.teambition.net/storage/312g482677e05394fcde6d8d0ff8553342f9?Signature=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBcHBJRCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9hcHBJZCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9vcmdhbml6YXRpb25JZCI6IiIsImV4cCI6MTY0ODgxNTcxMSwiaWF0IjoxNjQ4MjEwOTExLCJyZXNvdXJjZSI6Ii9zdG9yYWdlLzMxMmc0ODI2NzdlMDUzOTRmY2RlNmQ4ZDBmZjg1NTMzNDJmOSJ9.KVRPdEsaV4Vj5BLRVmHR3h0wpKwsW_zMh-s8HUdt3aU&amp;amp;download=image.png" alt="" title="">&lt;/p>
-&lt;ol start="2">
-&lt;li>
-&lt;p>RR&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>LR&lt;/p>
-&lt;/li>
-&lt;/ol>
-&lt;p>&lt;img src="https://tcs.teambition.net/storage/312g335de979fb780cfd8a48c2348c1cc61f?Signature=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBcHBJRCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9hcHBJZCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9vcmdhbml6YXRpb25JZCI6IiIsImV4cCI6MTY0ODgxNTcxMSwiaWF0IjoxNjQ4MjEwOTExLCJyZXNvdXJjZSI6Ii9zdG9yYWdlLzMxMmczMzVkZTk3OWZiNzgwY2ZkOGE0OGMyMzQ4YzFjYzYxZiJ9.88VeeegnYTUu9r94DBtMln21URc3Dus40r0lOQyvM6U&amp;amp;download=image.png" alt="" title="">&lt;/p>
-&lt;ol start="4">
-&lt;li>RL&lt;/li>
-&lt;/ol></content></item><item><title>MacOS用户快速上手Cilium eBPF</title><link>https://xujiajiadexiaokeai.github.io/2022-03-06/cilium-ebpf-quick-tutorial/</link><pubDate>Sun, 06 Mar 2022 20:41:30 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2022-03-06/cilium-ebpf-quick-tutorial/</guid><description>机器: Macbook Pro 13inch 2015款
+&lt;/code>&lt;/pre>&lt;/div></content></item><item><title>MacOS用户快速上手Cilium eBPF</title><link>https://xujiajiadexiaokeai.github.io/2022-03-06/cilium-ebpf-quick-tutorial/</link><pubDate>Sun, 06 Mar 2022 20:41:30 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2022-03-06/cilium-ebpf-quick-tutorial/</guid><description>机器: Macbook Pro 13inch 2015款
 系统: macOS Mojave 10.14.6
 安装虚拟机 首先需要一个linux发行版,选择安装一个虚拟机来装Ubuntu,找到了multipass.
 multipass是Ubuntu旗下一款虚拟机产品,适用个各个平台,可以在本地快速的开启一个虚拟机
@@ -2271,14 +2317,14 @@ Header 压缩
 &lt;p>对于same data 不再通过每次 req和 resp 发送&lt;/p>
 &lt;p>header table 在 HTTP/2 连接存续阶段 始终存在，由client和server共同更新&lt;/p>
 &lt;p>every new k-v pair will change the old value or 追加到当前表的末尾&lt;/p>
-&lt;p>&lt;img src="https://tcs.teambition.net/storage/312b415fc4315f725c7a4706d75023480258?Signature=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBcHBJRCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9hcHBJZCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9vcmdhbml6YXRpb25JZCI6IiIsImV4cCI6MTY3NzgyNDk4NywiaWF0IjoxNjc3MjIwMTg3LCJyZXNvdXJjZSI6Ii9zdG9yYWdlLzMxMmI0MTVmYzQzMTVmNzI1YzdhNDcwNmQ3NTAyMzQ4MDI1OCJ9.Dc5c7rlcDtwnJjhr9tphWlah5puyezMOV9pFPF3SOdA&amp;amp;download=image.png" alt="" title="">&lt;/p>
-&lt;ol start="4">
+&lt;p>&lt;img src="../../../../static/img/the-difference-between-http1.x-and-http2-and-http3-1.png" alt="">&lt;/p>
+&lt;ol>
 &lt;li>Server push&lt;/li>
 &lt;/ol>
 &lt;p>Server 可以通过 push的方式将client 需要的内容 预先push过去 “cache push”&lt;/p>
 &lt;p>prefetch 在browser兼容的情况下可以使用&lt;/p>
 &lt;p>server可以主动把js和css文件推送给client 而不需要client解析html时再发送请求&lt;/p>
-&lt;p>&lt;img src="https://tcs.teambition.net/storage/312b2a39c864e2d11eb862a8aea2f49b3e38?Signature=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBcHBJRCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9hcHBJZCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9vcmdhbml6YXRpb25JZCI6IiIsImV4cCI6MTY3NzgyNDk4NywiaWF0IjoxNjc3MjIwMTg3LCJyZXNvdXJjZSI6Ii9zdG9yYWdlLzMxMmIyYTM5Yzg2NGUyZDExZWI4NjJhOGFlYTJmNDliM2UzOCJ9.hT3eTkH20BhE7Y_FL77JIcMY7bjo9rdniJH8fcHuyBQ&amp;amp;download=image.png" alt="" title="">&lt;/p>
+&lt;p>&lt;img src="../../static/img/the-difference-between-http1.x-and-http2-and-http3-2.png" alt="">&lt;/p>
 &lt;p>服务端可以主动推送，客户端也有权利选择是否接收。如果服务端推送的资源已经被浏览器缓存过，浏览器可以通过发送 RST_STREAM 帧来拒收。主动推送也遵守同源策略，换句话说，服务器不能随便将第三方资源推送给客户端，而必须是经过双方确认才行。&lt;/p>
 &lt;h1 id="http3新特性">HTTP/3新特性&lt;/h1>
 &lt;p>HTTP/3 简介&lt;/p>
@@ -2291,7 +2337,7 @@ Header 压缩
 &lt;p>0RTT建连可以说是QUIC相比HTTP2最大的性能优势&lt;/p>
 &lt;p>传输层0RTT就能建立连接&lt;/p>
 &lt;p>加密层0RTT就能建立加密连接&lt;/p>
-&lt;p>&lt;img src="https://tcs.teambition.net/storage/312b26df030e3e1fa86cd5c725a8c9629db0?Signature=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBcHBJRCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9hcHBJZCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9vcmdhbml6YXRpb25JZCI6IiIsImV4cCI6MTY3NzgyNDk4NywiaWF0IjoxNjc3MjIwMTg3LCJyZXNvdXJjZSI6Ii9zdG9yYWdlLzMxMmIyNmRmMDMwZTNlMWZhODZjZDVjNzI1YThjOTYyOWRiMCJ9.BK7mKP8rP_WmQzOBKceNalxUoaHidrJtw-9Qb4M1wjM&amp;amp;download=image.png" alt="" title="">&lt;/p>
+&lt;p>&lt;img src="../../static/img/the-difference-between-http1.x-and-http2-and-http3-3.png" alt="">&lt;/p>
 &lt;p>多路复用&lt;/p>
 &lt;p>QUIC原生实现了多路复用，并且在传输的单个数据流可以保证有序交付且不会影响其他的数据流&lt;/p>
 &lt;p>同一条QUIC连接上可以创建多个stream 且stream间互不依赖(因为基于UDP)&lt;/p>
@@ -2300,7 +2346,7 @@ Header 压缩
 &lt;p>加密认证的报文&lt;/p>
 &lt;p>TCP协议头部没有经过加密和认证 在传输过程中容易被中间网络设备篡改、注入和窃听&lt;/p>
 &lt;p>QUIC除了个别报文 PUBLIC_RESET 和 CHLO 都是经过认证的 Body都是经过加密的&lt;/p>
-&lt;p>&lt;img src="https://tcs.teambition.net/storage/312ba211fd4c9e4fa575565151ba23396ad6?Signature=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBcHBJRCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9hcHBJZCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9vcmdhbml6YXRpb25JZCI6IiIsImV4cCI6MTY3NzgyNDk4NywiaWF0IjoxNjc3MjIwMTg3LCJyZXNvdXJjZSI6Ii9zdG9yYWdlLzMxMmJhMjExZmQ0YzllNGZhNTc1NTY1MTUxYmEyMzM5NmFkNiJ9.JVDJalaMiDT6NSv76IQi7v-XW0wU-ommIVZ1QR5bqnc&amp;amp;download=image.png" alt="" title="">&lt;/p>
+&lt;p>&lt;img src="../../static/img/the-difference-between-http1.x-and-http2-and-http3-4.png" alt="">&lt;/p>
 &lt;p>向前纠错(FEC) Forward Error Correction&lt;/p>
 &lt;p>每个数据包除了它本身 还包括了部分其他数据包的数据&lt;/p>
 &lt;p>少量的丢包可以通过其他包的冗余数据直接组装&lt;/p>
@@ -2501,130 +2547,4 @@ raft/quorum/quorum.go</description><content>&lt;h1 id="cap">CAP&lt;/h1>
 &lt;p>如果是(V2,V1,V1),则V1需要同步到V2&lt;/p>
 &lt;h2 id="quorum-在etcd中的应用">Quorum 在etcd中的应用&lt;/h2>
 &lt;p>Quorum在etcd中主要作用有两个,一个是计算已被多数节点接收(Match)的Index,二是在进行Leader选举时,计算选举结果。&lt;/p>
-&lt;p>raft/quorum/quorum.go&lt;/p></content></item><item><title>为什么select仅能作用于管道?</title><link>https://xujiajiadexiaokeai.github.io/posts/go-select/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://xujiajiadexiaokeai.github.io/posts/go-select/</guid><description>select的特性 case的执行 具体执行那个case,取决于函数传入的管道
-管道没有缓冲区 有缓冲区并且还可以塞数据 有缓冲区但缓冲区已满 有缓冲区且已有部分数据 返回值 可以在case中声明变量并赋值
-default default不能处理管道读写 当所有case被阻塞,执行default default是特殊的case
-使用案例 永久阻塞 使用select阻塞main函数
-func main() { server := webhooktesting.NewTestServer(nil) server.StartTLS() fmt.Println(&amp;#34;serving on&amp;#34;, server.URL) select {} // 没有case和default ,main()永久阻塞 } 快速检错 当使用管道来传输error时, 可以使用select快速检查管道中是否有error
-errCh := make(chan error, active) jm.deleteJobPods(&amp;amp;job, activePods, errCh) // 传入chan用于记录error select { case manageJobErr = &amp;lt;-errCh: if manageJobErr != nil { break } default: // 没有error, 结束 } 限时等待 当使用管道管理函数上下文时, 可以使用select创建具有时效性的管道
-func waitForStopOrTimeout(stopCh &amp;lt;-chan struct{}, timeout time.</description><content>&lt;h1 id="select的特性">select的特性&lt;/h1>
-&lt;h2 id="case的执行">case的执行&lt;/h2>
-&lt;p>具体执行那个case,取决于函数传入的管道&lt;/p>
-&lt;ul>
-&lt;li>管道没有缓冲区&lt;/li>
-&lt;li>有缓冲区并且还可以塞数据&lt;/li>
-&lt;li>有缓冲区但缓冲区已满&lt;/li>
-&lt;li>有缓冲区且已有部分数据&lt;/li>
-&lt;/ul>
-&lt;h2 id="返回值">返回值&lt;/h2>
-&lt;p>可以在case中声明变量并赋值&lt;/p>
-&lt;h2 id="default">default&lt;/h2>
-&lt;p>default不能处理管道读写
-当所有case被阻塞,执行default
-default是特殊的case&lt;/p>
-&lt;h1 id="使用案例">使用案例&lt;/h1>
-&lt;h2 id="永久阻塞">永久阻塞&lt;/h2>
-&lt;p>使用select阻塞main函数&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span>() {
-&lt;span style="color:#a6e22e">server&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> &lt;span style="color:#a6e22e">webhooktesting&lt;/span>.&lt;span style="color:#a6e22e">NewTestServer&lt;/span>(&lt;span style="color:#66d9ef">nil&lt;/span>)
-&lt;span style="color:#a6e22e">server&lt;/span>.&lt;span style="color:#a6e22e">StartTLS&lt;/span>()
-&lt;span style="color:#a6e22e">fmt&lt;/span>.&lt;span style="color:#a6e22e">Println&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;serving on&amp;#34;&lt;/span>, &lt;span style="color:#a6e22e">server&lt;/span>.&lt;span style="color:#a6e22e">URL&lt;/span>)
-&lt;span style="color:#66d9ef">select&lt;/span> {} &lt;span style="color:#75715e">// 没有case和default ,main()永久阻塞
-&lt;/span>&lt;span style="color:#75715e">&lt;/span>}
-&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="快速检错">快速检错&lt;/h2>
-&lt;p>当使用管道来传输error时, 可以使用select快速检查管道中是否有error&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#a6e22e">errCh&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> make(&lt;span style="color:#66d9ef">chan&lt;/span> &lt;span style="color:#66d9ef">error&lt;/span>, &lt;span style="color:#a6e22e">active&lt;/span>)
-&lt;span style="color:#a6e22e">jm&lt;/span>.&lt;span style="color:#a6e22e">deleteJobPods&lt;/span>(&lt;span style="color:#f92672">&amp;amp;&lt;/span>&lt;span style="color:#a6e22e">job&lt;/span>, &lt;span style="color:#a6e22e">activePods&lt;/span>, &lt;span style="color:#a6e22e">errCh&lt;/span>) &lt;span style="color:#75715e">// 传入chan用于记录error
-&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#66d9ef">select&lt;/span> {
-&lt;span style="color:#66d9ef">case&lt;/span> &lt;span style="color:#a6e22e">manageJobErr&lt;/span> = &lt;span style="color:#f92672">&amp;lt;-&lt;/span>&lt;span style="color:#a6e22e">errCh&lt;/span>:
-&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#a6e22e">manageJobErr&lt;/span> &lt;span style="color:#f92672">!=&lt;/span> &lt;span style="color:#66d9ef">nil&lt;/span> {
-&lt;span style="color:#66d9ef">break&lt;/span>
-}
-&lt;span style="color:#66d9ef">default&lt;/span>: &lt;span style="color:#75715e">// 没有error, 结束
-&lt;/span>&lt;span style="color:#75715e">&lt;/span>}
-&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="限时等待">限时等待&lt;/h2>
-&lt;p>当使用管道管理函数上下文时, 可以使用select创建具有时效性的管道&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">waitForStopOrTimeout&lt;/span>(&lt;span style="color:#a6e22e">stopCh&lt;/span> &lt;span style="color:#f92672">&amp;lt;-&lt;/span>&lt;span style="color:#66d9ef">chan&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span>{}, &lt;span style="color:#a6e22e">timeout&lt;/span> &lt;span style="color:#a6e22e">time&lt;/span>.&lt;span style="color:#a6e22e">Duration&lt;/span>) &lt;span style="color:#f92672">&amp;lt;-&lt;/span>&lt;span style="color:#66d9ef">chan&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span>{} {
-&lt;span style="color:#a6e22e">stopChWithTimeout&lt;/span> &lt;span style="color:#f92672">:=&lt;/span> make(&lt;span style="color:#66d9ef">chan&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span>{})
-&lt;span style="color:#66d9ef">go&lt;/span> &lt;span style="color:#66d9ef">func&lt;/span>() {
-&lt;span style="color:#66d9ef">select&lt;/span> {
-&lt;span style="color:#66d9ef">case&lt;/span> &lt;span style="color:#f92672">&amp;lt;-&lt;/span>&lt;span style="color:#a6e22e">stopCh&lt;/span>:
-&lt;span style="color:#66d9ef">case&lt;/span> &lt;span style="color:#f92672">&amp;lt;-&lt;/span>&lt;span style="color:#a6e22e">time&lt;/span>.&lt;span style="color:#a6e22e">After&lt;/span>(&lt;span style="color:#a6e22e">timeout&lt;/span>): &lt;span style="color:#75715e">// 管道会在指定时间内关闭
-&lt;/span>&lt;span style="color:#75715e">&lt;/span> }
-close(&lt;span style="color:#a6e22e">stopChWithTimeout&lt;/span>)
-}()
-&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#a6e22e">stopChWithTimeout&lt;/span>
-}
-&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="实现原理">实现原理&lt;/h1>
-&lt;ul>
-&lt;li>为什么每个case语句只能处理一个管道?&lt;/li>
-&lt;li>为什么case语句执行顺序随机(多个case都就绪的情况下)?&lt;/li>
-&lt;li>为什么case语句向值为nil的管道中写数据不会触发panic?&lt;/li>
-&lt;/ul>
-&lt;h2 id="数据结构">数据结构&lt;/h2>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">scase&lt;/span> &lt;span style="color:#66d9ef">struct&lt;/span> {
-&lt;span style="color:#a6e22e">c&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">hchan&lt;/span> &lt;span style="color:#75715e">// 操作的管道
-&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">kind&lt;/span> &lt;span style="color:#a6e22e">unit16&lt;/span> &lt;span style="color:#75715e">// case类型
-&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">elem&lt;/span> &lt;span style="color:#a6e22e">unsafe&lt;/span>.&lt;span style="color:#a6e22e">Pointer&lt;/span> &lt;span style="color:#75715e">// 指向数据存放位置的指针
-&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#f92672">...&lt;/span>
-}
-&lt;/code>&lt;/pre>&lt;/div>&lt;ol>
-&lt;li>管道
-因为每个scase中只有一个管道, 这决定了一个case只能处理一个管道
-编译器在处理case语句时,如果case语句中没有管道操作(不能处理成scase对象),则会给出编译错误:&lt;/li>
-&lt;/ol>
-&lt;pre tabindex="0">&lt;code>select case must be receive, send or assign recv
-&lt;/code>&lt;/pre>&lt;ol start="2">
-&lt;li>类型&lt;/li>
-&lt;/ol>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#66d9ef">const&lt;/span> (
-&lt;span style="color:#a6e22e">caseNil&lt;/span> = &lt;span style="color:#66d9ef">iota&lt;/span>
-&lt;span style="color:#a6e22e">caseRecv&lt;/span>
-&lt;span style="color:#a6e22e">caseSend&lt;/span>
-&lt;span style="color:#a6e22e">caseDefault&lt;/span>
-)
-&lt;/code>&lt;/pre>&lt;/div>&lt;ul>
-&lt;li>caseNil: 表示其操作的管道值为nil, 由于nil管道既不可读,也不可写,所以永远不会命中
-所以在case语句中向值为nil的管道中写数据不会触发panic的原因&lt;/li>
-&lt;li>caseRecv: 从管道中读数据&lt;/li>
-&lt;li>caseSend: 向管道中写数据&lt;/li>
-&lt;li>caseDeafult: 不会操作管道,每个select中仅可存在一个, 可出现在任意位置&lt;/li>
-&lt;/ul>
-&lt;ol start="3">
-&lt;li>数据
-scase.elem表示数据存放的地址&lt;/li>
-&lt;/ol>
-&lt;ul>
-&lt;li>caseRecv: 读出的数据存放的地址&lt;/li>
-&lt;li>caseSend: 将写入管道的数据存放的地址&lt;/li>
-&lt;/ul>
-&lt;h2 id="实现逻辑">实现逻辑&lt;/h2>
-&lt;p>&lt;code>selectgo()&lt;/code> 用于处理select语句&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">selectgo&lt;/span>(&lt;span style="color:#a6e22e">cas0&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">scase&lt;/span>, &lt;span style="color:#a6e22e">order0&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#66d9ef">uint16&lt;/span>, &lt;span style="color:#a6e22e">ncases&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span>) (&lt;span style="color:#66d9ef">int&lt;/span>, &lt;span style="color:#66d9ef">bool&lt;/span>)
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>selectgo()&lt;/code>函数会从一组case中挑选一个case,并返回命中case的下标,对于caseRecv的case,还会返回是否读取成功
-当所有case都不可能就绪时,selectgo()陷入永久阻塞,此时函数不会返回&lt;/p>
-&lt;h3 id="cas0">cas0&lt;/h3>
-&lt;p>编译器会将select中的case语句存储在一个数组中,cas0保存这个数组的地址&lt;/p>
-&lt;h3 id="ncases">ncases&lt;/h3>
-&lt;p>ncases表示case的个数(包活default),即cas0数组的长度&lt;/p>
-&lt;h3 id="order0">order0&lt;/h3>
-&lt;p>order0 为一个整型数组的地址,其长度为case格式的2倍.
-order0数组是&lt;strong>case执行随机性的关键&lt;/strong>&lt;/p>
-&lt;p>order0数组被一分为二
-前半部分存放case的随机顺序(pollorder),selectgo()会将原始的case顺序打乱,这样在检查每个case是否就绪时就会表现出随机性
-后半部分存放管道加锁的顺序(lockorder),selectgo()会按照管道地址顺序对多个管道加锁,从而避免因重复加锁引发的死锁问题&lt;/p>
-&lt;h2 id="实现">实现&lt;/h2>
-&lt;p>selectgo()函数的实现包括以下要点:&lt;/p>
-&lt;ul>
-&lt;li>通过随机函数fastrandn()将原始的case顺序打乱,在遍历各个case时使用打乱后的顺序就会表现出随机性&lt;/li>
-&lt;li>循环遍历各个case时,如果发现某个case就绪,则直接跳出循环操作管道并返回&lt;/li>
-&lt;li>循环遍历各个case时,如果循环正常结束,说明所有case都没有就绪,有default直接跳default&lt;/li>
-&lt;li>如果都没有就绪且没有default,selectgo()将阻塞等待所有管道,任一管道就绪后,都将开始新的循环&lt;/li>
-&lt;/ul>
-&lt;h1 id="小结">小结&lt;/h1>
-&lt;ul>
-&lt;li>select仅能操作管道&lt;/li>
-&lt;li>每个case仅能处理一个管道,要么读要么写&lt;/li>
-&lt;li>多个case语句的执行顺序是随机的&lt;/li>
-&lt;li>存在default,则select不会阻塞&lt;/li>
-&lt;/ul></content></item></channel></rss>
+&lt;p>raft/quorum/quorum.go&lt;/p></content></item></channel></rss>

@@ -72,9 +72,6 @@ cilium
 <a href=/tags/concurrency title=concurrency>
 concurrency
 </a>
-<a href=/tags/data-structure title=data-structure>
-data-structure
-</a>
 <a href=/tags/design-pattern title=design-pattern>
 design-pattern
 </a>
@@ -111,9 +108,6 @@ summary
 <a href=/tags/system title=system>
 system
 </a>
-<a href=/tags/test title=test>
-test
-</a>
 </div>
 <div class="post on-list">
 <h1 class=post-title>
@@ -140,24 +134,30 @@ test
 </div>
 <div class="post on-list">
 <h1 class=post-title>
-<a href=https://xujiajiadexiaokeai.github.io/2022-10-20/what-is-mtls/>
-什么是mTLS
+<a href=https://xujiajiadexiaokeai.github.io/2022-11-17/why-select-only-work-on-channel/>
+为什么select仅能作用于管道?
 </a>
 </h1>
 <div class=post-meta>
 <span class=post-date>
-2022-10-20
+2022-11-17
 </span>
 <span class=post-author>:: Wenhao Jiang</span>
 </div>
 <span class=post-tags>
-#<a href=https://xujiajiadexiaokeai.github.io/tags/http/>HTTP</a>&nbsp;
+#<a href=https://xujiajiadexiaokeai.github.io/tags/go/>Go</a>&nbsp;
 </span>
 <div class=post-content>
-什么是mTLS
+select的特性 case的执行 具体执行那个case,取决于函数传入的管道
+管道没有缓冲区 有缓冲区并且还可以塞数据 有缓冲区但缓冲区已满 有缓冲区且已有部分数据 返回值 可以在case中声明变量并赋值
+default default不能处理管道读写 当所有case被阻塞,执行default default是特殊的case
+使用案例 永久阻塞 使用select阻塞main函数
+func main() { server := webhooktesting.NewTestServer(nil) server.StartTLS() fmt.Println("serving on", server.URL) select {} // 没有case和default ,main()永久阻塞 } 快速检错 当使用管道来传输error时, 可以使用select快速检查管道中是否有error
+errCh := make(chan error, active) jm.deleteJobPods(&job, activePods, errCh) // 传入chan用于记录error select { case manageJobErr = &lt;-errCh: if manageJobErr != nil { break } default: // 没有error, 结束 } 限时等待 当使用管道管理函数上下文时, 可以使用select创建具有时效性的管道
+func waitForStopOrTimeout(stopCh &lt;-chan struct{}, timeout time.
 </div>
 <div>
-<a class="read-more button" href=/2022-10-20/what-is-mtls/>Read more →</a>
+<a class="read-more button" href=/2022-11-17/why-select-only-work-on-channel/>Read more →</a>
 </div>
 </div>
 <div class="post on-list">
