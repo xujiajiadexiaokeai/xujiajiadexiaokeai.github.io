@@ -4,6 +4,8 @@ date: "2022-11-17T19:15:45+08:00"
 draft: false
 layout: post
 author: "Wenhao Jiang"
+description: "为什么select仅能作用于管道?"
+showFullContent: false
 tags:
     - Go
 URL: "/2022-11-17/why-select-only-work-on-channel"
