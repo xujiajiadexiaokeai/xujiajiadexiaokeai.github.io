@@ -3,13 +3,7 @@
 <title>为什么select仅能作用于管道? :: xujiajiadexiaokeai</title>
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=description content="select的特性 case的执行 具体执行那个case,取决于函数传入的管道
- 管道没有缓冲区 有缓冲区并且还可以塞数据 有缓冲区但缓冲区已满 有缓冲区且已有部分数据  返回值 可以在case中声明变量并赋值
-default default不能处理管道读写 当所有case被阻塞,执行default default是特殊的case
-使用案例 永久阻塞 使用select阻塞main函数
-func main() { server := webhooktesting.NewTestServer(nil) server.StartTLS() fmt.Println(&amp;#34;serving on&amp;#34;, server.URL) select {} // 没有case和default ,main()永久阻塞 } 快速检错 当使用管道来传输error时, 可以使用select快速检查管道中是否有error
-errCh := make(chan error, active) jm.deleteJobPods(&amp;amp;job, activePods, errCh) // 传入chan用于记录error select { case manageJobErr = &amp;lt;-errCh: if manageJobErr != nil { break } default: // 没有error, 结束 } 限时等待 当使用管道管理函数上下文时, 可以使用select创建具有时效性的管道
-func waitForStopOrTimeout(stopCh &amp;lt;-chan struct{}, timeout time.">
+<meta name=description content="为什么select仅能作用于管道?">
 <meta name=keywords content>
 <meta name=robots content="noodp">
 <link rel=canonical href=https://xujiajiadexiaokeai.github.io/2022-11-17/why-select-only-work-on-channel/>
@@ -20,13 +14,7 @@ func waitForStopOrTimeout(stopCh &amp;lt;-chan struct{}, timeout time.">
 <meta property="og:locale" content="en">
 <meta property="og:type" content="article">
 <meta property="og:title" content="为什么select仅能作用于管道?">
-<meta property="og:description" content="select的特性 case的执行 具体执行那个case,取决于函数传入的管道
- 管道没有缓冲区 有缓冲区并且还可以塞数据 有缓冲区但缓冲区已满 有缓冲区且已有部分数据  返回值 可以在case中声明变量并赋值
-default default不能处理管道读写 当所有case被阻塞,执行default default是特殊的case
-使用案例 永久阻塞 使用select阻塞main函数
-func main() { server := webhooktesting.NewTestServer(nil) server.StartTLS() fmt.Println(&amp;#34;serving on&amp;#34;, server.URL) select {} // 没有case和default ,main()永久阻塞 } 快速检错 当使用管道来传输error时, 可以使用select快速检查管道中是否有error
-errCh := make(chan error, active) jm.deleteJobPods(&amp;amp;job, activePods, errCh) // 传入chan用于记录error select { case manageJobErr = &amp;lt;-errCh: if manageJobErr != nil { break } default: // 没有error, 结束 } 限时等待 当使用管道管理函数上下文时, 可以使用select创建具有时效性的管道
-func waitForStopOrTimeout(stopCh &amp;lt;-chan struct{}, timeout time.">
+<meta property="og:description" content="为什么select仅能作用于管道?">
 <meta property="og:url" content="https://xujiajiadexiaokeai.github.io/2022-11-17/why-select-only-work-on-channel/">
 <meta property="og:site_name" content="xujiajiadexiaokeai">
 <meta property="og:image" content="https://xujiajiadexiaokeai.github.io/favicon.ico">
