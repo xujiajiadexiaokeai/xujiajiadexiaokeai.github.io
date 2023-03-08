@@ -103,3 +103,9 @@ readingTime: false
 ## 自我评价
 
 乐观开朗,承压能力强.具有良好的合作沟通能力,能够快速融入团队.技术上视野广阔,对新技术有着强烈好奇心,喜欢钻研.日常喜欢烧菜.
+
+## 感兴趣的领域
+- 基于eBPF增强系统可观测性
+- 基于Kubernetes的容器调度策略
+- 基于Kubernetes的Aplication Runtime实现
+- 基于risc-v架构的操作系统内核实现
