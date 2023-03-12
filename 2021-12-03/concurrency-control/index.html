@@ -55,12 +55,15 @@ RTSC && RTFM
 2021-12-03
 </span>
 <span class=post-author>:: Wenhao Jiang</span>
-<span class=post-reading-time>:: 1 min read (31 words)</span>
+<span class=post-reading-time>:: 1 min read (76 words)</span>
 </div>
 <span class=post-tags>
 #<a href=https://xujiajiadexiaokeai.github.io/tags/concurrency/>Concurrency</a>&nbsp;
 </span>
 <div class=post-content><div>
+<blockquote>
+<p>摘录自: <a href=https://draveness.me/database-concurrency-control/>https://draveness.me/database-concurrency-control/</a></p>
+</blockquote>
 <h1 id=并发控制机制>并发控制机制<a href=#并发控制机制 class=hanchor arialabel=Anchor>&#8983;</a> </h1>
 <ul>
 <li>Pessimistic</li>
@@ -85,8 +88,54 @@ RTSC && RTFM
 <p>两阶段锁的使用带来了另一个问题-死锁</p>
 <h3 id=死锁的处理>死锁的处理<a href=#死锁的处理 class=hanchor arialabel=Anchor>&#8983;</a> </h3>
 <p>解决死锁大体上有两种方法:</p>
-<p>一是从源头杜绝死锁的产生和出现</p>
-<p>二是允许系统进入死锁的状态,但是在系统出现死锁时能够及时发现并且进行恢复</p>
+<ul>
+<li>
+<p>从源头杜绝死锁的产生和出现</p>
+</li>
+<li>
+<p>允许系统进入死锁的状态,但是在系统出现死锁时能够及时发现并且进行恢复</p>
+</li>
+</ul>
+<p><strong>预防死锁</strong></p>
+<ul>
+<li>保证事务之间的等待不会出现环 有向无环图</li>
+<li>抢占加事务回滚 时间戳
+<ul>
+<li>wait-die</li>
+<li>wound-wait</li>
+</ul>
+</li>
+</ul>
+<h3 id=死锁检测和恢复>死锁检测和恢复<a href=#死锁检测和恢复 class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p><strong>死锁检测</strong>
+检测有向图中是否出现环</p>
+<p><strong>死锁恢复</strong></p>
+<ul>
+<li>Victim</li>
+<li>Rollback</li>
+<li>Starvation</li>
+</ul>
+<h3 id=锁的粒度>锁的粒度<a href=#锁的粒度 class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<ul>
+<li>显式 explicit</li>
+<li>隐式 implicit</li>
+<li>意向共享锁</li>
+<li>意向互斥锁</li>
+</ul>
+<h2 id=乐观并发控制-optimistic-concurrency-control>乐观并发控制-Optimistic Concurrency Control<a href=#乐观并发控制-optimistic-concurrency-control class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<h3 id=基于时间戳的协议>基于时间戳的协议<a href=#基于时间戳的协议 class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>保证事务并行执行的顺序与事务按照时间戳串行执行的效果完全相同</p>
+<p>每一个数据项都有两个时间戳: 读时间戳和写时间戳</p>
+<p>该协议能够保证所有冲突的读写从左都能按照时间戳的大小串行执行</p>
+<h3 id=基于验证的协议>基于验证的协议<a href=#基于验证的协议 class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>根据事务的只读或者更新将所有事务的执行分为两到三个阶段:</p>
+<ul>
+<li>Read Phase</li>
+<li>Validation Phase</li>
+<li>Write Phase</li>
+</ul>
+<h2 id=多版本并发控制--multi-version-concurrency-control>多版本并发控制- Multi-Version Concurrency Control<a href=#多版本并发控制--multi-version-concurrency-control class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>每一个写操作都会创建一个新版本的数据, 读操作会从有限多个版本的数据中挑选最合适的版本返回</p>
 </div></div>
 <div class=pagination>
 <div class=pagination__title>

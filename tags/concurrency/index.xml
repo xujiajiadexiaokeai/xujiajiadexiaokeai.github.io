@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Concurrency on xujiajiadexiaokeai</title><link>https://xujiajiadexiaokeai.github.io/tags/concurrency/</link><description>Recent content in Concurrency on xujiajiadexiaokeai</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>© 2021-2022 xujiajiadexiaokeai</copyright><lastBuildDate>Fri, 03 Dec 2021 21:55:30 +0800</lastBuildDate><atom:link href="https://xujiajiadexiaokeai.github.io/tags/concurrency/index.xml" rel="self" type="application/rss+xml"/><item><title>Concurrency Control</title><link>https://xujiajiadexiaokeai.github.io/2021-12-03/concurrency-control/</link><pubDate>Fri, 03 Dec 2021 21:55:30 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2021-12-03/concurrency-control/</guid><description>并发控制机制 Pessimistic Optimistic Multiversion 悲观并发控制-Pessimistic Concurrency Control 在悲观并发控制中,数据库程序对于数据被修改持悲观态度,在数据处理的过程中都会被锁定,以此来解决竞争问题
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Concurrency on xujiajiadexiaokeai</title><link>https://xujiajiadexiaokeai.github.io/tags/concurrency/</link><description>Recent content in Concurrency on xujiajiadexiaokeai</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>© 2021-2022 xujiajiadexiaokeai</copyright><lastBuildDate>Fri, 03 Dec 2021 21:55:30 +0800</lastBuildDate><atom:link href="https://xujiajiadexiaokeai.github.io/tags/concurrency/index.xml" rel="self" type="application/rss+xml"/><item><title>Concurrency Control</title><link>https://xujiajiadexiaokeai.github.io/2021-12-03/concurrency-control/</link><pubDate>Fri, 03 Dec 2021 21:55:30 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2021-12-03/concurrency-control/</guid><description>摘录自: https://draveness.me/database-concurrency-control/
+并发控制机制 Pessimistic Optimistic Multiversion 悲观并发控制-Pessimistic Concurrency Control 在悲观并发控制中,数据库程序对于数据被修改持悲观态度,在数据处理的过程中都会被锁定,以此来解决竞争问题
 读写锁 为了最大化数据库事务的并发能力,数据库中的锁被设计为两种模式,分别是共享锁和互斥锁.
 当一个事务获得共享锁之后,只可以进行读操作,所以共享锁也叫读锁
 当一个事务获得一行数据的互斥锁时,就可以对该行数据进行读和写操作,所以互斥锁也叫写锁
@@ -12,8 +13,15 @@ Rigorous 2PL: 事务持有的所有锁必须在提交后再释放
 问题:
 两阶段锁的使用带来了另一个问题-死锁
 死锁的处理 解决死锁大体上有两种方法:
-一是从源头杜绝死锁的产生和出现
-二是允许系统进入死锁的状态,但是在系统出现死锁时能够及时发现并且进行恢复</description><content>&lt;h1 id="并发控制机制">并发控制机制&lt;/h1>
+从源头杜绝死锁的产生和出现
+允许系统进入死锁的状态,但是在系统出现死锁时能够及时发现并且进行恢复
+预防死锁
+保证事务之间的等待不会出现环 有向无环图 抢占加事务回滚 时间戳 wait-die wound-wait 死锁检测和恢复 死锁检测 检测有向图中是否出现环
+死锁恢复
+Victim Rollback Starvation 锁的粒度 显式 explicit 隐式 implicit 意向共享锁 意向互斥锁 乐观并发控制-Optimistic Concurrency Control 基于时间戳的协议 保证事务并行执行的顺序与事务按照时间戳串行执行的效果完全相同</description><content>&lt;blockquote>
+&lt;p>摘录自: &lt;a href="https://draveness.me/database-concurrency-control/">https://draveness.me/database-concurrency-control/&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;h1 id="并发控制机制">并发控制机制&lt;/h1>
 &lt;ul>
 &lt;li>Pessimistic&lt;/li>
 &lt;li>Optimistic&lt;/li>
@@ -37,5 +45,51 @@ Rigorous 2PL: 事务持有的所有锁必须在提交后再释放
 &lt;p>两阶段锁的使用带来了另一个问题-死锁&lt;/p>
 &lt;h3 id="死锁的处理">死锁的处理&lt;/h3>
 &lt;p>解决死锁大体上有两种方法:&lt;/p>
-&lt;p>一是从源头杜绝死锁的产生和出现&lt;/p>
-&lt;p>二是允许系统进入死锁的状态,但是在系统出现死锁时能够及时发现并且进行恢复&lt;/p></content></item></channel></rss>
+&lt;ul>
+&lt;li>
+&lt;p>从源头杜绝死锁的产生和出现&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>允许系统进入死锁的状态,但是在系统出现死锁时能够及时发现并且进行恢复&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>预防死锁&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>保证事务之间的等待不会出现环 有向无环图&lt;/li>
+&lt;li>抢占加事务回滚 时间戳
+&lt;ul>
+&lt;li>wait-die&lt;/li>
+&lt;li>wound-wait&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="死锁检测和恢复">死锁检测和恢复&lt;/h3>
+&lt;p>&lt;strong>死锁检测&lt;/strong>
+检测有向图中是否出现环&lt;/p>
+&lt;p>&lt;strong>死锁恢复&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>Victim&lt;/li>
+&lt;li>Rollback&lt;/li>
+&lt;li>Starvation&lt;/li>
+&lt;/ul>
+&lt;h3 id="锁的粒度">锁的粒度&lt;/h3>
+&lt;ul>
+&lt;li>显式 explicit&lt;/li>
+&lt;li>隐式 implicit&lt;/li>
+&lt;li>意向共享锁&lt;/li>
+&lt;li>意向互斥锁&lt;/li>
+&lt;/ul>
+&lt;h2 id="乐观并发控制-optimistic-concurrency-control">乐观并发控制-Optimistic Concurrency Control&lt;/h2>
+&lt;h3 id="基于时间戳的协议">基于时间戳的协议&lt;/h3>
+&lt;p>保证事务并行执行的顺序与事务按照时间戳串行执行的效果完全相同&lt;/p>
+&lt;p>每一个数据项都有两个时间戳: 读时间戳和写时间戳&lt;/p>
+&lt;p>该协议能够保证所有冲突的读写从左都能按照时间戳的大小串行执行&lt;/p>
+&lt;h3 id="基于验证的协议">基于验证的协议&lt;/h3>
+&lt;p>根据事务的只读或者更新将所有事务的执行分为两到三个阶段:&lt;/p>
+&lt;ul>
+&lt;li>Read Phase&lt;/li>
+&lt;li>Validation Phase&lt;/li>
+&lt;li>Write Phase&lt;/li>
+&lt;/ul>
+&lt;h2 id="多版本并发控制--multi-version-concurrency-control">多版本并发控制- Multi-Version Concurrency Control&lt;/h2>
+&lt;p>每一个写操作都会创建一个新版本的数据, 读操作会从有限多个版本的数据中挑选最合适的版本返回&lt;/p></content></item></channel></rss>
