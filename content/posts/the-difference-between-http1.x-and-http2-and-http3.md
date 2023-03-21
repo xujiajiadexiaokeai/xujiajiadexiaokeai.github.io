@@ -9,7 +9,7 @@ showFullContent: false
 tags:
     - Network
     - HTTP
-URL: "/2021-10-28/the-difference-between-http1.x-and-http2-and-http3"
+URL: "/2021-10-28/the-difference-between-http1x-and-http2-and-http3"
 ---
 # HTTP/1.x缺陷
 
