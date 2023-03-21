@@ -133,7 +133,7 @@ Client streaming RPC like unary RPC</description><content>&lt;h1 id="interface-d
 &lt;h1 id="流量控制与可靠传输">流量控制与可靠传输&lt;/h1>
 &lt;h2 id="流量控制">流量控制&lt;/h2>
 &lt;p>使接收方有足够的缓冲空间来接收帧&lt;/p>
-&lt;p>基本方法: 由接收方来控制发送方发送数据的速率&lt;/p></content></item><item><title>HTTP1.x/2/3的区别</title><link>https://xujiajiadexiaokeai.github.io/2021-10-28/the-difference-between-http1.x-and-http2-and-http3</link><pubDate>Thu, 28 Oct 2021 22:40:30 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2021-10-28/the-difference-between-http1.x-and-http2-and-http3</guid><description>HTTP/1.x缺陷 连接无法复用
+&lt;p>基本方法: 由接收方来控制发送方发送数据的速率&lt;/p></content></item><item><title>HTTP1.x/2/3的区别</title><link>https://xujiajiadexiaokeai.github.io/2021-10-28/the-difference-between-http1x-and-http2-and-http3/</link><pubDate>Thu, 28 Oct 2021 22:40:30 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2021-10-28/the-difference-between-http1x-and-http2-and-http3/</guid><description>HTTP/1.x缺陷 连接无法复用
 HTTP/1.0 每次都需要重新建立连接，增加延迟
 HTTP/1.1 虽然加入keep-alive可以复用一部分连接，但域名分片等情况下仍然需要建立多个connection，耗费资源，给服务器带来性能压力
 HOLB(Head-Of-Line-Blocking)：导致带宽无法被充分利用，以及后续健康请求被阻塞 HOLB是指一系列包（package）因为第一个包被阻塞；当页面中需要请求很多资源的时候，HOLB（队头阻塞）会导致在达到最大请求数量时，剩余的资源需要等待其他资源请求完成后才能发起请求。
