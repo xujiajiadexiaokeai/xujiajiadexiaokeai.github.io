@@ -10,7 +10,7 @@ readingTime: false
 
 - 男 / 1997.11
 - 本科 / 上海第二工业大学 / 软件工程
-- 工作时间: 2年
+- 工作时间: 2年+
 - 联系方式: 15900544142 / whjiang1997@gmail.com
 - Github: https://github.com/xujiajiadexiaokeai
 - Blog: https://xujiajiadexiaokeai.github.io
@@ -18,8 +18,8 @@ readingTime: false
 
 ## 专业技能
 
+- 具有B端SaaS研发经验,有大量排查问题经历
 - 熟悉Golang/Node.js
-- 1年B端SaaS研发经验,有大量排查问题经历
 - 熟悉Kubernetes, 了解相关生态和技术
 - 熟悉eBPF,了解eBPF运行机制和相关应用
 - 熟悉分布式原理,了解Paxos、Raft等一致性算法
