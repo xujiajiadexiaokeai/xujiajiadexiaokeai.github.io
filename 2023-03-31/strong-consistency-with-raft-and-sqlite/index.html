@@ -1,0 +1,203 @@
+<!doctype html><html lang=en>
+<head>
+<title>[Note]Strong Consistency with Raft and SQLite :: xujiajiadexiaokeai</title>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=description content="[Note]Strong Consistency with Raft and SQLite">
+<meta name=keywords content>
+<meta name=robots content="noodp">
+<link rel=canonical href=https://xujiajiadexiaokeai.github.io/2023-03-31/strong-consistency-with-raft-and-sqlite/>
+<link rel=stylesheet href=https://xujiajiadexiaokeai.github.io/assets/style.css>
+<link rel=apple-touch-icon href=https://xujiajiadexiaokeai.github.io/img/apple-touch-icon-192x192.png>
+<link rel="shortcut icon" href=https://xujiajiadexiaokeai.github.io/favicon.ico>
+<meta name=twitter:card content="summary">
+<meta property="og:locale" content="en">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[Note]Strong Consistency with Raft and SQLite">
+<meta property="og:description" content="[Note]Strong Consistency with Raft and SQLite">
+<meta property="og:url" content="https://xujiajiadexiaokeai.github.io/2023-03-31/strong-consistency-with-raft-and-sqlite/">
+<meta property="og:site_name" content="xujiajiadexiaokeai">
+<meta property="og:image" content="https://xujiajiadexiaokeai.github.io/favicon.ico">
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+<meta property="article:published_time" content="2023-03-31 10:30:15 +0800 +0800">
+</head>
+<body class=orange>
+<div class="container center headings--one-size">
+<header class=header>
+<div class=header__inner>
+<div class=header__logo>
+<a href=/>
+<div class=logo>
+RTSC && RTFM
+</div>
+</a>
+</div>
+<div class=menu-trigger>menu</div>
+</div>
+<nav class=menu>
+<ul class="menu__inner menu__inner--desktop">
+<li><a href=/about>About</a></li>
+<li><a href=/archive>Archive</a></li>
+</ul>
+<ul class="menu__inner menu__inner--mobile">
+<li><a href=/about>About</a></li>
+<li><a href=/archive>Archive</a></li>
+</ul>
+</nav>
+</header>
+<div class=content>
+<div class=post>
+<h1 class=post-title>
+<a href=https://xujiajiadexiaokeai.github.io/2023-03-31/strong-consistency-with-raft-and-sqlite/>[Note]Strong Consistency with Raft and SQLite</a></h1>
+<div class=post-meta>
+<span class=post-date>
+2023-03-31
+</span>
+<span class=post-author>:: Wenhao Jiang</span>
+<span class=post-reading-time>:: 2 min read (334 words)</span>
+</div>
+<span class=post-tags>
+#<a href=https://xujiajiadexiaokeai.github.io/tags/consistency/>Consistency</a>&nbsp;
+#<a href=https://xujiajiadexiaokeai.github.io/tags/raft/>Raft</a>&nbsp;
+#<a href=https://xujiajiadexiaokeai.github.io/tags/sqlite/>SQLite</a>&nbsp;
+#<a href=https://xujiajiadexiaokeai.github.io/tags/system-design/>System Design</a>&nbsp;
+</span>
+<div class=post-content><div>
+<h1 id=notestrong-consistency-with-raft-and-sqlite>[Note]Strong Consistency with Raft and SQLite<a href=#notestrong-consistency-with-raft-and-sqlite class=hanchor arialabel=Anchor>&#8983;</a> </h1>
+<blockquote>
+<p><a href=https://blog.sqlitecloud.io/strong-consistency-with-raft-and-sqlite>https://blog.sqlitecloud.io/strong-consistency-with-raft-and-sqlite</a></p>
+</blockquote>
+<h2 id=central-database-vs-distributed-database>Central Database vs Distributed Database<a href=#central-database-vs-distributed-database class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<h3 id=central-database>Central Database<a href=#central-database class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<ul>
+<li>Advantage:
+<ul>
+<li>It is consistent and up-to-date by default</li>
+<li>Only one source of truth</li>
+</ul>
+</li>
+<li>Disadvantage:
+<ul>
+<li>Single point of failure</li>
+<li>Become overwhelemd as the amount of data grows</li>
+<li>Performance issues</li>
+<li>Slower response times</li>
+</ul>
+</li>
+</ul>
+<h3 id=distributed-database>Distributed Database<a href=#distributed-database class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<ul>
+<li>Advantage:
+<ul>
+<li>Scalability</li>
+<li>High availability</li>
+<li>Localized access
+Improve response times and reduce network latency</li>
+<li>Lower cost
+Can be built using commodity hardware</li>
+</ul>
+</li>
+</ul>
+<h2 id=challenge-in-distributed-database>Challenge in Distributed Database<a href=#challenge-in-distributed-database class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p><strong>maintain data consistency across multiple nodes</strong></p>
+<p>Must be use a strong consistency model</p>
+<p>SQLite Cloud guarantees strong consistency and uses the Raft consensus algorithm under the hood</p>
+<h2 id=raft>Raft<a href=#raft class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<ul>
+<li>A distrubuted consensus algorithm</li>
+<li>Be designed to help manage replicated logs</li>
+<li>Works by ensuring that all nodes in a distributed system agree on the same log of commands or events</li>
+</ul>
+<h2 id=how-does-raft-work>How does Raft work?<a href=#how-does-raft-work class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<ul>
+<li>Leader manage all log
+<ul>
+<li>Works by electing a leader node that manages the replicated log</li>
+<li>Leader node receives commands and replicates them across all nodes</li>
+<li>Ensures that all nodes have the same log of commands by using a series of communication messages called &ldquo;log entries&rdquo;</li>
+<li>Each log entry contains a command or event that is appended to the log of each node</li>
+</ul>
+</li>
+<li>Divide time into terms
+<ul>
+<li>Each term begins with a leader election</li>
+</ul>
+</li>
+<li>Log replication
+<ul>
+<li>Leader sends log entries to all other nodes</li>
+<li>A majority vote(quorum)</li>
+</ul>
+</li>
+</ul>
+<h2 id=how-to-achieve-strong-consistency-with-raft>How To Achieve Strong Consistency with Raft?<a href=#how-to-achieve-strong-consistency-with-raft class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<ul>
+<li>Leader election</li>
+<li>Log replication</li>
+<li>Commit mechanisms
+Ensure that log entries are executed in the same order on all nodes in the system</li>
+</ul>
+<h2 id=what-to-distribute-with-sqlite>What to distribute with SQLite?<a href=#what-to-distribute-with-sqlite class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<ul>
+<li>
+<p>Raw SQL statement
+Some database engines distribute raw SQL statement.</p>
+<p>It will produce different outputs on different nodes by using <strong>non-deterministic SQL</strong> functions.</p>
+<p>How to immune the side effects of non-deterministic SQL statements</p>
+<ul>
+<li>Use severe limitations</li>
+<li>Use complex SQL parsers</li>
+</ul>
+</li>
+<li>
+<p>ChangeSet
+SQLite Cloud only distribute hte changeset derived from executing the SQL statement in one node</p>
+<p>They distribute the result of the statement (plus some other metadata)</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json>{
+    <span style=color:#f92672>&#34;table&#34;</span>: <span style=color:#960050;background-color:#1e0010>foo</span>,
+    <span style=color:#f92672>&#34;data&#34;</span>: {
+        <span style=color:#f92672>&#34;col1&#34;</span>: <span style=color:#ae81ff>8875612685081594789</span>,
+        <span style=color:#f92672>&#34;col2&#34;</span>: <span style=color:#e6db74>&#34;10:57:34&#34;</span>,
+        <span style=color:#f92672>&#34;col3&#34;</span>: <span style=color:#e6db74>&#34;2023-03-21&#34;</span>
+    }
+}
+</code></pre></div></li>
+</ul>
+</div></div>
+<div class=pagination>
+<div class=pagination__title>
+<span class=pagination__title-h>Read other posts</span>
+<hr>
+</div>
+<div class=pagination__buttons>
+<span class="button previous">
+<a href=https://xujiajiadexiaokeai.github.io/2022-09-20/summary/>
+<span class=button__icon>←</span>
+<span class=button__text>关于离职后的这一年我做了什么</span>
+</a>
+</span>
+<span class="button next">
+<a href=https://xujiajiadexiaokeai.github.io/2022-11-17/why-select-only-work-on-channel/>
+<span class=button__text>为什么select仅能作用于管道?</span>
+<span class=button__icon>→</span>
+</a>
+</span>
+</div>
+</div>
+</div>
+</div>
+<footer class=footer>
+<div class=footer__inner>
+<div class="copyright copyright--user">
+<span>© 2021-2023 xujiajiadexiaokeai</span>
+<span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span>
+</div>
+</div>
+</footer>
+<script src=https://xujiajiadexiaokeai.github.io/assets/main.js></script>
+<script src=https://xujiajiadexiaokeai.github.io/assets/prism.js></script>
+<script src=https://xujiajiadexiaokeai.github.io/assets/displayInlineEquations.js></script>
+</div>
+</body>
+</html>

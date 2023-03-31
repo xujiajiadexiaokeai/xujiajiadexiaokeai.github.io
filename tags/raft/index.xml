@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Raft on xujiajiadexiaokeai</title><link>https://xujiajiadexiaokeai.github.io/tags/raft/</link><description>Recent content in Raft on xujiajiadexiaokeai</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>© 2021-2023 xujiajiadexiaokeai</copyright><lastBuildDate>Fri, 31 Mar 2023 10:30:15 +0800</lastBuildDate><atom:link href="https://xujiajiadexiaokeai.github.io/tags/raft/index.xml" rel="self" type="application/rss+xml"/><item><title>[Note]Strong Consistency with Raft and SQLite</title><link>https://xujiajiadexiaokeai.github.io/2023-03-31/strong-consistency-with-raft-and-sqlite/</link><pubDate>Fri, 31 Mar 2023 10:30:15 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2023-03-31/strong-consistency-with-raft-and-sqlite/</guid><description>[Note]Strong Consistency with Raft and SQLite https://blog.sqlitecloud.io/strong-consistency-with-raft-and-sqlite
+Central Database vs Distributed Database Central Database Advantage: It is consistent and up-to-date by default Only one source of truth Disadvantage: Single point of failure Become overwhelemd as the amount of data grows Performance issues Slower response times Distributed Database Advantage: Scalability High availability Localized access Improve response times and reduce network latency Lower cost Can be built using commodity hardware Challenge in Distributed Database maintain data consistency across multiple nodes</description><content>&lt;h1 id="notestrong-consistency-with-raft-and-sqlite">[Note]Strong Consistency with Raft and SQLite&lt;/h1>
+&lt;blockquote>
+&lt;p>&lt;a href="https://blog.sqlitecloud.io/strong-consistency-with-raft-and-sqlite">https://blog.sqlitecloud.io/strong-consistency-with-raft-and-sqlite&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="central-database-vs-distributed-database">Central Database vs Distributed Database&lt;/h2>
+&lt;h3 id="central-database">Central Database&lt;/h3>
+&lt;ul>
+&lt;li>Advantage:
+&lt;ul>
+&lt;li>It is consistent and up-to-date by default&lt;/li>
+&lt;li>Only one source of truth&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Disadvantage:
+&lt;ul>
+&lt;li>Single point of failure&lt;/li>
+&lt;li>Become overwhelemd as the amount of data grows&lt;/li>
+&lt;li>Performance issues&lt;/li>
+&lt;li>Slower response times&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="distributed-database">Distributed Database&lt;/h3>
+&lt;ul>
+&lt;li>Advantage:
+&lt;ul>
+&lt;li>Scalability&lt;/li>
+&lt;li>High availability&lt;/li>
+&lt;li>Localized access
+Improve response times and reduce network latency&lt;/li>
+&lt;li>Lower cost
+Can be built using commodity hardware&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="challenge-in-distributed-database">Challenge in Distributed Database&lt;/h2>
+&lt;p>&lt;strong>maintain data consistency across multiple nodes&lt;/strong>&lt;/p>
+&lt;p>Must be use a strong consistency model&lt;/p>
+&lt;p>SQLite Cloud guarantees strong consistency and uses the Raft consensus algorithm under the hood&lt;/p>
+&lt;h2 id="raft">Raft&lt;/h2>
+&lt;ul>
+&lt;li>A distrubuted consensus algorithm&lt;/li>
+&lt;li>Be designed to help manage replicated logs&lt;/li>
+&lt;li>Works by ensuring that all nodes in a distributed system agree on the same log of commands or events&lt;/li>
+&lt;/ul>
+&lt;h2 id="how-does-raft-work">How does Raft work?&lt;/h2>
+&lt;ul>
+&lt;li>Leader manage all log
+&lt;ul>
+&lt;li>Works by electing a leader node that manages the replicated log&lt;/li>
+&lt;li>Leader node receives commands and replicates them across all nodes&lt;/li>
+&lt;li>Ensures that all nodes have the same log of commands by using a series of communication messages called &amp;ldquo;log entries&amp;rdquo;&lt;/li>
+&lt;li>Each log entry contains a command or event that is appended to the log of each node&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Divide time into terms
+&lt;ul>
+&lt;li>Each term begins with a leader election&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Log replication
+&lt;ul>
+&lt;li>Leader sends log entries to all other nodes&lt;/li>
+&lt;li>A majority vote(quorum)&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="how-to-achieve-strong-consistency-with-raft">How To Achieve Strong Consistency with Raft?&lt;/h2>
+&lt;ul>
+&lt;li>Leader election&lt;/li>
+&lt;li>Log replication&lt;/li>
+&lt;li>Commit mechanisms
+Ensure that log entries are executed in the same order on all nodes in the system&lt;/li>
+&lt;/ul>
+&lt;h2 id="what-to-distribute-with-sqlite">What to distribute with SQLite?&lt;/h2>
+&lt;ul>
+&lt;li>
+&lt;p>Raw SQL statement
+Some database engines distribute raw SQL statement.&lt;/p>
+&lt;p>It will produce different outputs on different nodes by using &lt;strong>non-deterministic SQL&lt;/strong> functions.&lt;/p>
+&lt;p>How to immune the side effects of non-deterministic SQL statements&lt;/p>
+&lt;ul>
+&lt;li>Use severe limitations&lt;/li>
+&lt;li>Use complex SQL parsers&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>ChangeSet
+SQLite Cloud only distribute hte changeset derived from executing the SQL statement in one node&lt;/p>
+&lt;p>They distribute the result of the statement (plus some other metadata)&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-json" data-lang="json">{
+&lt;span style="color:#f92672">&amp;#34;table&amp;#34;&lt;/span>: &lt;span style="color:#960050;background-color:#1e0010">foo&lt;/span>,
+&lt;span style="color:#f92672">&amp;#34;data&amp;#34;&lt;/span>: {
+&lt;span style="color:#f92672">&amp;#34;col1&amp;#34;&lt;/span>: &lt;span style="color:#ae81ff">8875612685081594789&lt;/span>,
+&lt;span style="color:#f92672">&amp;#34;col2&amp;#34;&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;10:57:34&amp;#34;&lt;/span>,
+&lt;span style="color:#f92672">&amp;#34;col3&amp;#34;&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;2023-03-21&amp;#34;&lt;/span>
+}
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;/ul></content></item></channel></rss>

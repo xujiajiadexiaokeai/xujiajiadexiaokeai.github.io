@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on xujiajiadexiaokeai</title><link>https://xujiajiadexiaokeai.github.io/posts/</link><description>Recent content in Posts on xujiajiadexiaokeai</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>© 2021-2023 xujiajiadexiaokeai</copyright><lastBuildDate>Thu, 17 Nov 2022 19:15:45 +0800</lastBuildDate><atom:link href="https://xujiajiadexiaokeai.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>关于离职后的这一年我做了什么</title><link>https://xujiajiadexiaokeai.github.io/2022-09-20/summary/</link><pubDate>Tue, 20 Sep 2022 22:14:47 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2022-09-20/summary/</guid><description>起子 其实这篇文章本可以叫做《未来的XX时间我要做什么》,用来指导关于技术上的学习计划.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on xujiajiadexiaokeai</title><link>https://xujiajiadexiaokeai.github.io/posts/</link><description>Recent content in Posts on xujiajiadexiaokeai</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>© 2021-2023 xujiajiadexiaokeai</copyright><lastBuildDate>Fri, 31 Mar 2023 10:30:15 +0800</lastBuildDate><atom:link href="https://xujiajiadexiaokeai.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>关于离职后的这一年我做了什么</title><link>https://xujiajiadexiaokeai.github.io/2022-09-20/summary/</link><pubDate>Tue, 20 Sep 2022 22:14:47 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2022-09-20/summary/</guid><description>起子 其实这篇文章本可以叫做《未来的XX时间我要做什么》,用来指导关于技术上的学习计划.
 可惜由于某些原因,我选择了离职来完成这部分学习计划.
 也由于某些原因, 这部分计划的完成距我2021年8月20日离职至今已经近13个月的时间, 这大大超出了我的预期,对自己的生活也造成了一定的影响.
 希望通过这篇文章对过去这13个月的时间进行总结和复盘.
@@ -60,7 +60,107 @@
 &lt;p>当时设想的用大概半年时间完成上面的目标现在想想也十分可笑.确实是有大块的时间来学习了,但是人也懒散了,每天学学玩玩,也没有清晰的计划,偶尔熬个夜刷个剧,第二天睡到中午起,时间很快就过去了.到了半年的时间,想要学的东西才学了三分之一左右.女朋友开始建议我出去工作,家里人也开始关注我找工作的情况,但是我又真的想把这些东西都学完,搭建好知识框架,觉得这样也有助于之后的学习和工作.之后就这样一直拖着,偶尔假装在找工作,回家过了年然后又回到上海继续学习,正好又赶上上海封城,算救了我一把,直到现在才算有了一点成果.&lt;/p>
 &lt;p>回顾这一段时光,就像开头说的,对自己没有清晰的认知,对生活的掌握是失控的.计划的设定本身就是有问题的,但又一股脑的不考虑自身实际情况的去ALL IN,虽然到最后勉强取得了一些成果,但代价是巨大的.希望自己能在之后的生活和工作中,吸取教训.&lt;/p>
 &lt;p>最后,总算是推倒了之前摇摇晃晃的危楼,重新搭起了基本的知识结构.玩过内核,实现过协议,也勉强算是合格的计算机专业科班出身了&amp;hellip;&lt;/p>
-&lt;p>现在,就重新起航吧!&lt;/p></content></item><item><title>为什么select仅能作用于管道?</title><link>https://xujiajiadexiaokeai.github.io/2022-11-17/why-select-only-work-on-channel/</link><pubDate>Thu, 17 Nov 2022 19:15:45 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2022-11-17/why-select-only-work-on-channel/</guid><description>select的特性 case的执行 具体执行那个case,取决于函数传入的管道
+&lt;p>现在,就重新起航吧!&lt;/p></content></item><item><title>[Note]Strong Consistency with Raft and SQLite</title><link>https://xujiajiadexiaokeai.github.io/2023-03-31/strong-consistency-with-raft-and-sqlite/</link><pubDate>Fri, 31 Mar 2023 10:30:15 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2023-03-31/strong-consistency-with-raft-and-sqlite/</guid><description>[Note]Strong Consistency with Raft and SQLite https://blog.sqlitecloud.io/strong-consistency-with-raft-and-sqlite
+Central Database vs Distributed Database Central Database Advantage: It is consistent and up-to-date by default Only one source of truth Disadvantage: Single point of failure Become overwhelemd as the amount of data grows Performance issues Slower response times Distributed Database Advantage: Scalability High availability Localized access Improve response times and reduce network latency Lower cost Can be built using commodity hardware Challenge in Distributed Database maintain data consistency across multiple nodes</description><content>&lt;h1 id="notestrong-consistency-with-raft-and-sqlite">[Note]Strong Consistency with Raft and SQLite&lt;/h1>
+&lt;blockquote>
+&lt;p>&lt;a href="https://blog.sqlitecloud.io/strong-consistency-with-raft-and-sqlite">https://blog.sqlitecloud.io/strong-consistency-with-raft-and-sqlite&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="central-database-vs-distributed-database">Central Database vs Distributed Database&lt;/h2>
+&lt;h3 id="central-database">Central Database&lt;/h3>
+&lt;ul>
+&lt;li>Advantage:
+&lt;ul>
+&lt;li>It is consistent and up-to-date by default&lt;/li>
+&lt;li>Only one source of truth&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Disadvantage:
+&lt;ul>
+&lt;li>Single point of failure&lt;/li>
+&lt;li>Become overwhelemd as the amount of data grows&lt;/li>
+&lt;li>Performance issues&lt;/li>
+&lt;li>Slower response times&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="distributed-database">Distributed Database&lt;/h3>
+&lt;ul>
+&lt;li>Advantage:
+&lt;ul>
+&lt;li>Scalability&lt;/li>
+&lt;li>High availability&lt;/li>
+&lt;li>Localized access
+Improve response times and reduce network latency&lt;/li>
+&lt;li>Lower cost
+Can be built using commodity hardware&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="challenge-in-distributed-database">Challenge in Distributed Database&lt;/h2>
+&lt;p>&lt;strong>maintain data consistency across multiple nodes&lt;/strong>&lt;/p>
+&lt;p>Must be use a strong consistency model&lt;/p>
+&lt;p>SQLite Cloud guarantees strong consistency and uses the Raft consensus algorithm under the hood&lt;/p>
+&lt;h2 id="raft">Raft&lt;/h2>
+&lt;ul>
+&lt;li>A distrubuted consensus algorithm&lt;/li>
+&lt;li>Be designed to help manage replicated logs&lt;/li>
+&lt;li>Works by ensuring that all nodes in a distributed system agree on the same log of commands or events&lt;/li>
+&lt;/ul>
+&lt;h2 id="how-does-raft-work">How does Raft work?&lt;/h2>
+&lt;ul>
+&lt;li>Leader manage all log
+&lt;ul>
+&lt;li>Works by electing a leader node that manages the replicated log&lt;/li>
+&lt;li>Leader node receives commands and replicates them across all nodes&lt;/li>
+&lt;li>Ensures that all nodes have the same log of commands by using a series of communication messages called &amp;ldquo;log entries&amp;rdquo;&lt;/li>
+&lt;li>Each log entry contains a command or event that is appended to the log of each node&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Divide time into terms
+&lt;ul>
+&lt;li>Each term begins with a leader election&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Log replication
+&lt;ul>
+&lt;li>Leader sends log entries to all other nodes&lt;/li>
+&lt;li>A majority vote(quorum)&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="how-to-achieve-strong-consistency-with-raft">How To Achieve Strong Consistency with Raft?&lt;/h2>
+&lt;ul>
+&lt;li>Leader election&lt;/li>
+&lt;li>Log replication&lt;/li>
+&lt;li>Commit mechanisms
+Ensure that log entries are executed in the same order on all nodes in the system&lt;/li>
+&lt;/ul>
+&lt;h2 id="what-to-distribute-with-sqlite">What to distribute with SQLite?&lt;/h2>
+&lt;ul>
+&lt;li>
+&lt;p>Raw SQL statement
+Some database engines distribute raw SQL statement.&lt;/p>
+&lt;p>It will produce different outputs on different nodes by using &lt;strong>non-deterministic SQL&lt;/strong> functions.&lt;/p>
+&lt;p>How to immune the side effects of non-deterministic SQL statements&lt;/p>
+&lt;ul>
+&lt;li>Use severe limitations&lt;/li>
+&lt;li>Use complex SQL parsers&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>
+&lt;p>ChangeSet
+SQLite Cloud only distribute hte changeset derived from executing the SQL statement in one node&lt;/p>
+&lt;p>They distribute the result of the statement (plus some other metadata)&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-json" data-lang="json">{
+&lt;span style="color:#f92672">&amp;#34;table&amp;#34;&lt;/span>: &lt;span style="color:#960050;background-color:#1e0010">foo&lt;/span>,
+&lt;span style="color:#f92672">&amp;#34;data&amp;#34;&lt;/span>: {
+&lt;span style="color:#f92672">&amp;#34;col1&amp;#34;&lt;/span>: &lt;span style="color:#ae81ff">8875612685081594789&lt;/span>,
+&lt;span style="color:#f92672">&amp;#34;col2&amp;#34;&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;10:57:34&amp;#34;&lt;/span>,
+&lt;span style="color:#f92672">&amp;#34;col3&amp;#34;&lt;/span>: &lt;span style="color:#e6db74">&amp;#34;2023-03-21&amp;#34;&lt;/span>
+}
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;/ul></content></item><item><title>为什么select仅能作用于管道?</title><link>https://xujiajiadexiaokeai.github.io/2022-11-17/why-select-only-work-on-channel/</link><pubDate>Thu, 17 Nov 2022 19:15:45 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2022-11-17/why-select-only-work-on-channel/</guid><description>select的特性 case的执行 具体执行那个case,取决于函数传入的管道
 管道没有缓冲区 有缓冲区并且还可以塞数据 有缓冲区但缓冲区已满 有缓冲区且已有部分数据 返回值 可以在case中声明变量并赋值
 default default不能处理管道读写 当所有case被阻塞,执行default default是特殊的case
 使用案例 永久阻塞 使用select阻塞main函数
