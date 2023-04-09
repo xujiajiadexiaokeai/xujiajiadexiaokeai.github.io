@@ -1,6 +1,6 @@
 ---
 date: 2023-04-08T14:15:30+08:00
-draft: false
+draft: true
 url: "/2023-04-08/parca"
 layout: post
 description: "Parca"
