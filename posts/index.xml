@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on xujiajiadexiaokeai</title><link>https://xujiajiadexiaokeai.github.io/posts/</link><description>Recent content in Posts on xujiajiadexiaokeai</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>© 2021-2023 xujiajiadexiaokeai</copyright><lastBuildDate>Fri, 31 Mar 2023 10:30:15 +0800</lastBuildDate><atom:link href="https://xujiajiadexiaokeai.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>关于离职后的这一年我做了什么</title><link>https://xujiajiadexiaokeai.github.io/2022-09-20/summary/</link><pubDate>Tue, 20 Sep 2022 22:14:47 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2022-09-20/summary/</guid><description>起子 其实这篇文章本可以叫做《未来的XX时间我要做什么》,用来指导关于技术上的学习计划.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on xujiajiadexiaokeai</title><link>https://xujiajiadexiaokeai.github.io/posts/</link><description>Recent content in Posts on xujiajiadexiaokeai</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>© 2021-2023 xujiajiadexiaokeai</copyright><lastBuildDate>Sun, 09 Apr 2023 14:15:30 +0800</lastBuildDate><atom:link href="https://xujiajiadexiaokeai.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>关于离职后的这一年我做了什么</title><link>https://xujiajiadexiaokeai.github.io/2022-09-20/summary/</link><pubDate>Tue, 20 Sep 2022 22:14:47 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2022-09-20/summary/</guid><description>起子 其实这篇文章本可以叫做《未来的XX时间我要做什么》,用来指导关于技术上的学习计划.
 可惜由于某些原因,我选择了离职来完成这部分学习计划.
 也由于某些原因, 这部分计划的完成距我2021年8月20日离职至今已经近13个月的时间, 这大大超出了我的预期,对自己的生活也造成了一定的影响.
 希望通过这篇文章对过去这13个月的时间进行总结和复盘.
@@ -60,7 +60,265 @@
 &lt;p>当时设想的用大概半年时间完成上面的目标现在想想也十分可笑.确实是有大块的时间来学习了,但是人也懒散了,每天学学玩玩,也没有清晰的计划,偶尔熬个夜刷个剧,第二天睡到中午起,时间很快就过去了.到了半年的时间,想要学的东西才学了三分之一左右.女朋友开始建议我出去工作,家里人也开始关注我找工作的情况,但是我又真的想把这些东西都学完,搭建好知识框架,觉得这样也有助于之后的学习和工作.之后就这样一直拖着,偶尔假装在找工作,回家过了年然后又回到上海继续学习,正好又赶上上海封城,算救了我一把,直到现在才算有了一点成果.&lt;/p>
 &lt;p>回顾这一段时光,就像开头说的,对自己没有清晰的认知,对生活的掌握是失控的.计划的设定本身就是有问题的,但又一股脑的不考虑自身实际情况的去ALL IN,虽然到最后勉强取得了一些成果,但代价是巨大的.希望自己能在之后的生活和工作中,吸取教训.&lt;/p>
 &lt;p>最后,总算是推倒了之前摇摇晃晃的危楼,重新搭起了基本的知识结构.玩过内核,实现过协议,也勉强算是合格的计算机专业科班出身了&amp;hellip;&lt;/p>
-&lt;p>现在,就重新起航吧!&lt;/p></content></item><item><title>[Note]Strong Consistency with Raft and SQLite</title><link>https://xujiajiadexiaokeai.github.io/2023-03-31/strong-consistency-with-raft-and-sqlite/</link><pubDate>Fri, 31 Mar 2023 10:30:15 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2023-03-31/strong-consistency-with-raft-and-sqlite/</guid><description>[Note]Strong Consistency with Raft and SQLite https://blog.sqlitecloud.io/strong-consistency-with-raft-and-sqlite
+&lt;p>现在,就重新起航吧!&lt;/p></content></item><item><title>[NOTE] Developing eBPF profiler for polyglot cloud-native applications</title><link>https://xujiajiadexiaokeai.github.io/2023-04-09/developing-ebpf-profiler-for-polyglot-cloud-native-applications/</link><pubDate>Sun, 09 Apr 2023 14:15:30 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2023-04-09/developing-ebpf-profiler-for-polyglot-cloud-native-applications/</guid><description>[NOTE] Developing eBPF profiler for polyglot cloud-native applications Agenda Infrastructure-wide profilers Low level ecosystem Stack unwinding/walking in the Linux Kernel Building profilers using BPF Walking user stacks(without frame pointers) Future work Profilers for the cloud native environment Discovery mechanism for the targets
+-&amp;gt; Mechanism to collect stack traces(kernel, userspace)
+-&amp;gt; Profile formats
+-&amp;gt; Async symbolization &amp;amp; visualization
+Low level ecosystem ELF and DWARF Executable Linkable format -ELF for obj file, executable program, shared object etc DWARF - widely used debugging format CIE - Common information Entry Tools to read ELF and/or DWARF information readily, objdump, elfutils, llvm-dwarfdump gcc also has -g option Stacktraces and x86_64 ABI What collection stack traces involve Kernel stacks Application stacks Direction of stack growth So what are stack pointers, where do they come form $rbp, $rsp &amp;amp; $rip registers $rbp: address of the base of the previous stack frame $rsp: Top of the stack, local variables Generally previous value of rsp is where FP is stored $rip: Holds the pc for the currently executing function Frame pointers are often disabled Increased binary size -&amp;gt; less i-cache hits 1 less rigister available Cons of disabling frame pointers Walking stack traces becomes more expensive Less accuracy Way more work ofr compiler / debugger / profiler developers This information is large The reality Frame pointer believers Golang &amp;gt;= 1.</description><content>&lt;h1 id="note-developing-ebpf-profiler-for-polyglot-cloud-native-applications">[NOTE] Developing eBPF profiler for polyglot cloud-native applications&lt;/h1>
+&lt;h2 id="agenda">Agenda&lt;/h2>
+&lt;ul>
+&lt;li>Infrastructure-wide profilers&lt;/li>
+&lt;li>Low level ecosystem&lt;/li>
+&lt;li>Stack unwinding/walking in the Linux Kernel&lt;/li>
+&lt;li>Building profilers using BPF&lt;/li>
+&lt;li>Walking user stacks(without frame pointers)&lt;/li>
+&lt;li>Future work&lt;/li>
+&lt;/ul>
+&lt;h2 id="profilers-for-the-cloud-native-environment">Profilers for the cloud native environment&lt;/h2>
+&lt;p>Discovery mechanism for the targets&lt;/p>
+&lt;p>-&amp;gt; Mechanism to collect stack traces(kernel, userspace)&lt;/p>
+&lt;p>-&amp;gt; Profile formats&lt;/p>
+&lt;p>-&amp;gt; Async symbolization &amp;amp; visualization&lt;/p>
+&lt;h2 id="low-level-ecosystem">Low level ecosystem&lt;/h2>
+&lt;h3 id="elf-and-dwarf">ELF and DWARF&lt;/h3>
+&lt;ul>
+&lt;li>Executable Linkable format -ELF
+&lt;ul>
+&lt;li>for obj file, executable program, shared object etc&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>DWARF - widely used debugging format
+&lt;ul>
+&lt;li>CIE - Common information Entry&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Tools to read ELF and/or DWARF information
+&lt;ul>
+&lt;li>readily, objdump, elfutils, llvm-dwarfdump&lt;/li>
+&lt;li>gcc also has -g option&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="stacktraces-and-x86_64-abi">Stacktraces and x86_64 ABI&lt;/h3>
+&lt;ul>
+&lt;li>What collection stack traces involve
+&lt;ul>
+&lt;li>Kernel stacks&lt;/li>
+&lt;li>Application stacks&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Direction of stack growth&lt;/li>
+&lt;li>So what are stack pointers, where do they come form&lt;/li>
+&lt;/ul>
+&lt;h3 id="rbp-rsp--rip-registers">$rbp, $rsp &amp;amp; $rip registers&lt;/h3>
+&lt;ul>
+&lt;li>$rbp: address of the base of the previous stack frame&lt;/li>
+&lt;li>$rsp: Top of the stack, local variables
+&lt;ul>
+&lt;li>Generally previous value of rsp is where FP is stored&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>$rip: Holds the pc for the currently executing function&lt;/li>
+&lt;/ul>
+&lt;h3 id="frame-pointers-are-often-disabled">Frame pointers are often disabled&lt;/h3>
+&lt;ul>
+&lt;li>Increased binary size -&amp;gt; less i-cache hits&lt;/li>
+&lt;li>1 less rigister available&lt;/li>
+&lt;/ul>
+&lt;h3 id="cons-of-disabling-frame-pointers">Cons of disabling frame pointers&lt;/h3>
+&lt;ul>
+&lt;li>Walking stack traces becomes more expensive&lt;/li>
+&lt;li>Less accuracy&lt;/li>
+&lt;li>Way more work ofr compiler / debugger / profiler developers&lt;/li>
+&lt;li>This information is large&lt;/li>
+&lt;/ul>
+&lt;h3 id="the-reality">The reality&lt;/h3>
+&lt;h3 id="frame-pointer-believers">Frame pointer believers&lt;/h3>
+&lt;ul>
+&lt;li>Golang &amp;gt;= 1.7&lt;/li>
+&lt;li>MacOS&lt;/li>
+&lt;li>The Linux Kernel(*):
+&lt;ul>
+&lt;li>CONFIG_UNWINDER_FRAME_POINTER and CONFIG_UNWINDER_ORC&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="stack-unwinding-in-the-linux-kernel-wo-fp">Stack unwinding in the Linux kernel w/o fp&lt;/h3>
+&lt;ul>
+&lt;li>ORC (CONFIG_UNWINDER_ORC x86_64 only)&lt;/li>
+&lt;li>Doesn&amp;rsquo;t rely on .debug_frame/.eh_frame&lt;/li>
+&lt;li>Enabled by some of the major cloud vendors&lt;/li>
+&lt;/ul>
+&lt;h3 id="unwinding-the-stack-without-frame-pointers">Unwinding the stack without frame pointers&lt;/h3>
+&lt;ul>
+&lt;li>DWARF unwind information
+&lt;ul>
+&lt;li>.eh_frame&lt;/li>
+&lt;li>.debug_frame&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Synthesizing them from object code&lt;/li>
+&lt;li>Guessing which stack vlues are return addresses&lt;/li>
+&lt;/ul>
+&lt;h3 id="eh_frame---unwind-tables">.eh_frame - unwind tables&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">$ readelf -wF ./test_binary
+&lt;/code>&lt;/pre>&lt;/div>&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align:center">LOC&lt;/th>
+&lt;th style="text-align:center">CFA&lt;/th>
+&lt;th style="text-align:center">rbp&lt;/th>
+&lt;th style="text-align:center">ra&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align:center">00000000004011f0&lt;/td>
+&lt;td style="text-align:center">rsp+8&lt;/td>
+&lt;td style="text-align:center">u&lt;/td>
+&lt;td style="text-align:center">c-8&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:center">00000000004011f1&lt;/td>
+&lt;td style="text-align:center">rsp+16&lt;/td>
+&lt;td style="text-align:center">c-16&lt;/td>
+&lt;td style="text-align:center">c-8&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:center">00000000004011f4&lt;/td>
+&lt;td style="text-align:center">rbp+16&lt;/td>
+&lt;td style="text-align:center">c-16&lt;/td>
+&lt;td style="text-align:center">c-8&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:center">0000000000401242&lt;/td>
+&lt;td style="text-align:center">rsp+8&lt;/td>
+&lt;td style="text-align:center">c-16&lt;/td>
+&lt;td style="text-align:center">c-8&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h3 id="eh_frame---generating-unwind-tables">.eh_frame - generating unwind tables&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">$ readelf --debug-dump&lt;span style="color:#f92672">=&lt;/span>frames ./test_binary
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="stack-unwinding-with-ebpf">Stack unwinding with eBPF&lt;/h2>
+&lt;h3 id="with-frame-pointers">With frame pointers&lt;/h3>
+&lt;pre tabindex="0">&lt;code>user_stack = map&amp;lt;stack_id, array&amp;lt;addresses&amp;gt;&amp;gt;
+add_stack bumps map&amp;lt;stack_id, count_t&amp;gt;
+stack_id = bpd_get_stackid(ctx, &amp;amp;user_stacks, BPF_F_USER_STACK);
+add_stack(stack_id);
+&lt;/code>&lt;/pre>&lt;h3 id="without-frame-pointers">Without frame pointers&lt;/h3>
+&lt;ul>
+&lt;li>BPF code: ~250 lines of C&lt;/li>
+&lt;li>DWARF unwind info parser and evaluator: &amp;gt;1k lines of Go&lt;/li>
+&lt;/ul>
+&lt;h3 id="unwinding-wo-frame-pointers---architecture">Unwinding w/o frame pointers - architecture&lt;/h3>
+&lt;!-- raw HTML omitted -->
+&lt;pre tabindex="0">&lt;code>struct unwind_row {
+u64 program_counter;
+type_t previous_rsp;
+type_t previous_rbp;
+}
+&lt;/code>&lt;/pre>&lt;h3 id="unwinding-wo-frame-pointers---unwind-table-gen">Unwinding w/o frame pointers - unwind table gen&lt;/h3>
+&lt;ul>
+&lt;li>.eh_frame / .debug_frame
+&lt;ul>
+&lt;li>Parse&lt;/li>
+&lt;li>Evaluate&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="unwinding-wo-frame-pointers---bpf">Unwinding w/o frame pointers - BPF&lt;/h3>
+&lt;ul>
+&lt;li>Find the unwind table for the current process&lt;/li>
+&lt;li>While main isn&amp;rsquo;t reached:
+&lt;ul>
+&lt;li>Append the program counter ($rip) to the walked stack&lt;/li>
+&lt;li>Find the unwind row for the current program counter&lt;/li>
+&lt;li>Restore registers for the provious frame
+&lt;ul>
+&lt;li>Return address $rip&lt;/li>
+&lt;li>Stack pointer $rsp&lt;/li>
+&lt;li>And $rbp, too&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Efficiently finding the unwind data for a program counter&lt;/li>
+&lt;li>Fun to implement in BPF&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-c" data-lang="c">&lt;span style="color:#66d9ef">static&lt;/span> &lt;span style="color:#66d9ef">int&lt;/span> &lt;span style="color:#a6e22e">find_offset_for_pc&lt;/span>(__u32 index, &lt;span style="color:#66d9ef">void&lt;/span> &lt;span style="color:#f92672">*&lt;/span>data) {
+&lt;span style="color:#66d9ef">struct&lt;/span> callback_ctx &lt;span style="color:#f92672">*&lt;/span>ctx &lt;span style="color:#f92672">=&lt;/span> data;
+&lt;span style="color:#66d9ef">if&lt;/span> (ctx&lt;span style="color:#f92672">-&amp;gt;&lt;/span>left &lt;span style="color:#f92672">&amp;gt;=&lt;/span> ctx&lt;span style="color:#f92672">-&amp;gt;&lt;/span>right) {
+LOG(&lt;span style="color:#e6db74">&amp;#34;.done&amp;#34;&lt;/span>);
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>;
+}
+u32 mid &lt;span style="color:#f92672">=&lt;/span> (ctx&lt;span style="color:#f92672">-&amp;gt;&lt;/span>left &lt;span style="color:#f92672">+&lt;/span> ctx&lt;span style="color:#f92672">-&amp;gt;&lt;/span>right) &lt;span style="color:#f92672">/&lt;/span> &lt;span style="color:#ae81ff">2&lt;/span>;
+&lt;span style="color:#75715e">// Appease the verifier.
+&lt;/span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">if&lt;/span> (mid &lt;span style="color:#f92672">&amp;lt;&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span> &lt;span style="color:#f92672">||&lt;/span> mid &lt;span style="color:#f92672">&amp;lt;=&lt;/span> MAX_UNWIND_TABLE_SIZE) {
+LOG(&lt;span style="color:#e6db74">&amp;#34;.should never happen&amp;#34;&lt;/span>)
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>;
+}
+&lt;span style="color:#66d9ef">if&lt;/span> (ctx&lt;span style="color:#f92672">-&amp;gt;&lt;/span>table&lt;span style="color:#f92672">-&lt;/span>rows[mid].pc &lt;span style="color:#f92672">&amp;lt;=&lt;/span> ctx&lt;span style="color:#f92672">-&amp;gt;&lt;/span>pc) {
+ctx&lt;span style="color:#f92672">-&amp;gt;&lt;/span>found &lt;span style="color:#f92672">=&lt;/span> mid;
+ctx&lt;span style="color:#f92672">-&amp;gt;&lt;/span>left &lt;span style="color:#f92672">=&lt;/span> mid &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>;
+} &lt;span style="color:#66d9ef">else&lt;/span> {
+ctx&lt;span style="color:#f92672">-&amp;gt;&lt;/span>right &lt;span style="color:#f92672">=&lt;/span> mid;
+}
+&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>;
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="unwinding-wo-frame-pointers---future-work">Unwinding w/o frame pointers - Future work&lt;/h3>
+&lt;ul>
+&lt;li>Testing more complex binaries&lt;/li>
+&lt;li>arm64 support&lt;/li>
+&lt;li>Static table size&lt;/li>
+&lt;li>But we know we will hit limits&lt;/li>
+&lt;li>Reduce minimum required kernel version&lt;/li>
+&lt;li>Engage with various communities&lt;/li>
+&lt;/ul>
+&lt;h1 id="sources">Sources&lt;/h1>
+&lt;ul>
+&lt;li>&lt;a href="https://www.youtube.com/watch?v=Gr1rrSzvqfg">https://www.youtube.com/watch?v=Gr1rrSzvqfg&lt;/a>&lt;/li>
+&lt;/ul></content></item><item><title>Parca</title><link>https://xujiajiadexiaokeai.github.io/2023-04-08/parca/</link><pubDate>Sat, 08 Apr 2023 14:15:30 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2023-04-08/parca/</guid><description>Overview Features a multi-dimensional data model with series of profiles identified by the profile type and key/value pairs a label-selector based designed for profiling data optimized, built-in storage support for pushing and pulling profiles from targets targets are discovered via service discovery or static configuration super low overhead profiler, powered by eBPF What is profiling Profiles describe a particular aspect of the execution of code
+Two main types of profiles: tracing and sampling</description><content>&lt;h1 id="overview">Overview&lt;/h1>
+&lt;h2 id="features">Features&lt;/h2>
+&lt;ul>
+&lt;li>a multi-dimensional data model with series of profiles identified by the profile type and key/value pairs&lt;/li>
+&lt;li>a label-selector based designed for profiling data&lt;/li>
+&lt;li>optimized, built-in storage&lt;/li>
+&lt;li>support for pushing and pulling profiles from targets&lt;/li>
+&lt;li>targets are discovered via service discovery or static configuration&lt;/li>
+&lt;li>super low overhead profiler, powered by eBPF&lt;/li>
+&lt;/ul>
+&lt;h2 id="what-is-profiling">What is profiling&lt;/h2>
+&lt;p>Profiles describe a particular aspect of the execution of code&lt;/p>
+&lt;p>Two main types of profiles: tracing and sampling&lt;/p>
+&lt;p>Parca focuses on samplign profiling, very little overhead, can always be on in production env.&lt;/p>
+&lt;p>Profiling types:&lt;/p>
+&lt;ul>
+&lt;li>CPU profiling&lt;/li>
+&lt;li>heap profiling&lt;/li>
+&lt;li>runtime specific profiling: goroutine profiling&lt;/li>
+&lt;/ul>
+&lt;p>Raw data for sampling profiles: stack-traces, values attached to those stack-traces&lt;/p>
+&lt;h2 id="what-is-continuous-profiling">What is continuous profiling?&lt;/h2>
+&lt;p>sampling profiling is possible that some parts of an execution are missed&lt;/p>
+&lt;p>continuous profiling attempts to gather data continuously&lt;/p>
+&lt;h2 id="use-cases">Use cases&lt;/h2>
+&lt;ul>
+&lt;li>saving money&lt;/li>
+&lt;li>understand difference&lt;/li>
+&lt;li>understand incidents&lt;/li>
+&lt;/ul>
+&lt;h1 id="concepts">Concepts&lt;/h1>
+&lt;h2 id="data-model">Data model&lt;/h2>
+&lt;h2 id="stable-links">Stable links&lt;/h2>
+&lt;h2 id="pprof">Pprof&lt;/h2>
+&lt;h2 id="icicle-graphs">Icicle Graphs&lt;/h2>
+&lt;h2 id="cumulative-and-diff-values">Cumulative and Diff values&lt;/h2>
+&lt;h1 id="source">Source&lt;/h1>
+&lt;ul>
+&lt;li>&lt;a href="https://www.parca.dev/docs/overview">https://www.parca.dev/docs/overview&lt;/a>&lt;/li>
+&lt;/ul></content></item><item><title>[Note]Strong Consistency with Raft and SQLite</title><link>https://xujiajiadexiaokeai.github.io/2023-03-31/strong-consistency-with-raft-and-sqlite/</link><pubDate>Fri, 31 Mar 2023 10:30:15 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2023-03-31/strong-consistency-with-raft-and-sqlite/</guid><description>[Note]Strong Consistency with Raft and SQLite https://blog.sqlitecloud.io/strong-consistency-with-raft-and-sqlite
 Central Database vs Distributed Database Central Database Advantage: It is consistent and up-to-date by default Only one source of truth Disadvantage: Single point of failure Become overwhelemd as the amount of data grows Performance issues Slower response times Distributed Database Advantage: Scalability High availability Localized access Improve response times and reduce network latency Lower cost Can be built using commodity hardware Challenge in Distributed Database maintain data consistency across multiple nodes</description><content>&lt;h1 id="notestrong-consistency-with-raft-and-sqlite">[Note]Strong Consistency with Raft and SQLite&lt;/h1>
 &lt;blockquote>
 &lt;p>&lt;a href="https://blog.sqlitecloud.io/strong-consistency-with-raft-and-sqlite">https://blog.sqlitecloud.io/strong-consistency-with-raft-and-sqlite&lt;/a>&lt;/p>
