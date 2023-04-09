@@ -216,46 +216,6 @@ ctx&lt;span style="color:#f92672">-&amp;gt;&lt;/span>right &lt;span style="color
 &lt;h1 id="sources">Sources&lt;/h1>
 &lt;ul>
 &lt;li>&lt;a href="https://www.youtube.com/watch?v=Gr1rrSzvqfg">https://www.youtube.com/watch?v=Gr1rrSzvqfg&lt;/a>&lt;/li>
-&lt;/ul></content></item><item><title>Parca</title><link>https://xujiajiadexiaokeai.github.io/2023-04-08/parca/</link><pubDate>Sat, 08 Apr 2023 14:15:30 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2023-04-08/parca/</guid><description>Overview Features a multi-dimensional data model with series of profiles identified by the profile type and key/value pairs a label-selector based designed for profiling data optimized, built-in storage support for pushing and pulling profiles from targets targets are discovered via service discovery or static configuration super low overhead profiler, powered by eBPF What is profiling Profiles describe a particular aspect of the execution of code
-Two main types of profiles: tracing and sampling</description><content>&lt;h1 id="overview">Overview&lt;/h1>
-&lt;h2 id="features">Features&lt;/h2>
-&lt;ul>
-&lt;li>a multi-dimensional data model with series of profiles identified by the profile type and key/value pairs&lt;/li>
-&lt;li>a label-selector based designed for profiling data&lt;/li>
-&lt;li>optimized, built-in storage&lt;/li>
-&lt;li>support for pushing and pulling profiles from targets&lt;/li>
-&lt;li>targets are discovered via service discovery or static configuration&lt;/li>
-&lt;li>super low overhead profiler, powered by eBPF&lt;/li>
-&lt;/ul>
-&lt;h2 id="what-is-profiling">What is profiling&lt;/h2>
-&lt;p>Profiles describe a particular aspect of the execution of code&lt;/p>
-&lt;p>Two main types of profiles: tracing and sampling&lt;/p>
-&lt;p>Parca focuses on samplign profiling, very little overhead, can always be on in production env.&lt;/p>
-&lt;p>Profiling types:&lt;/p>
-&lt;ul>
-&lt;li>CPU profiling&lt;/li>
-&lt;li>heap profiling&lt;/li>
-&lt;li>runtime specific profiling: goroutine profiling&lt;/li>
-&lt;/ul>
-&lt;p>Raw data for sampling profiles: stack-traces, values attached to those stack-traces&lt;/p>
-&lt;h2 id="what-is-continuous-profiling">What is continuous profiling?&lt;/h2>
-&lt;p>sampling profiling is possible that some parts of an execution are missed&lt;/p>
-&lt;p>continuous profiling attempts to gather data continuously&lt;/p>
-&lt;h2 id="use-cases">Use cases&lt;/h2>
-&lt;ul>
-&lt;li>saving money&lt;/li>
-&lt;li>understand difference&lt;/li>
-&lt;li>understand incidents&lt;/li>
-&lt;/ul>
-&lt;h1 id="concepts">Concepts&lt;/h1>
-&lt;h2 id="data-model">Data model&lt;/h2>
-&lt;h2 id="stable-links">Stable links&lt;/h2>
-&lt;h2 id="pprof">Pprof&lt;/h2>
-&lt;h2 id="icicle-graphs">Icicle Graphs&lt;/h2>
-&lt;h2 id="cumulative-and-diff-values">Cumulative and Diff values&lt;/h2>
-&lt;h1 id="source">Source&lt;/h1>
-&lt;ul>
-&lt;li>&lt;a href="https://www.parca.dev/docs/overview">https://www.parca.dev/docs/overview&lt;/a>&lt;/li>
 &lt;/ul></content></item><item><title>MacOS用户快速上手Cilium eBPF</title><link>https://xujiajiadexiaokeai.github.io/2022-03-06/cilium-ebpf-quick-tutorial/</link><pubDate>Sun, 06 Mar 2022 20:41:30 +0800</pubDate><guid>https://xujiajiadexiaokeai.github.io/2022-03-06/cilium-ebpf-quick-tutorial/</guid><description>机器: Macbook Pro 13inch 2015款
 系统: macOS Mojave 10.14.6
 安装虚拟机 首先需要一个linux发行版,选择安装一个虚拟机来装Ubuntu,找到了multipass.
