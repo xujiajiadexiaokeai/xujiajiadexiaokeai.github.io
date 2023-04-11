@@ -63,7 +63,7 @@ header table 在 HTTP/2 连接存续阶段 始终存在，由client和server共�
 
 every new k-v pair will change the old value or 追加到当前表的末尾
 
-![](../../../../static/img/the-difference-between-http1.x-and-http2-and-http3-1.png)
+![](../../static/img/the-difference-between-http1.x-and-http2-and-http3-1.png)
 
 
 

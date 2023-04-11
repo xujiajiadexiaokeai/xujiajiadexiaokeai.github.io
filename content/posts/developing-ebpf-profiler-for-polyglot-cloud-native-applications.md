@@ -133,7 +133,7 @@ add_stack(stack_id);
 
 ### Unwinding w/o frame pointers - architecture
 
-<img src="../static/img/image-20230409191715459.png" alt="image-20230409191715459" style="zoom:50%;" />
+<img src="../../static/img/image-20230409191715459.png" alt="image-20230409191715459" style="zoom:50%;" />
 
 ```
 struct unwind_row {
