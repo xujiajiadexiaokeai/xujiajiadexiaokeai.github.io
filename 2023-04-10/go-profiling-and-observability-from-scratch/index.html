@@ -1,0 +1,503 @@
+<!doctype html><html lang=en>
+<head>
+<title>[NOTE] Go Profiling and Observability from Scratch :: xujiajiadexiaokeai</title>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=description content="[NOTE] Go Profiling and Observability from Scratch">
+<meta name=keywords content>
+<meta name=robots content="noodp">
+<link rel=canonical href=https://xujiajiadexiaokeai.github.io/2023-04-10/go-profiling-and-observability-from-scratch/>
+<link rel=stylesheet href=https://xujiajiadexiaokeai.github.io/assets/style.css>
+<link rel=apple-touch-icon href=https://xujiajiadexiaokeai.github.io/img/apple-touch-icon-192x192.png>
+<link rel="shortcut icon" href=https://xujiajiadexiaokeai.github.io/favicon.ico>
+<meta name=twitter:card content="summary">
+<meta property="og:locale" content="en">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[NOTE] Go Profiling and Observability from Scratch">
+<meta property="og:description" content="[NOTE] Go Profiling and Observability from Scratch">
+<meta property="og:url" content="https://xujiajiadexiaokeai.github.io/2023-04-10/go-profiling-and-observability-from-scratch/">
+<meta property="og:site_name" content="xujiajiadexiaokeai">
+<meta property="og:image" content="https://xujiajiadexiaokeai.github.io/favicon.ico">
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+<meta property="article:published_time" content="2023-04-10 14:25:30 +0800 +0800">
+</head>
+<body class=orange>
+<div class="container center headings--one-size">
+<header class=header>
+<div class=header__inner>
+<div class=header__logo>
+<a href=/>
+<div class=logo>
+RTSC && RTFM
+</div>
+</a>
+</div>
+<div class=menu-trigger>menu</div>
+</div>
+<nav class=menu>
+<ul class="menu__inner menu__inner--desktop">
+<li><a href=/about>About</a></li>
+<li><a href=/archive>Archive</a></li>
+</ul>
+<ul class="menu__inner menu__inner--mobile">
+<li><a href=/about>About</a></li>
+<li><a href=/archive>Archive</a></li>
+</ul>
+</nav>
+</header>
+<div class=content>
+<div class=post>
+<h1 class=post-title>
+<a href=https://xujiajiadexiaokeai.github.io/2023-04-10/go-profiling-and-observability-from-scratch/>[NOTE] Go Profiling and Observability from Scratch</a></h1>
+<div class=post-meta>
+<span class=post-date>
+2023-04-10
+</span>
+<span class=post-author>:: Wenhao Jiang</span>
+<span class=post-reading-time>:: 5 min read (1048 words)</span>
+</div>
+<span class=post-tags>
+#<a href=https://xujiajiadexiaokeai.github.io/tags/profiling/>Profiling</a>&nbsp;
+#<a href=https://xujiajiadexiaokeai.github.io/tags/observability/>Observability</a>&nbsp;
+#<a href=https://xujiajiadexiaokeai.github.io/tags/ebpf/>eBPF</a>&nbsp;
+#<a href=https://xujiajiadexiaokeai.github.io/tags/go/>Go</a>&nbsp;
+</span>
+<div class=post-content><div>
+<h1 id=note-go-profiling-and-observability-from-scratch>[NOTE] Go Profiling and Observability from Scratch<a href=#note-go-profiling-and-observability-from-scratch class=hanchor arialabel=Anchor>&#8983;</a> </h1>
+<h2 id=agenda>Agenda<a href=#agenda class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<ul>
+<li>Scheduling & Memory Management: A simple model</li>
+<li>Profiling: CPU, Memory, Mutex, Block, Goroutine + Overhead Benchmarks</li>
+<li>Tracing: Manually, Distributed, Runtime</li>
+<li>Metrics: Runtime Metrics</li>
+<li>3rd party Tools: Linux perf, BPF, Delve,fgprof</li>
+</ul>
+<h2 id=scheduling--memory-management>Scheduling & Memory Management<a href=#scheduling--memory-management class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<ul>
+<li>Go&rsquo;s primary job is to multiplex and abstract hardware resources</li>
+<li>Very similar to an operating system, - it&rsquo;s turtles all the way down</li>
+<li>Following model recap for some, but perhaps more useful than more complex models usually presented.</li>
+</ul>
+<h3 id=scheduling>Scheduling<a href=#scheduling class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<ul>
+<li>Go schedules goroutines onto CPUs (OS Threads)</li>
+<li>Deeply integrated with networking, channels and mutexes</li>
+<li>Scalable to hundred of thousands of goroutines</li>
+</ul>
+<p><img src=../../static/img/image-20230410152956115.png alt=image-20230410152956115></p>
+<h3 id=memory-management>Memory Management<a href=#memory-management class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<ul>
+<li>Small stack per goroutine (4kB+)</li>
+<li>Big heap, needed for shared data and other reasons</li>
+<li>Stack allocation is very cheap</li>
+<li>Heap allocation and GC is expensive (20%+ CPU Time common)</li>
+<li>Reduce: Turn heap into stack allocs or avoid completely</li>
+<li>Reuse: Reuse heap allocations like structs and buffers</li>
+<li>Recycle: Some GC work is inevitable, it&rsquo;s okay</li>
+<li>Reducing heap allocs speed up unrelated code (GC thrashes CPU Caches)</li>
+</ul>
+<h3 id=memory-management-heap>Memory Management: Heap<a href=#memory-management-heap class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<ul>
+<li>Referenced Allocation (In-Use)</li>
+<li>Unreferenced Allocation (Garbage)</li>
+</ul>
+<h2 id=profiling>Profiling<a href=#profiling class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<h3 id=cpu-profiler>CPU Profiler<a href=#cpu-profiler class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<ul>
+<li>Captures: On-CPU time of your code by interrupting the process after every 10ms of CPU Time to take a stack trace.</li>
+<li>Profile Data: Sample count and time spent per stack trace</li>
+<li>Sample Rate: runtime.SetCPUProfileRate(hz)</li>
+</ul>
+<h3 id=cpu-profiler-sigprof-for-every-10ms-of-cpu-time>CPU Profiler: SIGPROF for every 10ms of CPU Time<a href=#cpu-profiler-sigprof-for-every-10ms-of-cpu-time class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#75715e>// go 1.17.3 src/runtime/signal_unix.go
+</span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>setProcessCPUPROFILER</span>(<span style=color:#a6e22e>hz</span> <span style=color:#66d9ef>int32</span>) {
+  <span style=color:#66d9ef>if</span> <span style=color:#a6e22e>hz</span> <span style=color:#f92672>!=</span> <span style=color:#ae81ff>0</span> {
+    <span style=color:#75715e>// Enable the Go signal handler if not enabled.
+</span><span style=color:#75715e></span>    <span style=color:#66d9ef>if</span> <span style=color:#a6e22e>atomic</span>.<span style=color:#a6e22e>Cas</span>(<span style=color:#f92672>&amp;</span><span style=color:#a6e22e>handlingSig</span>[<span style=color:#a6e22e>_SIGPROF</span>], <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>1</span>) {
+      <span style=color:#a6e22e>atomic</span>.<span style=color:#a6e22e>Storeuintptr</span>(<span style=color:#f92672>&amp;</span><span style=color:#a6e22e>fwdSig</span>[<span style=color:#a6e22e>_SIGPROF</span>], <span style=color:#a6e22e>getsig</span>(<span style=color:#a6e22e>_SIGPROF</span>))
+      <span style=color:#a6e22e>setsig</span>(<span style=color:#a6e22e>_SIGPROF</span>, <span style=color:#a6e22e>funcPC</span>(<span style=color:#a6e22e>sighandler</span>))
+    }
+    
+    <span style=color:#66d9ef>var</span> <span style=color:#a6e22e>it</span> <span style=color:#a6e22e>itimerval</span>
+    <span style=color:#a6e22e>it</span>.<span style=color:#a6e22e>it_interval</span>.<span style=color:#a6e22e>tv_sec</span> = <span style=color:#ae81ff>0</span>
+    <span style=color:#a6e22e>it</span>.<span style=color:#a6e22e>it_interval</span>.<span style=color:#a6e22e>set_usec</span>(<span style=color:#ae81ff>1000000</span> <span style=color:#f92672>/</span> <span style=color:#a6e22e>hz</span>)
+    <span style=color:#a6e22e>it</span>.<span style=color:#a6e22e>it_value</span> = <span style=color:#a6e22e>it</span>.<span style=color:#a6e22e>it_interval</span>
+    <span style=color:#a6e22e>setitimer</span>(<span style=color:#a6e22e>_ITIMER_PROF</span>, <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>it</span>, <span style=color:#66d9ef>nil</span>)
+  } <span style=color:#66d9ef>else</span> {<span style=color:#f92672>...</span>}
+}
+
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>sighandler</span>(<span style=color:#a6e22e>sig</span> <span style=color:#66d9ef>uint32</span>, <span style=color:#a6e22e>info</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>siginfo</span>, <span style=color:#a6e22e>ctxt</span> <span style=color:#a6e22e>unsafe</span>.<span style=color:#a6e22e>Pointer</span>, <span style=color:#a6e22e>gp</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>g</span>) {
+  <span style=color:#a6e22e>_g_</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>getg</span>()
+  <span style=color:#a6e22e>c</span> <span style=color:#f92672>:=</span> <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>sigctxt</span>{<span style=color:#a6e22e>info</span>, <span style=color:#a6e22e>ctxt</span>}
+  <span style=color:#66d9ef>if</span> <span style=color:#a6e22e>sig</span> <span style=color:#f92672>==</span> <span style=color:#a6e22e>_SIGPROF</span> {
+    <span style=color:#a6e22e>sigprof</span>(<span style=color:#a6e22e>c</span>.<span style=color:#a6e22e>sigpc</span>(), <span style=color:#a6e22e>c</span>.<span style=color:#a6e22e>sigsp</span>(), <span style=color:#a6e22e>c</span>.<span style=color:#a6e22e>siglr</span>(), <span style=color:#a6e22e>gp</span>, <span style=color:#a6e22e>_g_</span>.<span style=color:#a6e22e>m</span>)
+    <span style=color:#66d9ef>return</span>
+  }
+  <span style=color:#75715e>// ...
+</span><span style=color:#75715e></span>}
+</code></pre></div><h3 id=cpu-profiler-add-stacktrace-to-profile>CPU Profiler: Add Stacktrace to Profile<a href=#cpu-profiler-add-stacktrace-to-profile class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#75715e>// go 1.17.3 src/runtime/proc.go
+</span><span style=color:#75715e></span><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>maxCPUProfStack</span> = <span style=color:#ae81ff>64</span>
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>sigprof</span>(<span style=color:#a6e22e>pc</span>, <span style=color:#a6e22e>sp</span>, <span style=color:#a6e22e>lr</span> <span style=color:#66d9ef>uintptr</span>, <span style=color:#a6e22e>gp</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>g</span>, <span style=color:#a6e22e>mp</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>m</span>) {
+  <span style=color:#75715e>// ...
+</span><span style=color:#75715e></span>  <span style=color:#66d9ef>var</span> <span style=color:#a6e22e>stk</span> [<span style=color:#a6e22e>maxCPUProfStack</span>]<span style=color:#66d9ef>uintptr</span>
+  <span style=color:#75715e>// ...
+</span><span style=color:#75715e></span>  <span style=color:#a6e22e>n</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>gentraceback</span>(<span style=color:#a6e22e>pc</span>, <span style=color:#a6e22e>sp</span>, <span style=color:#a6e22e>lr</span>, <span style=color:#a6e22e>gp</span>, <span style=color:#ae81ff>0</span>, <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>stk</span>[<span style=color:#ae81ff>0</span>], len(<span style=color:#a6e22e>stk</span>), <span style=color:#f92672>...</span>)
+  <span style=color:#75715e>// ...
+</span><span style=color:#75715e></span>  <span style=color:#a6e22e>cpuprof</span>.<span style=color:#a6e22e>add</span>(<span style=color:#a6e22e>gp</span>, <span style=color:#a6e22e>stk</span>[:<span style=color:#a6e22e>n</span>])
+}
+</code></pre></div><h3 id=cpu-profiler-waiting-for-go-118>CPU Profiler: Waiting for Go 1.18<a href=#cpu-profiler-waiting-for-go-118 class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<ul>
+<li>setitimer(2) fails to deliver more than 250 signals per second, biases profile to underestimate CPU Spikes, see GH #35057</li>
+<li>Go 1.18 patch from Rhys Hiltner will fix this and thread bias issues such as GH #14434 by using timer_create(2)</li>
+</ul>
+<h3 id=block-profiler>Block Profiler<a href=#block-profiler class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<ul>
+<li>
+<p>Captures: Off-CPU time waiting on channels and mutexes</p>
+</li>
+<li>
+<p>But not: Sleep, I/O, Syscalls, GC, etc.</p>
+</li>
+<li>
+<p>Profile Data: Cumulative contentions and delays per stack trace</p>
+<table>
+<thead>
+<tr>
+<th style=text-align:center>stack trace</th>
+<th style=text-align:center>contentions/count</th>
+<th style=text-align:center>delay/nanoseconds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style=text-align:center>main; foo;runtime.chansend1</td>
+<td style=text-align:center>22820</td>
+<td style=text-align:center>867549417</td>
+</tr>
+<tr>
+<td style=text-align:center>main; foo;bar;tuntime.chanrecv1</td>
+<td style=text-align:center>22748</td>
+<td style=text-align:center>453510869</td>
+</tr>
+<tr>
+<td style=text-align:center>main;foobar;sync.(*Mutex).Lock</td>
+<td style=text-align:center>795</td>
+<td style=text-align:center>5351086</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>Sample Rate: runtime.SetBlockProfileRate(rate)</p>
+</li>
+</ul>
+<h3 id=mutex-profiler>Mutex Profiler<a href=#mutex-profiler class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<ul>
+<li>
+<p>Captures: Off-CPU time waiting on mutexes (not channels)</p>
+</li>
+<li>
+<p>Profile data: Cumulative contentions and delays per stack trace</p>
+<table>
+<thead>
+<tr>
+<th style=text-align:center>stack trace</th>
+<th style=text-align:center>contentions/count</th>
+<th style=text-align:center>delay/nanoseconds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style=text-align:center>main; foo; sync.(*Mutex).Unlock</td>
+<td style=text-align:center>22820</td>
+<td style=text-align:center>867549417</td>
+</tr>
+<tr>
+<td style=text-align:center>main; foo;bar;sync.(*Mutex).Unlock</td>
+<td style=text-align:center>22748</td>
+<td style=text-align:center>453510869</td>
+</tr>
+<tr>
+<td style=text-align:center>main;foobar;sync.(*Mutex).Unlock</td>
+<td style=text-align:center>795</td>
+<td style=text-align:center>5351086</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>Rate: runtime.SetMutexProfileFraction(rate)</p>
+</li>
+</ul>
+<h3 id=block-vs-mutex>Block vs Mutex<a href=#block-vs-mutex class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<ul>
+<li>Block seems like a superset of mutex profile, but it&rsquo;s not:</li>
+<li><strong>Mutex profile</strong> shows what code is <strong>doing the blocking</strong></li>
+<li><strong>Block profile</strong> show what code is <strong>getting blocked</strong></li>
+<li>Both perspectives are useful, so enable both profilers</li>
+</ul>
+<h3 id=quick-note-on-time>Quick Note on Time<a href=#quick-note-on-time class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p><img src=../../static/img/image-20230410194639932.png alt=image-20230410194639932></p>
+<p>On-CPU Time > Real Time</p>
+<p><img src=../../static/img/image-20230410194928468.png alt=image-20230410194928468></p>
+<ul>
+<li>Goroutine Time: Cumulative (end - start) time of all goroutines</li>
+<li>CPU Time: CPU tiem circle can be larger than Real time circle</li>
+<li>Mutex Time</li>
+<li>Block Time: Block time is a superset of mutex time (but with different call stacks)</li>
+<li>Untracked Off-CPU Waiting Time: Profiling Blindspot!</li>
+</ul>
+<h3 id=memory-profiling>Memory Profiling<a href=#memory-profiling class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<ul>
+<li>
+<p>Profile Data: Cumulative allocs and inuse per stack trace</p>
+<table>
+<thead>
+<tr>
+<th>stack trace</th>
+<th>alloc_objects/count</th>
+<th>alloc_space/bytes</th>
+<th>inuse_objects/count</th>
+<th>inuse_space/bytes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>main; foo</td>
+<td>5</td>
+<td>120</td>
+<td>2</td>
+<td>48</td>
+</tr>
+<tr>
+<td>main;foo;bar</td>
+<td>3</td>
+<td>768</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>main;foobar</td>
+<td>4</td>
+<td>512</td>
+<td>1</td>
+<td>128</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>Samples captured every 512kB of malloc() and when those objects are free()&rsquo;d by the GC later on (inuse = allocs - frees)</p>
+</li>
+<li>
+<p>Sample Rate: runtime.memProfileRate = rate (default = 512kB)</p>
+</li>
+</ul>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>main</span>() {
+  <span style=color:#a6e22e>user</span> <span style=color:#f92672>:=</span> <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>User</span>{<span style=color:#a6e22e>Name</span>: <span style=color:#e6db74>&#34;alice&#34;</span>}
+  <span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Printf</span>(<span style=color:#e6db74>&#34;User: %v\n&#34;</span>, <span style=color:#a6e22e>user</span>)
+}
+</code></pre></div><pre tabindex=0><code class=language-assembly data-lang=assembly>LEAQ type.&quot;&quot;.User(SB), AX
+PCDATA $1, $0
+NOP
+CALL runtime.newobject(SB)
+MOVQ $5, 8(AX)
+LEAQ go.string.&quot;alice&quot;(SB), CX
+MOVQ CX, (AX)
+</code></pre><h3 id=goroutine-profiling>Goroutine Profiling<a href=#goroutine-profiling class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<ul>
+<li>
+<p>Profile Data: Goroutine count per stack trace</p>
+<table>
+<thead>
+<tr>
+<th>stack trace</th>
+<th>goroutine/count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>main;foo</td>
+<td>5</td>
+</tr>
+<tr>
+<td>main; foo;bar</td>
+<td>3</td>
+</tr>
+<tr>
+<td>main;foobar</td>
+<td>4</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>O(N) <strong>Stop-The-World</strong> where N is the total number of goroutines (cause tail latency)</p>
+</li>
+<li>
+<p><strong>No Sampling Mechanism</strong></p>
+</li>
+<li>
+<p><strong>Use Cases</strong>: Detect goroutine leaks and diagnose hanging programs(debug=2)</p>
+</li>
+</ul>
+<h2 id=tracing>Tracing<a href=#tracing class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<ul>
+<li>
+<p><strong>Tracing</strong>: Recording of time-stamped events</p>
+<p>Distinction with logging can be muddy, depends on context</p>
+</li>
+<li>
+<p><strong>Distributed Tracing</strong>: Tracing requests through multiple services</p>
+<p>Highly recommended to understand performance from system perspective</p>
+</li>
+<li>
+<p><strong>Runtime Tracing</strong>: Go&rsquo;s built-in tracer</p>
+<p>Can shine a light on profiling blindspots (e.g. I/O, Sleep, GC, Scheduler Backlog)</p>
+</li>
+<li>
+<p><strong>Tracing Profiler</strong>: Tracing every function call</p>
+<p>Doesn&rsquo;t currently exist for Go</p>
+</li>
+</ul>
+<h3 id=runtime-tracer>Runtime Tracer<a href=#runtime-tracer class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<ul>
+<li>
+<p>Traces Scheduler, GC, Contentions, Syscall, etc.</p>
+<p>see src/runtime/trace.go for a list of events</p>
+</li>
+<li>
+<p>High-overhead firehose that produces a lot of data</p>
+</li>
+<li>
+<p>But fantastic way to track down latency when nothing else seems to have the answer</p>
+</li>
+</ul>
+<h3 id=profiling-and-tracing-overhead-analysis>Profiling and Tracing Overhead Analysis<a href=#profiling-and-tracing-overhead-analysis class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<ul>
+<li>Run different workloads in a loop for 1 minute with and without various profilers enabled, measure avg latency</li>
+<li>Repeat each experiment 5 times</li>
+<li>Performed on a AWS c5.4xlarge machine(6h total duration)</li>
+<li>This is hard! Early sneak peek, bad env, bad stats, naive workloads, do not trst too much!</li>
+</ul>
+<h3 id=overhead-analysis-error-sources>Overhead Analysis: Error Sources<a href=#overhead-analysis-error-sources class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<ul>
+<li>Dynamic frequency scaling (Turbo Boost)</li>
+<li>Noisy Nerghbors</li>
+<li>Human error</li>
+<li>Check for new results by the time you watch this</li>
+<li>But: Very low overhead for cpu, memory, mutex and block profiler for non-pathological workloads</li>
+</ul>
+<h2 id=metrics>Metrics<a href=#metrics class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<ul>
+<li>
+<p>Use runtime/metrics (Go 1.16+), highlights: (*mB ~ 100mB)</p>
+<table>
+<thead>
+<tr>
+<th>metric</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>/gc/pauses:seconds</strong></td>
+<td>Stop-the-world pause latency histogram</td>
+</tr>
+<tr>
+<td><strong>/sched/latencies:seconds</strong></td>
+<td>Goroutines waiting in runnable state latency histogram</td>
+</tr>
+<tr>
+<td>/sched/goroutines:goroutines</td>
+<td>Number of live goroutines</td>
+</tr>
+<tr>
+<td>/memory/classes/heap/objects:bytes</td>
+<td>Current heap memory usage</td>
+</tr>
+<tr>
+<td>/memory/classes/heap/stacksbytes</td>
+<td>Current stack memory usage</td>
+</tr>
+<tr>
+<td><strong>/memory/classes/profiling/buckets:bytes</strong></td>
+<td>Memory used by internal profiling hash maps</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>Recommendation: Capture all runtime/metrics</p>
+</li>
+</ul>
+<h2 id=3rd-party-tools>3rd Party Tools<a href=#3rd-party-tools class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<ul>
+<li>Linux Perf</li>
+<li>bpftrace</li>
+<li>delve</li>
+<li>fgprof</li>
+</ul>
+<h2 id=scheduling--execution-observability>Scheduling / Execution Observability<a href=#scheduling--execution-observability class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<ul>
+<li>Profilers: CPU, Block, Mutex, Goroutine</li>
+<li>Tracing: Runtime Execution Tracer, Distributed Tracing</li>
+<li>Metrics: Scheduler Latency, Goroutine Count</li>
+<li>Compile Time: Function Inlining (go build -gcflags='-m')</li>
+</ul>
+<h2 id=memory-management-observability>Memory Management Observability<a href=#memory-management-observability class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<ul>
+<li>Profilers: Memory Profiler</li>
+<li>Tracing: Runtime Tracing (GC Events)</li>
+<li>Metrics: GC counters, GC pause times, Heap Stats, Stack Stats</li>
+<li>Compile Time: Escape Analysis (go build -gcflags='-m')</li>
+</ul>
+<h2 id=recap>Recap<a href=#recap class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<ul>
+<li>Go runtime offers great observability out of the box</li>
+<li>Most tools play nice with production workloads</li>
+<li>3rd party tools and custom instrumentation can close the gaps</li>
+</ul>
+<h2 id=source>Source<a href=#source class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=7hg4T2Qqowk">GopherCon 2021: Felix Geisendörfer - Go Profiling and Observability from Scratch</a></li>
+</ul>
+</div></div>
+<div class=pagination>
+<div class=pagination__title>
+<span class=pagination__title-h>Read other posts</span>
+<hr>
+</div>
+<div class=pagination__buttons>
+<span class="button previous">
+<a href=https://xujiajiadexiaokeai.github.io/2022-09-20/summary/>
+<span class=button__icon>←</span>
+<span class=button__text>关于离职后的这一年我做了什么</span>
+</a>
+</span>
+<span class="button next">
+<a href=https://xujiajiadexiaokeai.github.io/2023-04-10/building-a-go-profiler-using-go/>
+<span class=button__text>[NOTE] Building a Go profiler using Go</span>
+<span class=button__icon>→</span>
+</a>
+</span>
+</div>
+</div>
+</div>
+</div>
+<footer class=footer>
+<div class=footer__inner>
+<div class="copyright copyright--user">
+<span>© 2021-2023 xujiajiadexiaokeai</span>
+<span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span>
+</div>
+</div>
+</footer>
+<script src=https://xujiajiadexiaokeai.github.io/assets/main.js></script>
+<script src=https://xujiajiadexiaokeai.github.io/assets/prism.js></script>
+<script src=https://xujiajiadexiaokeai.github.io/assets/displayInlineEquations.js></script>
+</div>
+</body>
+</html>

@@ -201,7 +201,7 @@ Header 压缩
 &lt;p>对于same data 不再通过每次 req和 resp 发送&lt;/p>
 &lt;p>header table 在 HTTP/2 连接存续阶段 始终存在，由client和server共同更新&lt;/p>
 &lt;p>every new k-v pair will change the old value or 追加到当前表的末尾&lt;/p>
-&lt;p>&lt;img src="../../../../static/img/the-difference-between-http1.x-and-http2-and-http3-1.png" alt="">&lt;/p>
+&lt;p>&lt;img src="../../static/img/the-difference-between-http1.x-and-http2-and-http3-1.png" alt="">&lt;/p>
 &lt;ol>
 &lt;li>Server push&lt;/li>
 &lt;/ol>
