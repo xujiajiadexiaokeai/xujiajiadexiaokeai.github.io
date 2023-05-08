@@ -81,7 +81,7 @@
 &lt;li>Deeply integrated with networking, channels and mutexes&lt;/li>
 &lt;li>Scalable to hundred of thousands of goroutines&lt;/li>
 &lt;/ul>
-&lt;p>&lt;img src="../../static/img/image-20230410152956115.png" alt="image-20230410152956115">&lt;/p>
+&lt;p>&lt;img src="../../img/image-20230410152956115.png" alt="image-20230410152956115">&lt;/p>
 &lt;h3 id="memory-management">Memory Management&lt;/h3>
 &lt;ul>
 &lt;li>Small stack per goroutine (4kB+)&lt;/li>
@@ -233,9 +233,9 @@
 &lt;li>Both perspectives are useful, so enable both profilers&lt;/li>
 &lt;/ul>
 &lt;h3 id="quick-note-on-time">Quick Note on Time&lt;/h3>
-&lt;p>&lt;img src="../../static/img/image-20230410194639932.png" alt="image-20230410194639932">&lt;/p>
+&lt;p>&lt;img src="../../img/image-20230410194639932.png" alt="image-20230410194639932">&lt;/p>
 &lt;p>On-CPU Time &amp;gt; Real Time&lt;/p>
-&lt;p>&lt;img src="../../static/img/image-20230410194928468.png" alt="image-20230410194928468">&lt;/p>
+&lt;p>&lt;img src="../../img/image-20230410194928468.png" alt="image-20230410194928468">&lt;/p>
 &lt;ul>
 &lt;li>Goroutine Time: Cumulative (end - start) time of all goroutines&lt;/li>
 &lt;li>CPU Time: CPU tiem circle can be larger than Real time circle&lt;/li>
@@ -3171,14 +3171,14 @@ Header 压缩
 &lt;p>对于same data 不再通过每次 req和 resp 发送&lt;/p>
 &lt;p>header table 在 HTTP/2 连接存续阶段 始终存在，由client和server共同更新&lt;/p>
 &lt;p>every new k-v pair will change the old value or 追加到当前表的末尾&lt;/p>
-&lt;p>&lt;img src="../../static/img/the-difference-between-http1.x-and-http2-and-http3-1.png" alt="">&lt;/p>
+&lt;p>&lt;img src="../../img/the-difference-between-http1.x-and-http2-and-http3-1.png" alt="">&lt;/p>
 &lt;ol>
 &lt;li>Server push&lt;/li>
 &lt;/ol>
 &lt;p>Server 可以通过 push的方式将client 需要的内容 预先push过去 “cache push”&lt;/p>
 &lt;p>prefetch 在browser兼容的情况下可以使用&lt;/p>
 &lt;p>server可以主动把js和css文件推送给client 而不需要client解析html时再发送请求&lt;/p>
-&lt;p>&lt;img src="../../static/img/the-difference-between-http1.x-and-http2-and-http3-2.png" alt="">&lt;/p>
+&lt;p>&lt;img src="../../img/the-difference-between-http1.x-and-http2-and-http3-2.png" alt="">&lt;/p>
 &lt;p>服务端可以主动推送，客户端也有权利选择是否接收。如果服务端推送的资源已经被浏览器缓存过，浏览器可以通过发送 RST_STREAM 帧来拒收。主动推送也遵守同源策略，换句话说，服务器不能随便将第三方资源推送给客户端，而必须是经过双方确认才行。&lt;/p>
 &lt;h1 id="http3新特性">HTTP/3新特性&lt;/h1>
 &lt;p>HTTP/3 简介&lt;/p>
@@ -3191,7 +3191,7 @@ Header 压缩
 &lt;p>0RTT建连可以说是QUIC相比HTTP2最大的性能优势&lt;/p>
 &lt;p>传输层0RTT就能建立连接&lt;/p>
 &lt;p>加密层0RTT就能建立加密连接&lt;/p>
-&lt;p>&lt;img src="../../static/img/the-difference-between-http1.x-and-http2-and-http3-3.png" alt="">&lt;/p>
+&lt;p>&lt;img src="../../img/the-difference-between-http1.x-and-http2-and-http3-3.png" alt="">&lt;/p>
 &lt;p>多路复用&lt;/p>
 &lt;p>QUIC原生实现了多路复用，并且在传输的单个数据流可以保证有序交付且不会影响其他的数据流&lt;/p>
 &lt;p>同一条QUIC连接上可以创建多个stream 且stream间互不依赖(因为基于UDP)&lt;/p>
@@ -3200,7 +3200,7 @@ Header 压缩
 &lt;p>加密认证的报文&lt;/p>
 &lt;p>TCP协议头部没有经过加密和认证 在传输过程中容易被中间网络设备篡改、注入和窃听&lt;/p>
 &lt;p>QUIC除了个别报文 PUBLIC_RESET 和 CHLO 都是经过认证的 Body都是经过加密的&lt;/p>
-&lt;p>&lt;img src="../../static/img/the-difference-between-http1.x-and-http2-and-http3-4.png" alt="">&lt;/p>
+&lt;p>&lt;img src="../../img/the-difference-between-http1.x-and-http2-and-http3-4.png" alt="">&lt;/p>
 &lt;p>向前纠错(FEC) Forward Error Correction&lt;/p>
 &lt;p>每个数据包除了它本身 还包括了部分其他数据包的数据&lt;/p>
 &lt;p>少量的丢包可以通过其他包的冗余数据直接组装&lt;/p>
@@ -3401,7 +3401,7 @@ raft/quorum/quorum.go</description><content>&lt;h1 id="cap">CAP&lt;/h1>
 &lt;p>如果是(V2,V1,V1),则V1需要同步到V2&lt;/p>
 &lt;h2 id="quorum-在etcd中的应用">Quorum 在etcd中的应用&lt;/h2>
 &lt;p>Quorum在etcd中主要作用有两个,一个是计算已被多数节点接收(Match)的Index,二是在进行Leader选举时,计算选举结果。&lt;/p>
-&lt;p>raft/quorum/quorum.go&lt;/p></content></item><item><title>Posts Archive</title><link>https://xujiajiadexiaokeai.github.io/archive/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://xujiajiadexiaokeai.github.io/archive/</guid><description/><content/></item><item><title>关于我</title><link>https://xujiajiadexiaokeai.github.io/about/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://xujiajiadexiaokeai.github.io/about/</guid><description>姜文浩 男 / 1997.11 本科 / 上海第二工业大学 / 软件工程 工作时间: 2年+ 联系方式: whjiang1997@gmail.com Github: https://github.com/xujiajiadexiaokeai Blog: https://blog.xujiajiadexiaokeai.xyz 期望职位: 后端研发工程师(云原生方向) 专业技能 熟悉Golang/Node.js 具备B端SaaS研发经验,有大量排查问题经历 熟悉Kubernetes, 了解Infrastructure、Observability方向相关生态和技术 熟悉eBPF,了解Linux内核下eBPF运行机制和相关应用 熟悉分布式原理,了解Paxos、Raft等一致性算法 熟悉HTTP相关网络协议,知悉优劣,了解gRPC 了解设计模式、混沌工程 工作经历 2022.10 - 2022.11 三度观测云(北京)科技有限责任公司 - 后端研发工程师 Tricorder Observability是一款开源云原生观测平台SaaS；基于eBPF、WASM，定义不改业务代码、自动数据采集零成本观测体验.
+&lt;p>raft/quorum/quorum.go&lt;/p></content></item><item><title>Posts Archive</title><link>https://xujiajiadexiaokeai.github.io/archive/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://xujiajiadexiaokeai.github.io/archive/</guid><description/><content/></item><item><title>关于我</title><link>https://xujiajiadexiaokeai.github.io/about/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://xujiajiadexiaokeai.github.io/about/</guid><description>姜文浩 男 / 1997.11 本科 / 上海第二工业大学 / 软件工程 工作时间: 2年+ 联系方式: whjiang1997@gmail.com Github: https://github.com/xujiajiadexiaokeai Blog: https://blog.xujiajiadexiaokeai.xyz 期望职位: 后端研发工程师(云原生方向) 专业技能 熟悉Golang/Node.js 具备B端SaaS研发经验,有大量排查问题经历 熟悉Kubernetes, 了解Orchestration、Observability方向相关生态和技术 熟悉eBPF,了解Linux内核下eBPF运行机制和相关应用 熟悉分布式原理,了解Paxos、Raft等一致性算法 熟悉HTTP相关网络协议,知悉优劣,了解gRPC 了解设计模式、混沌工程 工作经历 2022.10 - 2022.11 三度观测云(北京)科技有限责任公司 - 后端研发工程师 Tricorder Observability是一款开源云原生观测平台SaaS；基于eBPF、WASM，定义不改业务代码、自动数据采集零成本观测体验.
 我主要负责基于eBPF的核心数据采集和部署模块的开发.作为初创公司的创始团队成员,还参与了研发相关流程的梳理和规范撰写,在知识库中保留了相关文档供新晋员工参考.
 主要解决的问题:
 基于eBPF的HTTP1.x流量解析模块 Kubernetes集群内eBPF Code的部署模块 收获:
@@ -3423,7 +3423,7 @@ Teambition为自研团队协作工具,以项目和任务的可视化管理来支
 &lt;ul>
 &lt;li>熟悉Golang/Node.js&lt;/li>
 &lt;li>具备B端SaaS研发经验,有大量排查问题经历&lt;/li>
-&lt;li>熟悉Kubernetes, 了解Infrastructure、Observability方向相关生态和技术&lt;/li>
+&lt;li>熟悉Kubernetes, 了解Orchestration、Observability方向相关生态和技术&lt;/li>
 &lt;li>熟悉eBPF,了解Linux内核下eBPF运行机制和相关应用&lt;/li>
 &lt;li>熟悉分布式原理,了解Paxos、Raft等一致性算法&lt;/li>
 &lt;li>熟悉HTTP相关网络协议,知悉优劣,了解gRPC&lt;/li>

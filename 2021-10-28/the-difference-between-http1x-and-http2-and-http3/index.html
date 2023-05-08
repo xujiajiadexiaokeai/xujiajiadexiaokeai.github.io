@@ -114,14 +114,14 @@ RTSC && RTFM
 <p>对于same data 不再通过每次 req和 resp 发送</p>
 <p>header table 在 HTTP/2 连接存续阶段 始终存在，由client和server共同更新</p>
 <p>every new k-v pair will change the old value or 追加到当前表的末尾</p>
-<p><img src=../../static/img/the-difference-between-http1.x-and-http2-and-http3-1.png alt></p>
+<p><img src=../../img/the-difference-between-http1.x-and-http2-and-http3-1.png alt></p>
 <ol>
 <li>Server push</li>
 </ol>
 <p>Server 可以通过 push的方式将client 需要的内容 预先push过去 “cache push”</p>
 <p>prefetch 在browser兼容的情况下可以使用</p>
 <p>server可以主动把js和css文件推送给client 而不需要client解析html时再发送请求</p>
-<p><img src=../../static/img/the-difference-between-http1.x-and-http2-and-http3-2.png alt></p>
+<p><img src=../../img/the-difference-between-http1.x-and-http2-and-http3-2.png alt></p>
 <p>服务端可以主动推送，客户端也有权利选择是否接收。如果服务端推送的资源已经被浏览器缓存过，浏览器可以通过发送 RST_STREAM 帧来拒收。主动推送也遵守同源策略，换句话说，服务器不能随便将第三方资源推送给客户端，而必须是经过双方确认才行。</p>
 <h1 id=http3新特性>HTTP/3新特性<a href=#http3新特性 class=hanchor arialabel=Anchor>&#8983;</a> </h1>
 <p>HTTP/3 简介</p>
@@ -134,7 +134,7 @@ RTSC && RTFM
 <p>0RTT建连可以说是QUIC相比HTTP2最大的性能优势</p>
 <p>传输层0RTT就能建立连接</p>
 <p>加密层0RTT就能建立加密连接</p>
-<p><img src=../../static/img/the-difference-between-http1.x-and-http2-and-http3-3.png alt></p>
+<p><img src=../../img/the-difference-between-http1.x-and-http2-and-http3-3.png alt></p>
 <p>多路复用</p>
 <p>QUIC原生实现了多路复用，并且在传输的单个数据流可以保证有序交付且不会影响其他的数据流</p>
 <p>同一条QUIC连接上可以创建多个stream 且stream间互不依赖(因为基于UDP)</p>
@@ -143,7 +143,7 @@ RTSC && RTFM
 <p>加密认证的报文</p>
 <p>TCP协议头部没有经过加密和认证 在传输过程中容易被中间网络设备篡改、注入和窃听</p>
 <p>QUIC除了个别报文 PUBLIC_RESET 和 CHLO 都是经过认证的 Body都是经过加密的</p>
-<p><img src=../../static/img/the-difference-between-http1.x-and-http2-and-http3-4.png alt></p>
+<p><img src=../../img/the-difference-between-http1.x-and-http2-and-http3-4.png alt></p>
 <p>向前纠错(FEC) Forward Error Correction</p>
 <p>每个数据包除了它本身 还包括了部分其他数据包的数据</p>
 <p>少量的丢包可以通过其他包的冗余数据直接组装</p>

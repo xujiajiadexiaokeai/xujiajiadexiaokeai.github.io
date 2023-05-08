@@ -19,7 +19,7 @@
 &lt;li>Deeply integrated with networking, channels and mutexes&lt;/li>
 &lt;li>Scalable to hundred of thousands of goroutines&lt;/li>
 &lt;/ul>
-&lt;p>&lt;img src="../../static/img/image-20230410152956115.png" alt="image-20230410152956115">&lt;/p>
+&lt;p>&lt;img src="../../img/image-20230410152956115.png" alt="image-20230410152956115">&lt;/p>
 &lt;h3 id="memory-management">Memory Management&lt;/h3>
 &lt;ul>
 &lt;li>Small stack per goroutine (4kB+)&lt;/li>
@@ -171,9 +171,9 @@
 &lt;li>Both perspectives are useful, so enable both profilers&lt;/li>
 &lt;/ul>
 &lt;h3 id="quick-note-on-time">Quick Note on Time&lt;/h3>
-&lt;p>&lt;img src="../../static/img/image-20230410194639932.png" alt="image-20230410194639932">&lt;/p>
+&lt;p>&lt;img src="../../img/image-20230410194639932.png" alt="image-20230410194639932">&lt;/p>
 &lt;p>On-CPU Time &amp;gt; Real Time&lt;/p>
-&lt;p>&lt;img src="../../static/img/image-20230410194928468.png" alt="image-20230410194928468">&lt;/p>
+&lt;p>&lt;img src="../../img/image-20230410194928468.png" alt="image-20230410194928468">&lt;/p>
 &lt;ul>
 &lt;li>Goroutine Time: Cumulative (end - start) time of all goroutines&lt;/li>
 &lt;li>CPU Time: CPU tiem circle can be larger than Real time circle&lt;/li>
