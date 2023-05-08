@@ -34,7 +34,7 @@ title: "[NOTE] Go Profiling and Observability from Scratch"
 - Deeply integrated with networking, channels and mutexes
 - Scalable to hundred of thousands of goroutines
 
-![image-20230410152956115](../../static/img/image-20230410152956115.png)
+![image-20230410152956115](../../img/image-20230410152956115.png)
 
 ### Memory Management
 
@@ -150,11 +150,11 @@ func sigprof(pc, sp, lr uintptr, gp *g, mp *m) {
 
 ### Quick Note on Time
 
-![image-20230410194639932](../../static/img/image-20230410194639932.png)
+![image-20230410194639932](../../img/image-20230410194639932.png)
 
 On-CPU Time > Real Time
 
-![image-20230410194928468](../../static/img/image-20230410194928468.png)
+![image-20230410194928468](../../img/image-20230410194928468.png)
 
 - Goroutine Time: Cumulative (end - start) time of all goroutines
 - CPU Time: CPU tiem circle can be larger than Real time circle

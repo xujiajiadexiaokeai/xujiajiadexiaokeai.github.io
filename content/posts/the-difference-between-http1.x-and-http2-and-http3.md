@@ -63,7 +63,7 @@ header table 在 HTTP/2 连接存续阶段 始终存在，由client和server共�
 
 every new k-v pair will change the old value or 追加到当前表的末尾
 
-![](../../static/img/the-difference-between-http1.x-and-http2-and-http3-1.png)
+![](../../img/the-difference-between-http1.x-and-http2-and-http3-1.png)
 
 
 
@@ -75,7 +75,7 @@ prefetch 在browser兼容的情况下可以使用
 
 server可以主动把js和css文件推送给client 而不需要client解析html时再发送请求
 
-![](../../static/img/the-difference-between-http1.x-and-http2-and-http3-2.png)
+![](../../img/the-difference-between-http1.x-and-http2-and-http3-2.png)
 
 服务端可以主动推送，客户端也有权利选择是否接收。如果服务端推送的资源已经被浏览器缓存过，浏览器可以通过发送 RST_STREAM 帧来拒收。主动推送也遵守同源策略，换句话说，服务器不能随便将第三方资源推送给客户端，而必须是经过双方确认才行。
 
@@ -103,7 +103,7 @@ QUIC新功能
 
 加密层0RTT就能建立加密连接
 
-![](../../static/img/the-difference-between-http1.x-and-http2-and-http3-3.png)
+![](../../img/the-difference-between-http1.x-and-http2-and-http3-3.png)
 
 多路复用
 
@@ -121,7 +121,7 @@ TCP协议头部没有经过加密和认证 在传输过程中容易被中间网�
 
 QUIC除了个别报文 PUBLIC_RESET 和 CHLO 都是经过认证的 Body都是经过加密的
 
-![](../../static/img/the-difference-between-http1.x-and-http2-and-http3-4.png)
+![](../../img/the-difference-between-http1.x-and-http2-and-http3-4.png)
 
 向前纠错(FEC) Forward Error Correction
 

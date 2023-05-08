@@ -16,7 +16,7 @@ readingTime: false
 ## 专业技能
 - 熟悉Golang/Node.js
 - 具备B端SaaS研发经验,有大量排查问题经历
-- 熟悉Kubernetes, 了解Infrastructure、Observability方向相关生态和技术
+- 熟悉Kubernetes, 了解Orchestration、Observability方向相关生态和技术
 - 熟悉eBPF,了解Linux内核下eBPF运行机制和相关应用
 - 熟悉分布式原理,了解Paxos、Raft等一致性算法
 - 熟悉HTTP相关网络协议,知悉优劣,了解gRPC
