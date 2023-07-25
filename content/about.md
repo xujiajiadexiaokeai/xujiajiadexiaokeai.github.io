@@ -7,17 +7,19 @@ readingTime: false
 
 - 男 / 1997.11
 - 本科 / 上海第二工业大学 / 软件工程
-- 工作时间: 2年+
 - 联系方式: whjiang1997@gmail.com
 - Github: https://github.com/xujiajiadexiaokeai
 - Blog: https://blog.xujiajiadexiaokeai.xyz
-- 期望职位: *后端研发工程师(云原生方向)*
+
+# 概要
+3年开发经验,涵盖了初创团队到成熟互联网公司的不同阶段,参与过大规模B端SaaS产品设计和开发,也有线上问题排查的经验.技术上对云原生可观测性和eBPF有较深入的理解,对标准的研发流程和团队协作非常熟悉,能够快速融入团队.
 
 ## 专业技能
 - 熟悉Golang/Node.js
 - 具备B端SaaS研发经验,有大量排查问题经历
 - 熟悉Kubernetes, 了解Orchestration、Observability方向相关生态和技术
 - 熟悉eBPF,了解Linux内核下eBPF运行机制和相关应用
+- 熟悉数据库原理,了解 PostgreSQL、MongoDB
 - 熟悉分布式原理,了解Paxos、Raft等一致性算法
 - 熟悉HTTP相关网络协议,知悉优劣,了解gRPC
 - 了解设计模式、混沌工程
