@@ -1,5 +1,5 @@
 ---
-title: "eBPF在可观测性领域工程进展"
+title: "[WIP]eBPF在可观测性领域工程进展"
 date: "2023-07-04T12:13:36+08:00"
 draft: true
 layout: post
@@ -11,7 +11,7 @@ tags:
   - eBPF
   - Observability
 URL: "/2023-07-04/ebpf-development-progress"
---- 
+---
 # eBPF在可观测性领域工程进展
 
 ## 概念
@@ -60,9 +60,50 @@ eBPF适用于可观测性的原因主要有以下两个方面：
 总之，eBPF适用于可观测性领域，因为它具有丰富的特性和优势，并且可以应用于多种场景，从而实现了高效、灵活、安全和可扩展的监测和控制。
 
 ## 可观测领域相关工程进展
-TODO
+
 ### 工具发展
+
 1. bpftrace
+
+  [bpftrace](https://github.com/iovisor/bpftrace) 是基于eBPF技术构建的高级跟踪工具，它提供了一种简单而强大的方式来分析和观察Linux系统的各个方面。它使用一种类似于C语言的声明式语法，允许用户编写跟踪脚本来捕获和分析系统事件。bpftrace 语言的灵感来自 awk 和 C，以及 DTrace 和 SystemTap 等前身跟踪器。 bpftrace 由[Alastair Robertson](https://github.com/ajor)创建。
+
+  以下是bpftrace的一些特性和用途：
+
+  - 动态跟踪：bpftrace可以在运行时动态地跟踪系统事件，如系统调用、函数调用、内核事件等。它可以帮助开发人员和系统管理员深入了解系统的行为和性能瓶颈。
+  - 低开销：bpftrace使用eBPF虚拟机技术，它在内核中执行用户提供的脚本，而无需修改内核代码。这种设计使bpftrace具有较低的性能开销和较小的安全风险。
+  - 丰富的事件源：bpftrace可以跟踪各种事件源，包括系统调用、函数调用、硬件事件、内核事件等。这使得它适用于各种不同的用例，如性能分析、故障排查和安全监测等。
+  - 灵活的脚本语言：bpftrace使用类似C语言的语法，允许用户编写简洁而灵活的跟踪脚本。它支持条件语句、循环、函数定义等常见的编程结构，使得用户可以根据需要自定义跟踪逻辑。
+  - 强大的输出格式：bpftrace可以以不同的输出格式展示跟踪结果，包括文本、JSON、直方图等。这使得用户可以根据自己的喜好和需求选择最合适的展示方式。
+
+  bpftrace提供了各种工具，用于跟踪各种事件源，这些[工具](https://github.com/iovisor/bpftrace/tree/master/tools)也可作为 bpftrace 语言编程的示例。
+
+  - tools/[biolatency.bt](https://github.com/iovisor/bpftrace/blob/master/tools/biolatency.bt): 以直方图形式展示块 I/O 延迟. [Examples](https://github.com/iovisor/bpftrace/blob/master/tools/biolatency_example.txt).
+  - tools/[biosnoop.bt](https://github.com/iovisor/bpftrace/blob/master/tools/biosnoop.bt): 块 I/O 跟踪工具，显示每个 I/O 延迟. [Examples](https://github.com/iovisor/bpftrace/blob/master/tools/biosnoop_example.txt).
+  - tools/[bitesize.bt](https://github.com/iovisor/bpftrace/blob/master/tools/bitesize.bt): 以直方图形式显示磁盘 I/O 大小. [Examples](https://github.com/iovisor/bpftrace/blob/master/tools/bitesize_example.txt).
+  - tools/[capable.bt](https://github.com/iovisor/bpftrace/blob/master/tools/capable.bt): 跟踪安全能力检查. [Examples](https://github.com/iovisor/bpftrace/blob/master/tools/capable_example.txt).
+  - tools/[cpuwalk.bt](https://github.com/iovisor/bpftrace/blob/master/tools/cpuwalk.bt): 采样哪些 CPU 正在执行进程. [Examples](https://github.com/iovisor/bpftrace/blob/master/tools/cpuwalk_example.txt).
+  - ...
+
+
+  bpftrace还提供了一些仅用一行命令来完成一些功能的[教程](https://github.com/iovisor/bpftrace/blob/master/docs/tutorial_one_liners.md)，用来快速熟悉相关功能和能力。
+
+
+  - 利用Regex列出所有可用tracepoint
+  ```
+  bpftrace -l 'tracepoint:syscalls:sys_enter_*'
+  ```
+  - 对系统调用进行统计
+  ```
+  bpftrace -e 'tracepoint:raw_syscalls:sys_enter { @[comm] = count(); }'
+  Attaching 1 probe...
+  ^C
+
+  @[bpftrace]: 6
+  @[systemd]: 24
+  ```
+  - ...
+
+// TODO
 2. bcc
 3. eCapture
 4. OpenResty XRay
